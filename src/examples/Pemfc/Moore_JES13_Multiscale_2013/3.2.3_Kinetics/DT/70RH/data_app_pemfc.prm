@@ -1,0 +1,428 @@
+######################################################################
+#
+#  This file is used to simulate a Isothermal MEA model
+#  using a multi scale catalyst layer structure.
+#  This file uses SystemManagement and Equation classes
+#
+#   Copyright (C) 2014 by Michael Moore, Philip Wardlaw, Madhur Bhaiya, University of Alberta
+#
+######################################################################
+
+
+######################################################################
+subsection Grid generation
+
+  set Type of mesh = PemfcMPL
+  
+  set Initial refinement = 2
+  set Refinement         = adaptive  #global | adaptive
+  set Sort Cuthill-McKee = false
+  set Sort by component  = true
+  
+  #############################################
+  subsection Internal mesh generator parameters
+    ####
+    subsection Dimensions
+      set Cathode current collector width [cm]          = 0.1        #[cm]
+      set Cathode channel width [cm]                    = 0.1        #[cm]
+      set Cathode CL thickness [cm]                     = 1.0e-3     #[cm]
+      set Cathode MPL thickness [cm]                    = 5.0e-3     #[cm]
+      set Cathode GDL thickness [cm]                    = 2.5e-2     #[cm]
+      set Membrane thickness [cm]                       = 0.25e-2    #[cm] #NRE211
+      set Anode CL thickness [cm]                       = 0.333e-3   #[cm]
+      set Anode MPL thickness [cm]                      = 5.0e-3     #[cm]
+      set Anode GDL thickness [cm]                      = 2.5e-2     #[cm]
+      set Anode current collector width [cm]            = 0.1        #[cm]
+      set Anode channel width [cm]                      = 0.1        #[cm]
+    end
+    ####
+    subsection Material ID
+      set Cathode GDL     = 2
+      set Cathode MPL     = 3
+      set Cathode CL      = 4
+      set Membrane        = 5
+      set Anode CL        = 6
+      set Anode MPL       = 7
+      set Anode GDL       = 8
+    end
+    ####
+    subsection Boundary ID
+      set c_Ch/GDL        = 2
+      set c_BPP/GDL       = 1
+      set c_GDL/CL        = 255
+      set c_GDL/MPL       = 255
+      set c_MPL/CL        = 255
+      set c_CL/Membrane   = 255
+      set Membrane/a_CL   = 255
+      set a_CL/GDL        = 255
+      set a_CL/MPL        = 255
+      set a_MPL/GDL       = 255
+      set a_GDL/BPP       = 3
+      set a_GDL/Ch        = 4
+    end
+  end
+end
+######################################################################
+######################################################################
+subsection Adaptive refinement
+  set Number of Refinements                = 2
+  set Output initial mesh                  = false
+  set Output initial solution              = false
+  set Output intermediate solutions        = false
+  set Output intermediate responses        = true
+  set Output final solution                = true
+  set Output solution for transfer         = true
+  set Read in initial solution from file   = true
+end
+######################################################################
+######################################################################
+subsection System management
+
+ set Number of solution variables = 5
+
+ subsection Solution variables
+  set Solution variable 1 = oxygen_molar_fraction
+  set Solution variable 2 = water_molar_fraction
+  set Solution variable 3 = protonic_electrical_potential
+  set Solution variable 4 = electronic_electrical_potential
+  set Solution variable 5 = membrane_water_content
+ end
+
+ subsection Equations
+  set Equation 1 = Ficks Transport Equation - oxygen
+  set Equation 2 = Ficks Transport Equation - water
+  set Equation 3 = Proton Transport Equation
+  set Equation 4 = Electron Transport Equation
+  set Equation 5 = Membrane Water Content Transport Equation
+ end
+
+end
+######################################################################
+######################################################################
+subsection Discretization
+  set Element = FESystem[FE_Q(2)^5] #System of 6 fe
+  set Boundary fluxes = false
+  set Interior fluxes = false
+
+  subsection Matrix
+   set Quadrature cell = -1
+   set Quadrature face = -1
+  end
+
+  subsection Residual
+   set Quadrature cell = -1
+   set Quadrature bdry = -1
+   set Quadrature face = -1
+  end
+end
+######################################################################
+######################################################################
+subsection Newton
+  set Assemble threshold = 0.0
+  set Debug level        = 0
+  set Debug residual     = false
+  set Debug solution     = false
+  set Debug update       = false
+  set Max steps          = 30
+  set Reduction          = 1.e-12
+  set Tolerance          = 1.e-7
+end
+######################################################################
+######################################################################
+subsection Fuel cell data
+  
+  ##############################################################
+  subsection Operating conditions
+    set Temperature cell [K]                      = 353.15
+    set Cathode pressure [Pa[                     = 101325.0     # (1.0 atm)
+    set Cathode relative humidity                 = 0.7
+    set Anode pressure [Pa]                       = 101325.0     # (1.0 atm)
+    set Anode relative humidity                   = 0.7
+    set Voltage cell [V]                          = 0.6
+  end
+  ##############################################################
+  subsection Cathode gas diffusion layer
+    set Gas diffusion layer type                                         = DesignFibrousGDL
+    set Material id                                                      = 2
+
+    subsection DesignFibrousGDL
+      set Porosity                                                       = 0.6
+      
+      set Anisotropic transport                                          = true
+      set Method effective transport properties in pores                 = Tomadakis
+      set Method effective transport properties in solid                 = Percolation
+      
+      set Porosity threshold X                                           = 0.118
+      set Porosity network constant X                                    = 0.785
+      set Porosity gamma network constant X                              = 0.0
+      
+      set Electrical conductivity X [S/cm]                               = 16.03
+      set Solid network threshold X                                      = 0.0
+      set Solid network constant X                                       = 1.5
+      
+      set Porosity threshold Y                                           = 0.118
+      set Porosity network constant Y                                    = 0.521
+      set Porosity gamma network constant Y                              = 0.0
+      
+      set Electrical conductivity Y [S/cm]                               = 272.78
+      set Solid network threshold Y                                      = 0.0
+      set Solid network constant Y                                       = 1.0      
+    end
+  end  
+  ##############################################################
+  subsection Cathode microporous layer
+    set Micro porous layer type                                          = DesignMPL
+    set Material id                                                      = 3
+
+    subsection DesignMPL
+      set Porosity                                                       = 0.4 
+      set Anisotropic transport                                          = true
+      
+      set Method effective transport properties in pores                 = Percolation
+      set Porosity threshold X                                           = 0.118
+      set Porosity network constant X                                    = 2.0
+      set Porosity threshold Y                                           = 0.118
+      set Porosity network constant Y                                    = 2.0
+      
+      set Method effective transport properties in solid phase           = Percolation
+      set Electric conductivity X                                        = 88.84 
+      set Fibre network threshold X                                      = 0.118
+      set Fibre network constant X                                       = 2.0
+      set Electric conductivity Y                                        = 88.84
+      set Fibre network threshold Y                                      = 0.118
+      set Fibre network constant Y                                       = 2.0
+    end
+  end  
+  ##############################################################
+  subsection Cathode catalyst layer                    
+    set Material id                                                      = 4
+    set Catalyst type                                                    = Platinum
+    set Catalyst support type                                            = Carbon Black
+    set Electrolyte type                                                 = Nafion
+    set Kinetics type                                                    = DoubleTrapKinetics
+    ####
+    subsection Materials
+      subsection Platinum
+        set Method for kinetics parameters (ORR)              = Double_trap       # Required for Wangs Kinetics, rest parameters automatically calculated
+        set Oxygen reaction order (ORR) 		      = 0.5
+        set Cathodic transfer coefficient (ORR)               = 0.5
+        set Reference hydrogen concentration (HOR)            = 0.59e-6              # Required for Dual Path Kinetics, rest parameters automatically calculated
+      end    
+      subsection Carbon Black
+        set Density [g/cm^3]                                  = 1.25                 # GM data
+      end
+      subsection Nafion
+        set Henry's Law Constant for Oxygen [Pa cm^3/mol]      = 3.1664e10
+        set Henry's Law Constant for Hydrogen [Pa cm^3/mol]    = 6.69e10
+        set Method to compute proton conductivity              = Iden11
+        set Method to compute water diffusion                  = Motupally
+        set Electro-osmotic drag method                        = Constant
+        set Electro-osmotic drag coefficient                   = 1.0
+        set Method for sorption isotherm                       = Liu09
+        set Method to compute enthalpy of sorption of water    = Constant
+        set Enthalpy of sorption of water [J/mol]              = 45000.0
+      end
+    end
+    ####
+    set Catalyst layer type                                              = MultiScaleCL
+    
+    subsection ConventionalCL
+      set Platinum loading on support (%wt)                              = 4:.46
+      set Platinum loading per unit volume (mg/cm3)                      = 4:400
+      set Electrolyte loading (%wt)                                      = 4:0.30
+      set Method to compute active area                                  = given
+      set Active area [cm^2/cm^3]                                        = 4:2.0e5
+      
+      set Method effective transport properties in pores                 = Percolation
+      set Porosity threshold                                             = 0.25884
+      set Porosity network constant                                      = 2.0
+      set Porosity gamma network constant                                = 0.0
+      
+      set Method effective transport properties in solid phase           = Percolation
+      set Solid network threshold                                        = 0.118
+      set Solid network constant                                         = 2.0
+      
+      set Method effective transport properties in electrolyte phase     = Iden11
+      set Electrolyte network threshold                                  = 0.0                   # Not used in "Iden11" Method
+      set Electrolyte network constant                                   = 2.0                   # Not used in "Iden11" Method 
+      
+      set Method effective thermal conductivity                          = Given
+      set Thermal conductivity, [W/(cm K)]                               = 4:0.015
+    end
+
+    subsection MultiScaleCL   
+      set Average current in cell = false
+      subsection MicroScale
+	set Microscale type = IonomerAgglomerateNumerical 
+	subsection AgglomerateBase
+	  set Radius of the agglomerate [nm] = 100
+	  set Agglomerate porosity = 0.17
+	end
+      end
+    end    
+
+  end
+  ##############################################################
+  subsection Membrane layer
+    set Material id                                                      = 5
+    set Electrolyte type                                                 = Nafion
+    ####
+    subsection Materials
+      subsection Nafion
+        set Henry's Law Constant for Oxygen [Pa cm^3/mol]      = 3.1664e10
+        set Henry's Law Constant for Hydrogen [Pa cm^3/mol]    = 6.69e10
+        set Method to compute proton conductivity              = Iden11
+        set Method to compute water diffusion                  = Motupally
+        set Electro-osmotic drag method                        = Constant
+        set Electro-osmotic drag coefficient                   = 1.0
+        set Method for sorption isotherm                       = Liu09
+        set Method to compute enthalpy of sorption of water    = Constant
+        set Enthalpy of sorption of water [J/mol]              = 45000.0
+      end
+    end
+    ####
+    set Membrane layer type                                              = NafionMembrane
+    
+  end
+  ##############################################################
+  subsection Anode catalyst layer
+    set Material id                                                      = 6
+    set Catalyst type                                                    = Platinum
+    set Catalyst support type                                            = Carbon Black
+    set Electrolyte type                                                 = Nafion
+    set Kinetics type                                                    = DualPathKinetics
+    ####
+    subsection Materials
+      subsection Platinum
+        set Method for kinetics parameters (ORR)              = Double_trap          # Required for Wangs Kinetics, rest parameters automatically calculated
+        set Reference hydrogen concentration (HOR)            = 0.59e-6              # Required for Dual Path Kinetics, rest parameters automatically calculated
+      end    
+      subsection Carbon Black
+        set Density [g/cm^3]                                  = 1.25                 # GM data
+      end
+      subsection Nafion
+        set Henry's Law Constant for Oxygen [Pa cm^3/mol]      = 3.1664e10
+        set Henry's Law Constant for Hydrogen [Pa cm^3/mol]    = 6.69e10
+        set Method to compute proton conductivity              = Iden11
+        set Method to compute water diffusion                  = Motupally
+        set Electro-osmotic drag method                        = Constant
+        set Electro-osmotic drag coefficient                   = 1.0
+        set Method for sorption isotherm                       = Liu09
+        set Method to compute enthalpy of sorption of water    = Constant
+        set Enthalpy of sorption of water [J/mol]              = 45000.0
+      end
+    end
+    ####
+    set Catalyst layer type                                              = MultiScaleCL
+    
+    subsection ConventionalCL
+      set Platinum loading on support (%wt)                              = 6:.46
+      set Platinum loading per unit volume (mg/cm3)                      = 6:300
+      set Electrolyte loading (%wt)                                      = 6:0.30
+      set Method to compute active area                                  = given
+      set Active area [cm^2/cm^3]                                        = 6:1.2e5
+      
+      set Method effective transport properties in pores                 = Percolation
+      set Porosity threshold                                             = 0.25884
+      set Porosity network constant                                      = 2.0
+      set Porosity gamma network constant                                = 0.0
+      
+      set Method effective transport properties in solid phase           = Percolation
+      set Solid network threshold                                        = 0.118
+      set Solid network constant                                         = 2.0
+      
+      set Method effective transport properties in electrolyte phase     = Iden11
+      set Electrolyte network threshold                                  = 0.0                   # Not used in "Iden11" Method
+      set Electrolyte network constant                                   = 2.0                   # Not used in "Iden11" Method
+    end
+
+    subsection MultiScaleCL   
+      set Average current in cell = false
+      subsection MicroScale
+	set Microscale type = IonomerAgglomerateAnalytical 
+	subsection AgglomerateBase
+	  set Radius of the agglomerate [nm] = 100
+	  set Agglomerate porosity = 0.17
+	end
+      end
+    end      
+
+  end
+  ##############################################################
+  subsection Anode microporous layer
+    set Micro porous layer type                                         = DesignMPL
+    set Material id                                                     = 7
+    
+    subsection DesignMPL
+      set Porosity                                                       = 0.4 
+      set Anisotropic transport                                          = true
+      
+      set Method effective transport properties in pores                 = Percolation
+      set Porosity threshold X                                           = 0.118
+      set Porosity network constant X                                    = 2.0
+      set Porosity threshold Y                                           = 0.118
+      set Porosity network constant Y                                    = 2.0
+      
+      set Method effective transport properties in solid phase           = Percolation
+      set Electric conductivity X                                        = 88.84 
+      set Fibre network threshold X                                      = 0.118
+      set Fibre network constant X                                       = 2.0
+      set Electric conductivity Y                                        = 88.84
+      set Fibre network threshold Y                                      = 0.118
+      set Fibre network constant Y                                       = 2.0
+    end
+    
+  end
+ ##############################################################
+  subsection Anode gas diffusion layer
+    set Gas diffusion layer type                                         = DesignFibrousGDL
+    set Material id                                                      = 8
+    
+    subsection DesignFibrousGDL
+      set Porosity                                                       = 0.6
+      
+      set Anisotropic transport                                          = true
+      set Method effective transport properties in pores                 = Tomadakis
+      set Method effective transport properties in solid                 = Percolation
+      
+      set Porosity threshold X                                           = 0.118
+      set Porosity network constant X                                    = 0.785
+      set Porosity gamma network constant X                              = 0.0
+      
+      set Electrical conductivity X [S/cm]                               = 16.03
+      set Solid network threshold X                                      = 0.0
+      set Solid network constant X                                       = 1.5
+      
+      set Porosity threshold Y                                           = 0.118
+      set Porosity network constant Y                                    = 0.521
+      set Porosity gamma network constant Y                              = 0.0
+      
+      set Electrical conductivity Y [S/cm]                               = 272.78
+      set Solid network threshold Y                                      = 0.0
+      set Solid network constant Y                                       = 1.0
+    end
+    
+  end
+  ##############################################################
+  # END Fuel cell data
+end
+######################################################################
+######################################################################
+subsection Output Variables
+  set num_output_vars      = 1
+  set Output_var_0         = cathode_current
+end
+######################################################################
+######################################################################
+subsection Output
+  subsection Data
+    set Output format      = vtu       #tecplot
+  end
+  #####
+  subsection Grid
+    set Format             = eps       #xfig
+  end
+end
+######################################################################
+######################################################################
+######################################################################

@@ -1,0 +1,23 @@
+######################################################################
+#   $Id: $
+#
+#  This file is used to simulate a non-isothermal MEA application
+#  with operating conditions of RH (anode/cathode) = 50%, and 
+#  plate temperature (anode/cathode) of 80 C (353.15 K), and 
+#  cell pressure of 1 atm (101325 Pa). The heat source/sink due to 
+#  sorption of water in the catalyst layers is turned OFF.
+#
+#
+#   Copyright (C) 2013-15 by Madhur Bhaiya
+#
+######################################################################
+
+######################################################################
+
+include ../../../template/nonisothermal/data.prm
+
+######################################################################
+
+subsection Sorption Source Terms
+  set Heat source/sink due to sorption/desorption          = false
+end

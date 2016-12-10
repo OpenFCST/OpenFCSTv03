@@ -1,0 +1,4 @@
+All files taken from  /deal.II-8.1.1.src/contrib/parameter_gui/
+
+Modified:
+  parameter_delegate.cpp, line 105, by Philip Wardlaw Oct/2014, purpose: have the Parameter delegate recognise Map's as strings

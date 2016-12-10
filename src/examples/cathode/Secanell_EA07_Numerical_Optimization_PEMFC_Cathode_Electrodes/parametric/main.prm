@@ -1,0 +1,32 @@
+######################################################################
+#   $Id$
+#
+#   Main file for simulations
+#
+#   Copyright (C) 2011 by Marc Secanell
+#
+######################################################################
+
+include ../template/main.prm
+
+######################################################################
+#
+# The following parameters are modified in order to obtain a polarization
+# curve with respect to the template file
+#
+######################################################################
+subsection Simulator
+
+  set Analysis type = PolarizationCurve
+  
+  ################################################
+  subsection Polarization Curve
+    set Initial voltage [V] = 1.0
+    set Final voltage [V] = 0.827
+    set Increment [V] = 0.0215
+    set Min. Increment [V] = 0.01
+  end  
+  ################################################
+  
+end
+######################################################################

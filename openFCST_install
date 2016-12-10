@@ -1,0 +1,731 @@
+#!/bin/bash
+#---------------------------------------------------------------------------
+#
+#    FCST: Fuel Cell Simulation Toolbox
+#
+#    Copyright (C) 2006-13 by Energy Systems Design Laboratory, University of Alberta
+#
+#    This software is distributed under the MIT License.
+#    For more information, see the README file in /doc/LICENSE
+#
+#---------------------------------------------------------------------------
+
+#######################
+#
+# Configuration file for OpenFCST CMake
+#
+#
+# Developer: Chad Balen, 2014
+#
+#######################
+
+set -e #Exits if any command cannot be performed
+
+# Writing the help command. First checking if there are any
+# arguments.
+if [ -z "$*" ]; then
+    echo ""
+elif [[ $* == *--help* ]]; then
+    echo ""
+    echo "========================================================"
+    echo "						        "
+    echo "	     Options for the FCST code are:	        "
+    echo
+    echo " If you want to do a make clean OpenFCST entirely or any"
+    echo " of its external packages use the respective flag below:"
+    echo "                      --make-clean-all                  "
+    echo "                      --make-clean-fcst                 "
+    echo
+    echo " The FCST code includes the latest stable release of the"
+    echo " deal.II library in the contrib folder. If you wish to  "
+    echo " use your own installation of: boost, p4est, Metis,     "
+    echo " PETSc, Trilinos,  then use the appropriate "
+    echo " flag shown below and to give OpenFCST the location:    "
+    echo "                      --boost-dir= "
+    echo "                      --p4est-dir= "
+    echo "                      --metis-dir= "
+    echo "                      --petsc-dir= "
+    echo "                      --trilinos-dir= "
+    echo "                      --deal-dir= "
+#     echo "                      --dakota-dir= "
+    echo 
+    echo " If you wish to change the default location of the      "
+    echo " Install folder then you can use the following flag     "
+    echo " (Note depending on where you install to you may have   "
+    echo " be sudo user to then run this script):                 "
+    echo "                      --install-dir= "
+    echo
+    echo " By default OpenFCST should use the newest working "
+    echo " packages, but may come with older versions as well. If "
+    echo " you require the older version then you can specify     "
+    echo " which version using the following flag shown below:"
+    echo "                      --p4est-ver= "
+    echo "                      --metis-ver= "
+    echo "                      --petsc-ver= "
+    echo "                      --trilinos-ver= "
+    echo "                      --deal-ver= "
+#     echo "                      --dakota-ver= "
+    echo
+    echo " PETSc and DAKOTA options:                              "
+    echo " By default p4est, Metis, PETSc, Trilinos, and DAKOTA   "
+    echo " are not installed, if you wish to use them then use the"
+    echo " respective flag below:"
+    echo "                       --with-petsc                     "
+    echo "                       --with-trilinos                  "
+#     echo "                       --with-dakota                    "
+    echo "                       --with-paraview                  "
+    echo 
+    echo " NOTE: if you install PETSc or Trilinos then OpenFCST   "
+    echo "       also install p4est and Metis.                    "
+    echo " NOTE: if you also have any other flags for p4est,      "
+    echo "       Metis, PETSc, Trilinos or Dakota (i.e. --XXX-dir,"
+    echo "       --XXX-ver, or --XXX-debug) then the respective   "
+    echo "       above flag is also added."
+    echo
+    echo " By default PETSc, Trilions, and OpenFCST are installed "
+    echo " in Release mode. If you require debug mode then please "
+    echo " specify the following respective flag:"
+    echo "                      --petsc-debug"
+    echo "                      --trilinos-debug"
+    echo "                      --openfcst-debug"
+    echo
+    echo " The FCST code only works if you have OpenMPI. It should"
+    echo " be able to find OpenMPI compilers automatically however"
+    echo " if it fails please provide path using the '--mpi-dir=' "
+    echo " flag. If the path is incorrect, it will throw error.   "
+    echo
+    echo " Multicore execution of the make command during         "
+    echo " installation can be activated by the following flag:   "
+    echo "		  --cores=<Num_Of_Cores>          "
+    echo
+    echo " By default OpenFCST compiles both 2D and 3D            "
+    echo " simulations, if you wish to compile only one of these  "
+    echo " two options please use the following flag to tell      "
+    echo " OpenFCST which one:"
+    echo "                    --openfcst-dimen= "
+    echo
+    echo " If you are developing and wish to only install one     "
+    echo " library then to save you time you can use the following"
+    echo " flags to skip over the checks for the required external      "
+    echo " packages:                                              "  
+    echo "                  --library-p4est                       "
+    echo "                  --library-metis                       " 
+    echo "                  --library-petsc                       "
+    echo "                  --library-trilinos                    "
+    echo "                  --library-deal                        " 
+#     echo "                  --library-dakota                      " 
+    echo "                  --library-cpptest                     " 
+    echo "                  --library-paraview                    " 
+    echo "                  --library-sqlite                      " 
+    echo "                  --library-alglib                      " 
+    echo "                  --library-coldae                      " 
+    echo "                  --library-fcst                        " 
+    echo
+    echo " To control whether OpenFCST installs with or without   "
+    echo " option flags using the following flags. If the flag you"
+    echo " wish to is not in the list, use the last option to add "
+    echo " it.                                                    "  
+    echo "                   --with-openmp                     "
+    echo "                   --extra-flag=                        "
+#     echo " WARNING: The --extra-flag=... option is meant for      "
+    echo "     developers that know what they are doing. As there "
+    echo "     are no checks to confirm the flags inputed so be   "
+    echo "     carefull. As well, this adds the flags to both the "
+    echo "     C and CXX compiler."
+    echo
+    echo " By default OpenFCST does not compile a library file of "
+    echo " itself. If you wish to create a shared library file "
+    echo " of OpenFCST then specify the following flag:"
+    echo "                 --with-openfcst-library"
+    echo
+    echo " Logfiles are stored in the Build folder under each     "
+    echo " packages respective folder. These paths are:           "
+    echo "   - Build                                              "
+    echo "   - Build/contrib/ALGLIB/stamp                         "
+    echo "   - Build/contrib/COLDAE/stamp                         "
+    echo "   - Build/contrib/cpptest/stamp                        "
+#     echo "   - Build/contrib/Dakota/stamp                         "
+    echo "   - Build/contrib/deal.II/stamp                        "
+    echo "   - Build/contrib/Metis/stamp                          "
+    echo "   - Build/contrib/p4est/stamp                          "
+    echo "   - Build/contrib/PETSc/stamp                          "
+    echo "   - Build/contrib/sqlite/stamp                         "
+    echo "   - Build/contrib/Trilinos/stamp                       "
+    echo "   - Build/fcst/stamp                                   "
+    echo
+    echo "======================================================= "
+    echo
+    exit
+fi
+
+echo "======================================================="
+echo "         Checking for bash version requirement         "
+if [ ${BASH_VERSION%%[^0-9.]*} \< "3.1" ];then
+    echo "               Your bash version is" $BASH_VERSION
+    echo "             Required bash version > 3.1             "
+    exit 1
+else
+    echo "               Your bash version is OK               "
+fi
+echo "======================================================="
+
+
+####################################
+#
+#       Initialize
+#
+####################################
+if [ -d Build ]; then
+    :
+else
+    mkdir Build
+fi
+
+MainDir=$(pwd)
+InstallDir=$MainDir/Install
+SrcDir=$MainDir/src
+BuildDir=$MainDir/Build
+
+if [ -f 1_configure_report.txt ]; then
+    rm 1_configure_report.txt
+fi
+if [ -f 2_make_report.txt ];then
+    rm 2_make_report.txt
+fi
+
+#=======================================================
+# Make Clean All
+#=======================================================
+if [[ $* == *--make-clean-all* ]]; then
+    if [ -d Install ]; then
+        rm -rf Install
+    fi
+    if [ -d Build ]; then
+        rm -rf Build
+    fi
+    echo
+    echo "======================================================="
+    echo "          Removed Install and Build Folders            "
+    echo "======================================================="
+    exit 1
+fi
+
+#=======================================================
+# Make Clean FCST
+#=======================================================
+if [[ $* == *--make-clean-fcst* ]]; then
+    if [ -d Build/fcst ]; then
+        rm -rf Build/fcst
+    fi
+    echo
+    echo "======================================================="
+    echo "             Removed Build/fcst folder                 "
+    echo "======================================================="
+    exit 1
+fi
+
+#=======================================================
+# Change installation directory
+#=======================================================
+InstallDir=`echo "$*" | perl -n -e 'm/--install-dir=(\S+)/; print $1'`
+if [ "$InstallDir" == "" ];then
+    InstallDir=$MainDir/Install
+fi
+
+
+#Specify to check for the PETSc and DAKOTA flag first,
+#that way I do not need convoluted if statements, for
+#the shortcase scenario where they specify a different
+#directory or debug mode.
+#=======================================================
+# Check for PETSc
+#=======================================================
+if [[ $* == *--with-petsc* ]]; then
+    WithPETSc="ON"
+else
+    WithPETSc="OFF"
+fi
+
+# =======================================================
+# Check for Trilinos
+# =======================================================
+if [[ $* == *--with-trilinos* ]]; then
+    WithTrilinos="ON"
+else
+    WithTrilinos="OFF"
+fi
+
+#=======================================================
+# Check for DAKOTA
+#=======================================================
+WithDakota="OFF"
+if [[ $* == *--with-dakota* ]]; then
+#     WithDakota="ON"
+    echo ""
+    echo "========================================================"
+    echo "	     Dakota is currently unavailable	        "
+    echo "	     due to compatibility issuess.	        "
+    echo "========================================================"
+    exit -1
+fi
+
+#=======================================================
+# Check for ParaView
+#=======================================================
+if [[ $* == *--with-paraview* ]]; then
+    WithParaView="ON"
+else
+    WithParaView="OFF"
+fi
+
+#Specify to check for the PETSc and DAKOTA flag first,
+#that way I do not need convoluted if statements, for
+#the shortcase scenario where they specify a different
+#directory or debug mode.
+#=======================================================
+# Check for p4est Version
+#=======================================================
+argdir=`echo "$*" | perl -n -e 'm/--p4est-ver=(\S+)/; print $1'`
+
+if [ "$argdir" = "" ]; then
+    p4estVer="v3.4.2"
+else
+    WithPETSc="ON"
+    p4estVer="$argdir"
+fi
+
+#=======================================================
+# Check for Metis Version
+#=======================================================
+argdir=`echo "$*" | perl -n -e 'm/--metis-ver=(\S+)/; print $1'`
+
+if [ "$argdir" = "" ]; then
+    MetisVer="v5.1"
+else
+    WithPETSc="ON"
+    MetisVer="$argdir"
+fi
+
+#=======================================================
+# Check for PETSc Version
+#=======================================================
+argdir=`echo "$*" | perl -n -e 'm/--petsc-ver=(\S+)/; print $1'`
+
+if [ "$argdir" = "" ]; then
+    PETScVer="v3.4.4"
+else
+    WithPETSc="ON"
+    PETScVer="$argdir"
+fi
+
+#=======================================================
+# Check for Trilinos Version
+#=======================================================
+argdir=`echo "$*" | perl -n -e 'm/--trilinos-ver=(\S+)/; print $1'`
+
+if [ "$argdir" = "" ]; then
+    TrilinosVer="v11.4.1"
+else
+    WithTrilinos="ON"
+    TrilinosVer="$argdir"
+fi
+
+#=======================================================
+# Check for deal.II Version
+#=======================================================
+argdir=`echo "$*" | perl -n -e 'm/--deal-ver=(\S+)/; print $1'`
+
+if [ "$argdir" = "" ]; then
+    dealVer="v8.4.1"
+else
+    dealVer="$argdir"
+fi
+
+#=======================================================
+# Check for Dakota Version
+#=======================================================
+# argdir=`echo "$*" | perl -n -e 'm/--dakota-ver=(\S+)/; print $1'`
+# 
+# if [ "$argdir" = "" ]; then
+#     DakotaVer="v5.4_stable"
+# else
+#     WithDakota="ON"
+#     DakotaVer="$argdir"
+# fi
+DakotaVer="v5.4_stable"
+
+#=======================================================
+# Check for Boost Directory
+#=======================================================
+argdir=`echo "$*" | perl -n -e 'm/--boost-dir=(\S+)/; print $1'`
+
+if [ "$argdir" = "" ]; then
+    boostHint=""
+else
+    boostHint="$argdir"
+fi
+
+#=======================================================
+# Check for p4est Directory
+#=======================================================
+argdir=`echo "$*" | perl -n -e 'm/--p4est-dir=(\S+)/; print $1'`
+
+if [ "$argdir" = "" ]; then
+    p4estHint="$InstallDir/contrib/p4est/$p4estVer"
+else
+    WithPETSc="ON"
+    p4estHint="$argdir"
+fi
+
+#=======================================================
+# Check for Metis Directory
+#=======================================================
+argdir=`echo "$*" | perl -n -e 'm/--metis-dir=(\S+)/; print $1'`
+
+if [ "$argdir" = "" ]; then
+    MetisHint="$InstallDir/contrib/Metis/$MetisVer"
+else
+    WithPETSc="ON"
+    MetisHint="$argdir"
+fi
+
+#=======================================================
+# Check for PETSc Directory
+#=======================================================
+argdir=`echo "$*" | perl -n -e 'm/--petsc-dir=(\S+)/; print $1'`
+
+if [ "$argdir" = "" ]; then
+    PETScHint="$InstallDir/contrib/PETSc/$PETScVer"
+else
+    WithPETSc="ON"
+    PETScHint="$argdir"
+fi
+
+#=======================================================
+# Check for Trilinos Directory
+#=======================================================
+argdir=`echo "$*" | perl -n -e 'm/--trilinos-dir=(\S+)/; print $1'`
+
+if [ "$argdir" = "" ]; then
+    TrilinosHint="$InstallDir/contrib/Trilinos/$TrilinosVer"
+else
+    WithTrilinos="ON"
+    TrilinosHint="$argdir"
+fi
+
+#=======================================================
+# Check for deal.II Directory
+#=======================================================
+argdir=`echo "$*" | perl -n -e 'm/--deal-dir=(\S+)/; print $1'`
+
+if [ "$argdir" = "" ]; then
+    dealHint="$InstallDir/contrib/deal.II/$dealVer"
+else
+    dealHint="$argdir"
+fi
+
+#=======================================================
+# Check for Dakota Directory
+#=======================================================
+DakotaHint="$InstallDir/contrib/Dakota/$DakotaVer"
+# argdir=`echo "$*" | perl -n -e 'm/--dakota-dir=(\S+)/; print $1'`
+# 
+# if [ "$argdir" = "" ]; then
+#     DakotaHint="$InstallDir/contrib/Dakota/$DakotaVer"
+# else
+#     WithDakota="ON"
+#     DakotaHint="$argdir"
+# fi
+
+#=======================================================
+# Check for PETSc debug mode
+#=======================================================
+if [[ $* == *--petsc-debug* ]]; then
+    WithPETSc="ON"
+    PETScDebug="Debug"
+else
+    PETScDebug="Release"
+fi
+
+#=======================================================
+# Check for Trilinos debug mode
+#=======================================================
+if [[ $* == *--trilinos-debug* ]]; then
+    WithTrilinos="ON"
+    TrilinosDebug="Debug"
+else
+    TrilinosDebug="Release"
+fi
+
+#=======================================================
+# Check for OpenFCST debug mode
+#=======================================================
+if [[ $* == *--openfcst-debug* ]]; then
+    OpenFCSTDebug="Debug"
+else
+    OpenFCSTDebug="Release"
+fi
+
+#=======================================================
+# Check for MPI Directory
+#=======================================================
+argdir=`echo "$*" | perl -n -e 'm/--mpi-dir=(\S+)/; print $1'`
+
+if [ "$argdir" = "" ]; then
+    MPIHint=""
+else
+    MPIHint="$argdir"
+fi
+
+#=======================================================
+# Check for multicore make command
+#=======================================================
+argnumcores=`echo "$*" | perl -n -e 'm/--cores=(\S+)/; print $1'`
+if [ "$argnumcores" == "" ];then
+    echo
+    echo "======================================================="
+    echo "              Compiling on a single core               "
+    echo "======================================================="
+    argnumcores=1
+elif [[ $argnumcores =~ ^-?[0-9]+$ ]];then
+    echo
+    echo "======================================================="
+    echo "                Compiling on " $argnumcores " cores    "
+    echo "======================================================="
+else
+    echo
+    echo "======================================================="
+    echo " --cores="$argnumcores" is an invalid core number      "
+    echo " Please either omit or try the following syntax:       "
+    echo "        ./openFCST_install_CMake --cores=7                       "
+    echo "======================================================="
+    exit 1
+fi
+
+#=======================================================
+# Check for 3D
+#=======================================================
+OpenFCSTDimensions=`echo "$*" | perl -n -e 'm/--openfcst-dimen=(\S+)/; print $1'`
+if [ "$OpenFCSTDimensions" == "" ];then
+    OpenFCSTDimensions=1
+fi
+
+#=======================================================
+# Check for if only installing OpenFCST
+#=======================================================
+if [[ $* == *--with-openfcst-library* ]]; then
+    OpenFCSTLibrary="ON"
+else
+    OpenFCSTLibrary="OFF"
+fi
+
+
+#=======================================================
+# Check for OpenFCST Library
+#=======================================================
+if [[ $* == *--library-fcst* ]]; then
+    OnlyOpenFCST="ON"
+else
+    OnlyOpenFCST="OFF"
+fi
+
+#=======================================================
+# Check for p4est Library
+#=======================================================
+if [[ $* == *--library-p4est* ]]; then
+    OnlyP4est="ON"
+else
+    OnlyP4est="OFF"
+fi
+
+#=======================================================
+# Check for Metis Library
+#=======================================================
+if [[ $* == *--library-metis* ]]; then
+    OnlyMetis="ON"
+else
+    OnlyMetis="OFF"
+fi
+
+#=======================================================
+# Check for PETSc Library
+#=======================================================
+if [[ $* == *--library-petsc* ]]; then
+    OnlyPETSc="ON"
+else
+    OnlyPETSc="OFF"
+fi
+
+#=======================================================
+# Check for Trilinos Library
+#=======================================================
+if [[ $* == *--library-trilinos* ]]; then
+    OnlyTrilinos="ON"
+else
+    OnlyTrilinos="OFF"
+fi
+
+#=======================================================
+# Check for deal.II Library
+#=======================================================
+if [[ $* == *--library-deal* ]]; then
+    OnlyDeal="ON"
+else
+    OnlyDeal="OFF"
+fi
+
+#=======================================================
+# Check for Dakota Library
+#=======================================================
+OnlyDakota="OFF"
+if [[ $* == *--library-dakota* ]]; then
+    echo ""
+    echo "========================================================"
+    echo "	     Dakota is currently unavailable	        "
+    echo "	     due to compatibility issuess.	        "
+    echo "========================================================"
+    exit 
+ 
+fi
+
+#=======================================================
+# Check for cpptest Library
+#=======================================================
+if [[ $* == *--library-cpptest* ]]; then
+    OnlyCpptest="ON"
+else
+    OnlyCpptest="OFF"
+fi
+
+#=======================================================
+# Check for ParaView Library
+#=======================================================
+if [[ $* == *--library-paraview* ]]; then
+    OnlyParaView="ON"
+else
+    OnlyParaView="OFF"
+fi
+
+#=======================================================
+# Check for sqlite Library
+#=======================================================
+if [[ $* == *--library-sqlite* ]]; then
+    OnlySqlite="ON"
+else
+    OnlySqlite="OFF"
+fi
+
+#=======================================================
+# Check for ALGLIB Library
+#=======================================================
+if [[ $* == *--library-alglib* ]]; then
+    OnlyAlglib="ON"
+else
+    OnlyAlglib="OFF"
+fi
+
+#=======================================================
+# Check for COLDAE Library
+#=======================================================
+if [[ $* == *--library-coldae* ]]; then
+    OnlyColdae="ON"
+else
+    OnlyColdae="OFF"
+fi
+
+
+#=======================================================
+# Check for OpenMP Flag
+#=======================================================
+if [[ $* == *--with-openmp* ]]; then
+    OpenMPFlag="ON"
+else
+    OpenMPFlag="OFF"
+fi
+  
+#=======================================================
+# Check for Extra User Flags
+#=======================================================
+ExtraFlags=`echo "$*" | perl -n -e 'm/--extra-flag=(\S+)/; print $1'`
+if [ "$argnumcores" == "" ]; then
+    :
+fi
+
+
+#These few lines are for testing purposes to confirm the above
+#bash lines are working properly
+# echo "TESTING:"
+# echo "MPI_DIR_HINT: $MPIHint"
+# echo "NUM_OF_CORES: $argnumcores"
+# echo "OPENFCST_DIMENSIONS: $OpenFCSTDimensions"
+# echo "OpenMPFlag: $OpenMPFlag"
+# echo "ExtraFlags: $ExtraFlags"
+# echo "BOOST_DIR: $boostHint"
+# echo "P4EST_DIR: $p4estHint"
+# echo "METIS_DIR: $MetisHint"
+# echo "PETSC_DIR: $PETScHint"
+# echo "TRILINOS_DIR: $TrilinosHint"
+# echo "DEALII_DIR: $dealHint"
+# echo "DAKOTA_DIR: $DakotaHint"
+# echo "P4EST_VER: $p4estVer"
+# echo "METIS_VER: $MetisVer"
+# echo "PETSC_VER: $PETScVer"
+# echo "TRILINOS_VER: $TrilinosVer"
+# echo "DEALII_VER: $dealVer"
+# echo "DAKOTA_VER: $DakotaVer"
+# echo "OPENFCST_WITH_DAKOTA: $WithDakota"
+# echo "OPENFCST_WITH_PETSC: $WithPETSc"
+# echo "OPENFCST_WITH_TRILINOS: $WithTrilinos"
+# echo "PETSC_BUILD_TYPE: $PETScDebug"
+# echo "TRILINOS_BUILD_TYPE: $TrilinosDebug"
+# echo "OPENFCST_BUILD_TYPE: $OpenFCSTDebug"
+
+
+####################################
+#
+#       Install OpenFCST
+#
+####################################
+cd $BuildDir
+cmake \
+    $SrcDir \
+    -DCMAKE_INSTALL_PREFIX=$InstallDir \
+    -DMPI_DIR_HINT="$MPIHint" \
+    -DOPENFCST_DIMENSIONS="$OpenFCSTDimensions" \
+    -DOPENFCST_LIBRARY="$OpenFCSTLibrary" \
+    -DOPENFCST_OPENMP="$OpenMPFlag" \
+    -DOPENFCST_EXTRA_FLAGS="$ExtraFlags" \
+    -DOPENFCST_WITH_DAKOTA="$WithDakota" \
+    -DOPENFCST_WITH_PETSC="$WithPETSc" \
+    -DOPENFCST_WITH_TRILINOS="$WithTrilinos" \
+    -DOPENFCST_WITH_PARAVIEW="$WithParaView" \
+    -DBOOST_DIR="$boostHint" \
+    -DP4EST_DIR="$p4estHint" \
+    -DP4EST_VER="$p4estVer" \
+    -DMETIS_DIR="$MetisHint" \
+    -DMETIS_VER="$MetisVer" \
+    -DPETSC_DIR="$PETScHint" \
+    -DPETSC_VER="$PETScVer" \
+    -DTRILINOS_DIR="$TrilinosHint" \
+    -DTRILINOS_VER="$TrilinosVer" \
+    -DDEALII_DIR="$dealHint" \
+    -DDEALII_VER="$dealVer" \
+    -DDAKOTA_DIR="$DakotaHint" \
+    -DDAKOTA_VER="$DakotaVer" \
+    -DPETSC_BUILD_TYPE="$PETScDebug" \
+    -DOPENFCST_BUILD_TYPE="$OpenFCSTDebug" \
+    -DONLY_INSTALL_OPENFCST="$OnlyOpenFCST" \
+    -DONLY_INSTALL_P4EST="$OnlyP4est"\
+    -DONLY_INSTALL_METIS="$OnlyMetis"\
+    -DONLY_INSTALL_PETSC="$OnlyPETSc"\
+    -DONLY_INSTALL_TRILINOS="$OnlyTrilinos"\
+    -DONLY_INSTALL_DEALII="$OnlyDeal"\
+    -DONLY_INSTALL_DAKOTA="$OnlyDakota"\
+    -DONLY_INSTALL_CPPTEST="$OnlyCpptest"\
+    -DONLY_INSTALL_PARAVIEW="$OnlyParaView"\
+    -DONLY_INSTALL_SQLITE="$OnlySqlite"\
+    -DONLY_INSTALL_ALGLIB="$OnlyAlglib"\
+    -DONLY_INSTALL_COLDAE="$OnlyColdae"\
+    2>&1 | tee $BuildDir/1_configure_report.txt
+
+make -j$argnumcores 2>&1 | tee $BuildDir/2_make_report.txt

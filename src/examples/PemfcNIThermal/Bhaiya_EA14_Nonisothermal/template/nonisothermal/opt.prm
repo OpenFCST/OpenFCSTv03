@@ -1,0 +1,100 @@
+######################################################################
+#
+#  This file is used to run a parametric analysis by varying cell voltage.
+#  
+#
+#   Copyright (C) 2013-15, Madhur Bhaiya
+#
+######################################################################
+
+
+
+subsection Optimization Parameters
+    
+    subsection Optimization Program Options
+      set Use dakota input file     = false				           # (default) false
+    
+      set Optimization strategy     = single_method	 		       # single_method | multi_start | pareto_set | hybrid
+      set Optimization method       = multidim_parameter_study 	   # multidim_parameter_study | optpp_q_newton | nl2sol | ncsu_direct
+    end
+
+    subsection Design Variables
+      set num_design_variables = 1
+      set DV_0_name = Fuel cell data>>Operating conditions>>Voltage cell
+
+
+      #######	  Lower Bound 	  #######
+      ####### lb < -1e30 for -inf #######
+      #---------------------------------#
+	  set DV_0_lb = -1.0				# V # 
+
+
+      #######	 Upper Bound 	#######
+      ####### ub > 1e30 for inf #######
+      #-------------------------------#
+	  set DV_0_ub = -0.05				# V #
+
+
+      ####### 		Parameter Study Partitions		  #######
+      ### NOTE: Evaluated at n+1 points between lower and upper bound ###
+      ###-------------------------------------------------------------###
+	  set DV_0_partition = 90
+    end
+
+      
+	subsection Responses
+	  set num_objectives = 17
+	  set num_nl_constraints = 0 			# (default) 0
+	  set num_eq_constraints = 0			# (default) 0
+
+	  set RESP_0_name = cathode_current
+	  set RESP_1_name = anode_current
+	  set RESP_2_name = max_temperature
+	  set RESP_3_name = cathode_reaction_heat
+	  set RESP_4_name = anode_reaction_heat
+	  set RESP_5_name = cathode_irrev_heat
+	  set RESP_6_name = anode_irrev_heat
+	  set RESP_7_name = cathode_rev_heat
+	  set RESP_8_name = anode_rev_heat
+	  set RESP_9_name = cathode_watervap_heat
+	  set RESP_10_name = electron_ohmic_heat
+	  set RESP_11_name = proton_ohmic_heat
+	  set RESP_12_name = water_cathode
+	  set RESP_13_name = water_anode
+	  set RESP_14_name = sorption_heat_cathode
+	  set RESP_15_name = sorption_heat_anode
+	  set RESP_16_name = max_RH
+    end
+    
+end
+
+
+#-------------------------------------------------------------------------------------------------------------#
+      ######### List of Possible Design Variable Names #########
+      #########----------------------------------------#########
+#	//		Conventional_CL.cc
+#	V_Pt_c | V_Pt_a				// Platinum loading per unit volume [mg/cm3] 	(Cathode | Anode)
+#	prc_Pt_c | prc_Pt_a			// Platinum loading on support [%wt] 		(Cathode | Anode)
+#	prc_N_c | prc_N_a			// Electrolyte loading [%wt] 			(Cathode | Anode)
+#	Av_c | Av_a				// Active area [cm^2/cm^3] 			(Cathode | Anode)
+
+#	//		Agglomerate_CL.cc
+#	r_agg_c	| r_agg_a			// Radius of the agglomerate [nm] 		(Cathode | Anode)
+#	r_agg					// Radius of the agglomerate [nm] **possibly redundant**
+#	epsilon_agg_c | epsilon_agg_a		// Agglomerate porosity 			(Cathode | Anode)
+#	epsilon_agg				// Agglomerate porosity **possibly redundant**
+
+#	//		Operating_Conditions.cc
+#	V_cell					// Cell Voltage
+#	T_cell					// Cell Temperature  
+#	dV_a					// Voltage drop in the Anode
+#	P_c | P_a				// Pressure  					(Cathode | Anode)
+#	
+#	RH_c | RH_a				// Relative Humidity 				(Cathode | Anode) 
+#	OCV					// Open Circuit Voltage
+
+#	//		Geometries.cc 
+#	L_CCL | L_ACL				// CL thickness  				(Cathode | Anode)
+#	L_CGDL | L_AGDL				// GDL thickness 				(Cathode | Anode)
+#	L_CMPL | L_AMPL				// MPL thickness 				(Cathode | Anode) 
+#	Ch_width				// Channel Width 				(Cathode | Anode)

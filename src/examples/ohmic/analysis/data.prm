@@ -1,0 +1,28 @@
+######################################################################
+#   $Id: $
+#
+#  This file is used to simulate app_diffusion and to obtain
+#  a concentration profile for the species through the domain 
+#  This file will be called by the main.prm file. 
+#
+#   Copyright (C) 2011-13 by Marc Secanell
+#
+######################################################################
+######################################################################
+
+include ../template/data.prm
+
+######################################################################
+
+######################################################################
+subsection Adaptive refinement
+  set Number of Refinements = 1
+  set Output initial mesh = false
+  set Output intermediate solutions = false
+  set Output intermediate responses = false
+  set Output final solution = true
+end
+######################################################################
+
+######################################################################
+######################################################################

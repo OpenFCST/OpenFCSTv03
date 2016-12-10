@@ -1,0 +1,26 @@
+######################################################################
+#   $Id: $
+#
+#  This file is used to simulate a non-isothermal MEA application
+#  with operating conditions of RH (anode/cathode) = 50%, and 
+#  plate temperature (anode/cathode) of 80 C (353.15 K), and 
+#  cell pressure of 1 atm (101325 Pa).
+#  The fraction of total reversible heat (due to complete reaction), 
+#  released in the ORR, f_ORR, is considered as 0.5 ; (default case is 
+#  f_ORR= 1)
+#
+#   Copyright (C) 2013-15 by Madhur Bhaiya
+#
+######################################################################
+
+######################################################################
+
+include ../../../template/nonisothermal/data.prm
+
+######################################################################
+
+subsection Reaction Source Terms
+  set Reversible heat fraction in ORR                      = 0.5
+end
+
+######################################################################

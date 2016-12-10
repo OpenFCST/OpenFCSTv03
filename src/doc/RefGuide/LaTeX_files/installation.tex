@@ -1,0 +1,123 @@
+%%===============================================================
+%%===============================================================
+\chapter{Installation} \label{Ch:installation}
+%%===============================================================
+%%===============================================================
+% Authors: M. Secanell, Mayank Sabharwal and Chad Balen.
+%%===============================================================
+
+
+%%===============================================================
+\section{Installing OpenFCST} \label{installing_fcst}
+%%===============================================================
+
+\subsection{System requirements}
+
+OpenFCST is developed on Linux and compiled using the GCC compiler. OpenFCST developers have performed compilation tests on the following operating systems:
+\begin{itemize}
+ \item OpenSUSE 13.1 (evergreen), Leap 42.1 and Tumbleweed;
+ \item Ubuntu 16.04 
+\end{itemize}
+These are the operating systems that the OpenFCST developers recommend. 
+
+If you would like to try to run the code under Windows environment, our recommendation is to install a VirtualBox with OpenSUSE and then, install and run OpenFCST on the virtual machine.
+
+The following software needs to also be installed in your computer in order for OpenFCST to compile:
+\begin{itemize}
+ \item GNU make and C++11 support, gcc version 4.7 or later (4.8.1 Recommended)
+ \item GCC
+ \item BLAS and LAPACK libraries (both the library and lapack-devel)
+ \item OpenMPI compiler
+ \item gfortran compiler
+ \item Bison
+ \item libqt4 and libqt4-devel
+ \item For generating the documentation: DOxygen and Sphinx
+ \item Boost; the specific packages are iostreams, serialization, system, thread, 
+       filesystem, regex, signals, \& program\_options)
+ \item FLEX (For Dakota)
+ \item Python Packages: SciPy, NumPy, ipython, Sphinx, evtk, vtk, mayavi, matplotlib (with backends)
+ \item libconfig-devel and libconfig++-devel
+\end{itemize}
+Although it is recommended to use C++11, OpenFCST compiles with C++98 also.
+
+In addition, the following packages might be useful if you are planning on developing new classes for OpenFCST:
+\begin{itemize}
+  \item For debugging programs, we have found that the GNU debugger GDB is an invaluable tool. GDB is a text-based tool not always easy to use; kdbg is one of many graphical user interfaces for it. \item Most integrated development environments like KDevelop or Eclipse have built in debuggers as well.
+\end{itemize}
+
+
+\subsection{Installation steps}
+
+Fuel Cell Simulation Toolbox is a fuel cell simulation package developed using several open-source libraries such as the deal.II libraries, PETSc and COLDAE. In order to run without any difficulties, OpenFCST needs to compile and link to all these applications which are provided with the code in the folder src/contrib. Please note that each package is distributed under a different license. 
+
+OpenFCST contains a script to compile all packages simultaneously. To compile OpenFCST and all other libraries use the following:
+\begin{lstlisting}
+$./openFCST_install --cores=4
+\end{lstlisting}
+
+This is the basic OpenFCST install with deal.II and COLDAE. CMake will try to find the contributing libraries in the src/contrib folder. If they are not found then it will try to download them from the internet. Since MPI is mandatory and CMake finds OpenMPI for you we do not need to specify any flag to tell CMake where to find it.
+Finally, we select to compile on four cores to speed up the compilation process. 
+
+The install script assumes the default path for the OpenMPI compiler and that all the libraries are in \texttt{src/contrib}. If you already have a version of deal.II and you would like to use that version, use the flags \texttt{--deal-dir}. Please check the src/README for any necessary changes that must be made to deal.ii for it to work with OpenFCST. For more information on the script options, type
+\begin{lstlisting}
+$./openFCST_install --help
+\end{lstlisting}
+
+Release 0.3 of OpenFCST now supports parallel execution. To be able to use this feature OpenFCST and deal.II libraries need to be compiled using PETSc. To compile OpenFCST with parallel execution mode execute the following,
+\begin{lstlisting}
+ $ ./openFCST_install --with-petsc --cores=4
+\end{lstlisting}
+
+This will install PETSc, p4est and METIS, and then compile deal.II and OpenFCST. Once, installed the parallel option would be availble on GUI also. In order to run the OpenFCST binaries in parallel, see chapter \ref{Ch:running_openFCST}.
+
+\subsection{Setting up a virtual Python environment: CONDA}
+
+The PythonFCST package which can be used for generating VTK meshes for microstructure simulations and a bunch of plotting routines use additional python libraries. The python package uses python 2.7 and therefore is not compatible with python 3. The migration to python 3 will be done in a later release. Therefore, it is suggested that the users create a CONDA environment to use the PythonFCST package. This environment can be created before running OpenFCST install to ensure that the OpenFCST python dependencies are satisfied.
+
+In order to set up a CONDA environment with the necessary OpenFCST dependencies, please follow these steps:
+
+1. Download the Python 3.5 64 Bit CONDA installer from the website: https://www.continuum.io/downloads
+
+2. To install CONDA open a Konsole/Terminal and go to the folder where the installer was downloaded and type,
+
+\begin{lstlisting}
+ $ bash Anaconda3-4.2.0-Linux-x86_64.sh
+\end{lstlisting}
+
+3. When it asks you for a path to install anaconda, preferably put some local folder. For this walkthrough, it is assumed that you install it in /home/user/anaconda3 . Also it is assumed that you prepend your .bashrc with the anaconda bin folder that is: 
+
+\begin{lstlisting}
+ $ export PATH="/home/secanell/anaconda3/bin:$PATH"
+\end{lstlisting}
+
+4. To create the python environment with the necessary pacakges required for OpenFCST type,
+
+\begin{lstlisting}
+ $ conda create -n fcst_python python=2.7 anaconda mayavi
+\end{lstlisting}
+    
+This will install a general array of scientific python packages. To install the bare-minimum packages required for PythonFCST use,
+
+\begin{lstlisting}
+ $ conda create -n fcst_python python=2.7 scipy numpy mayavi matplotlib pandas pil
+\end{lstlisting}
+
+5. Next make sure that QT\_API is set properly. 
+
+\begin{lstlisting}
+ $ export QT_API=pyqt
+\end{lstlisting}
+
+6. To use the environment, open Konsole and type:
+
+\begin{lstlisting}
+ $ source activate fcst_python
+\end{lstlisting}
+
+
+This should enable the use of all python library functions within OpenFCST. 
+
+
+
+%%===============================================================
+%%===============================================================

@@ -1,0 +1,106 @@
+#! /bin/bash
+#
+# This file is part of p4est [1].
+# p4est is a C library to manage a collection (a forest) of multiple
+# connected adaptive quadtrees or octrees in parallel.
+#
+# Copyright (C) 2010 The University of Texas System
+# Written by Carsten Burstedde, Lucas C. Wilcox, and Tobin Isaac
+# Modified 2010 by Wolfgang Bangerth
+# Modified 2010 by Timo Heister
+# Modified 2013 by Matthias Maier
+# Modified 2014 by Chad Balen to work with OpenFCST
+#
+# p4est is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# [1] http://www.p4est.org
+#
+# This program comes with ABSOLUTELY NO WARRANTY.
+
+# choose names for fast and debug compilation directories
+BUILD_DIR=`echo "$*" | perl -n -e 'm/--p4est-build-dir=(\S+)/; print $1'`
+BUILD_FAST="$BUILD_DIR/FAST"
+BUILD_DEBUG="$BUILD_DIR/DEBUG"
+
+function bdie () {
+        echo "Error: $@"
+        exit 1
+}
+
+#Check Compiler Flags to be used
+C11_FLAG=`echo "$*" | perl -n -e 'm/--cxx11-flag=(\S+)/; print $1'` #Get C++11 flag that p4est should be compiled with
+if test -z "$CFLAGS" -a -z "$P4EST_CFLAGS_FAST" ; then
+        export CFLAGS_FAST="-O2 $C11_FLAG"
+else
+        export CFLAGS_FAST="$CFLAGS $P4EST_CFLAGS_FAST $C11_FLAG"
+fi
+echo "CFLAGS_FAST: $CFLAGS_FAST"
+if test -z "$CFLAGS" -a -z "$P4EST_CFLAGS_DEBUG" ; then
+        export CFLAGS_DEBUG="-O0 -g $C11_FLAG"
+else
+        export CFLAGS_DEBUG="$CFLAGS $P4EST_CFLAGS_DEBUG $C11_FLAG"
+fi
+echo "CFLAGS_DEBUG: $CFLAGS_DEBUG"
+
+# choose names for fast and debug installation directories
+INSTALL_DIR=`echo "$*" | perl -n -e 'm/--p4est-install-dir=(\S+)/; print $1'`
+if test -z "$INSTALL_DIR" ; then
+        INSTALL_DIR="$BUILD_DIR/p4est-install"
+fi
+INSTALL_FAST="$INSTALL_DIR/FAST"
+INSTALL_DEBUG="$INSTALL_DIR/DEBUG"
+
+echo
+echo "This script tries to unpack, configure and build the p4est library."
+echo "Build FAST: $BUILD_FAST"
+echo "Build DEBUG: $BUILD_DEBUG"
+echo "Install FAST: $INSTALL_FAST"
+echo "Install DEBUG: $INSTALL_DEBUG"
+echo "Checking environment: CFLAGS P4EST_CFLAGS_FAST P4EST_CFLAGS_DEBUG"
+echo
+
+#Test if p4est header file and configure file exist
+test -f "$BUILD_DIR/src/p4est.h" || bdie "Main header file missing"
+test -f "$BUILD_DIR/configure" || bdie "Configure script missing"
+
+echo "See output in files .../config.output and .../make.output"
+echo
+
+#Start Building p4est FAST
+echo "Build FAST version in $BUILD_FAST"
+if [ -d $BUILD_FAST ]; then
+  rm -rf $BUILD_FAST
+fi
+mkdir -p "$BUILD_FAST"
+cd "$BUILD_FAST"
+"$BUILD_DIR/configure" --enable-mpi --enable-shared \
+        --disable-vtk-binary --without-blas \
+        --prefix="$INSTALL_FAST" CFLAGS="$CFLAGS_FAST" \
+        CPPFLAGS="-DSC_LOG_PRIORITY=SC_LP_ESSENTIAL" \
+        > config.output || bdie "Error in configure"
+make -C sc -j 8 > make.output || bdie "Error in make sc"
+make -j 8 >> make.output || bdie "Error in make p4est"
+make install >> make.output || bdie "Error in make install"
+echo "FAST version installed in $INSTALL_FAST"
+
+#Start Building p4est DEBUG
+echo
+echo "Build DEBUG version in $BUILD_DEBUG"
+if [ -d $BUILD_DEBUG ]; then
+  rm -rf $BUILD_DEBUG
+fi
+mkdir -p "$BUILD_DEBUG"
+cd "$BUILD_DEBUG"
+"$BUILD_DIR/configure" --enable-debug --enable-mpi --enable-shared \
+        --disable-vtk-binary --without-blas \
+        --prefix="$INSTALL_DEBUG" CFLAGS="$CFLAGS_DEBUG" \
+        CPPFLAGS="-DSC_LOG_PRIORITY=SC_LP_ESSENTIAL" \
+        > config.output || bdie "Error in configure"
+make -C sc -j 8 > make.output || bdie "Error in make sc"
+make -j 8 >> make.output || bdie "Error in make p4est"
+make install >> make.output || bdie "Error in make install"
+echo "DEBUG version installed in $INSTALL_DEBUG"
+echo

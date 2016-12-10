@@ -1,0 +1,30 @@
+#! /bin/bash
+#---------------------------------------------------------------------------
+#
+#    FCST: Fuel Cell Simulation Toolbox
+#
+#    Copyright (C) 2006-13 by Energy Systems Design Laboratory, University of Alberta
+#
+#    This software is distributed under the MIT License.
+#    For more information, see the README file in /doc/LICENSE
+#
+#---------------------------------------------------------------------------
+
+####################### 
+# 
+# OpenFCST Bash File
+#
+# This script alters Metis' Makefile
+# so it can be installed by CMake
+#
+# Developer: Chad Balen, 2014
+#
+#######################
+
+#Get Path to Metis' Makefile
+MakefilePath=`echo "$*" | perl -n -e 'm/--metis-makefile=(\S+)/; print $1'`
+
+#For some reason I get an error because when running this command directly
+#from CMake's UPDATE_COMMAND so I send the UPDATE_COMMAND here to run this command
+#from bash
+sed -i "67s|.*|                make -C \$(BUILDDIR) \$@; \\\|" $MakefilePath

@@ -1,0 +1,58 @@
+######################################################################
+#
+#  This file is used to run multi-dimensional parametric studies. 
+#  See end of file for a list of possible design variables.
+#
+#   Copyright (C) 2013, Kailyn Domican
+#
+######################################################################
+
+
+######################################################################
+######################################################################
+
+#### NOTE THAT THIS SECTION ONLY EXISTS WHEN RUNNING IN OPTIMIZATION MODE ###
+####----------------------------------------------------------------------###
+
+subsection Optimization Parameters
+  
+  ########################### 
+  subsection Optimization Program Options
+  
+    set Use dakota input file = false				# (default) false
+    
+    set Optimization strategy = single_method	 		# single_method | multi_start | pareto_set | hybrid
+    set Optimization method = multidim_parameter_study 	# multidim_parameter_study | optpp_q_newton | nl2sol | ncsu_direct
+  end
+  ########################### 
+  
+  ########################### 
+  subsection Design Variables
+  
+    set num_design_variables = 1
+    set DV_0_name = Fuel cell data>>Operating conditions>>Voltage cell [V]
+
+    #######	  Lower Bound (lb < -1e30 for -inf)  #######
+    set DV_0_lb = 0.6				# V # lower bound : change to -1.1, force dekota to start at -1.1 then go to -0.2
+
+    ####### Upper Bound (ub > 1e30 for inf) #######
+    set DV_0_ub = 0.94				# V #
+
+    ####### 		Parameter Study Partitions		  #######
+    ### NOTE: Evaluated at n+1 points between lower and upper bound ###
+    ###-------------------------------------------------------------###
+    set DV_0_partition = 9
+
+  end
+  ########################### 
+
+  ###########################  
+  subsection Responses
+    set num_objectives = 1			# 2
+    set num_nl_constraints = 0 			# (default) 0
+    set num_eq_constraints = 0			# (default) 0
+    
+    set RESP_0_name = current
+  end
+  ###########################
+end

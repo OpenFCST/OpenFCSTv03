@@ -1,0 +1,15 @@
+######################################################################
+#
+#  Main file to perform tests on graded CL
+#
+#  Copyright (C) 2011-14 by Energy Systems Design Laboratory, University of Alberta
+#
+######################################################################
+
+include ../template/main_app_pemfc_default.prm
+
+subsection Simulator
+
+  set simulator parameter file name = data.prm
+
+end

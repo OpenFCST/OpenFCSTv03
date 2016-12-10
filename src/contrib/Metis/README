@@ -1,0 +1,18 @@
+Metis 5.1 has been modified by OpenFCST developers.
+
+###############
+Modification #1
+###############
+
+If you want OpenFCST to install your own downloaded version of Metis then you will 
+need to change one line of to prevent errors. In the Makefile on line 67it says: 
+       
+    make -C $(BUILDDIR) $@ $(MAKEFLAGS); \
+  
+  change it to:
+  
+    make -C $(BUILDDIR) $@; \
+
+This issue has been reported to the Metis community and will hopefully be fixed 
+in the future, until then you will need to do this to have the OpenFCST CMake 
+script install Metis for you.

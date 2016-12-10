@@ -1,0 +1,55 @@
+%%===============================================================
+%%===============================================================
+\chapter{Useful Programming Tips}
+%%===============================================================
+%%===============================================================
+%% Author: 
+%%===============================================================
+%%===============================================================
+if you would like to count lines of code use the following two commands for the .h and .cc files:
+\begin{lstlisting}
+$find . -name '*.h' | xargs wc -l
+$find . -name '*.cc' | xargs wc -l
+\end{lstlisting}
+Then, add all the lines. As of September 11, 2013 the code has 157,801 lines of code (including comments and empty lines).
+
+%%===============================================================
+\section{Memory Leak Detection}
+%%===============================================================
+
+Despite taking all precautions to avoid memory leaks, it is still a possibility. It is recommended that developers make use of the program Valgrind.  It is a freely available, open-source software, and can be found in the software packaged with most Linux distributions.  Valgrind checks memory operations of any program, without having to modify the program in any way.  It will typically make the program run 20-50 times slower than normal.  To run, simply call \texttt{valgrind --options} before your normal program call.  E.g.
+\begin{lstlisting}
+valgrind --leak-check=full --show-below-main=no --show-possibly-lost=no 
+--show-reachable=no ./fuel_cell-2d.bin simulation.prm
+\end{lstlisting}
+will run OpenFCST with a full memory leak check, while ignoring losses outside of the main program (system memory) and ignoring possible memory leak areas.  This tool is particularly useful at pinpointing segmentation faults, etc.
+
+See the Valgrind documentation for usage.
+
+%%===============================================================
+\section{Working with pointers}
+%%===============================================================
+
+As the complexity of OpenFCST grows, it is easy to lose track of the dependencies between the applications and the classes that define the physics of the problem.  OpenFCST makes frequent use of pointers to pass information from one area of the code to another.  Without careful tracking of pointers, it is possible to program memory leaks and memory faults into the program.  It is recommended that two tools be used.  First, the Boost Libraries implementation of smart pointers.  Using these pointers ensures that memory will not be free'd if it is still in use.  Furthermore, there is no need to explicitly \textbf{\texttt{delete}} data contained within a pointer, reducing the risk of a memory leak.  The task to convert regular pointers to smart pointers is underway.  For implementation, see the \href{http://www.boost.org/doc/libs/1_46_1/libs/smart_ptr/smart_ptr.htm}{Boost documentation}
+
+%%===============================================================
+\section{Including files to the include files}
+%%===============================================================
+
+In order to make sure that the include files in OpenFCST are looked at first, please include files as follows: \#include"example.h" instead of \#include<example.h> for all OpenFCST files.
+
+%%===============================================================
+\section{Troubleshooting}
+%%===============================================================
+
+\subsection{Including new virtual functions in already existing classes}
+Please note that if you include a new virtual function to a class, you \textbf{must} perform a \texttt{make clean} before compiling the code again since all the classes that depend on the class you modified must be recompiled. Currently Make does not recognize this, therefore you must to it manually; otherwise you will get a \texttt{Segmentation Fault} error when running the program.
+
+\subsection{Corrupted double-linked list error}
+Sometimes, during code execution, following error is detected:\\
+\textit{*** glibc detected *** /home/madhur/FCST/lib/fuelcell 2d.bin: corrupted double-linked list ***}\\\\
+This happens mostly due to compiler messing up the compiled files. When this happens, try cleaning the compiled files of OpenFCST, using \textbf{make clean} and then re-compiling using \textbf{make}.
+
+
+%%===============================================================
+%%===============================================================

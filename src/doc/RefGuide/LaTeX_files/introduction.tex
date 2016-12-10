@@ -1,0 +1,116 @@
+%%===============================================================
+%%===============================================================
+\chapter{Introduction}
+%%===============================================================
+%%===============================================================
+% Authors: M. Secanell
+%%===============================================================
+\section{About OpenFCST}
+
+The open-source Fuel Cell Simulation Toolbox (OpenFCST) is an open-source mathematical modelling package for polymer electrolyte fuel cells. OpenFCST has been developed as a modular toolbox from which you can develop your own applications. It contains a database of physical phenomena equations, fuel cell layers and materials, and mathematical models for reaction kinetics. In addition, it already contains several applications that allow you to simulate different fuel cell components. For example, you can simulate a cathode electrode (using either a macrohomogeneous or an ionomer-filled agglomerate model), an anode electrode or a complete membrane electrode assembly. The applications already provided in OpenFCST have been validated with respect to experimental data in the literature \cite{Dobson12} as well as numerical results from other models implemented in a commercial package~\cite{Secanell07}. A thorough description of the model and validation is presented in \cite{Secanell07}.
+
+OpenFCST is being developed at the \htmladdnormallink{Energy Systems Design Laboratory}{http://secanell-srv01.mece.ualberta.ca/} at the University of Alberta in collaboration with the \htmladdnormallink{Automotive Fuel Cell Cooperation Corp.}{http://www.afcc-auto.com} that, together with the \htmladdnormallink{Natural Science and Engineering Research Council of Canada}{www.nserc-crsng.gc.ca}, has provided the majority of the funding required to develop this code. The goal of OpenFCST is that research groups in academia and in industry use the current toolbox to better understand fuel cells and to develop new physics and material databases that can then be integrated in the current library.
+
+OpenFCST is an integrated open-source tool for fuel cell analysis and design. It seamlessly integrates several open-source pre-processing, finite element, and post-processing tools in order to analyze fuel cell systems. OpenFCST contains a built-in mesh generator. If your problem requires you to simulate more complex geometries, it can also import quadrilateral meshes generated with the open-source pre-processor \htmladdnormallink{Salome}{http://www.salome-platform.org/} and exported in UNV format. The physics and material database in OpenFCST allows you to setup the governing equations for the most important physical processes that take place in a fuel cell. OpenFCST already implements the weak form for many governing equations. They are solved using the finite element open-source library \htmladdnormallink{deal.II}{http://www.dealii.org/}. OpenFCST builds on top of the \htmladdnormallink{deal.II}{http://www.dealii.org/} finite element libraries and many of its software requirements and coding philosophy is inherited from deal.II. In order to analyze your results, OpenFCST can output your results to .vtu files that can easily be read with the open-source post-processor \htmladdnormallink{Paraview}{http://www.paraview.org/}. OpenFCST is also integrated with the design and optimization package \htmladdnormallink{Dakota}{http://dakota.sandia.gov/software.html}. Therefore, it can be used for design and optimization as well as parameter estimation~\cite{Secanell07,Secanell07b,Secanell08,Dobson12}.
+
+OpenFCST is under development. If you like the library and would like to contribute towards the development, you can help the developers in the following ways:
+\begin{itemize}
+ \item If you are an industrial researcher that is considering using OpenFCST for research and development in the company, please contact the developers in order to develop a research program with them. 
+ \item If you are either an industrial or academic researcher using the library, please make sure to cite the OpenFCST libraries in your publications. Please cite any relevant publication by the OpenFCST developers as well as the current reference \cite{Secanell13} and introduction paper \cite{Secanell14}.
+ \item If you are either an industrial or academic researcher using the library and you have developed a new physics model or material database entry, please consider submitting it to the developers so that it can be integrated with the newest version of OpenFCST.
+ \item If you are an industrial researcher considering using OpenFCST for research and development in the company, please consider hiring the graduate students that develop OpenFCST, i.e. the graduate   students from the \htmladdnormallink{Energy Systems Design Laboratory}{http://secanell-srv01.mece.ualberta.ca/?q=people} at the University of Alberta.
+\end{itemize}
+
+Currently, the developers are working on:
+\begin{itemize}
+ \item improving the code readability – new classes are being developed for making the code easier to understand and more modular;
+ \item developing a convective gas and liquid transport model for the electrodes;
+ \item developing a Navier-Stokes solver for gas transport in the fuel cell channels.
+\end{itemize}
+
+\section{About the Developers}
+
+OpenFCST was originally conceived by M. Secanell in 2006 while doing his Ph.D. at the University of Victoria~\cite{Secanell07}. In 2004, M. Secanell developed a small set of routines that were used to setup the governing equations for a fuel cell cathode in two dimensions. The governing equations were first linearized and then the weak form of the equations was implemented and solved using the \htmladdnormallink{deal.II}{http://www.dealii.org/} finite element libraries \cite{Secanell07b}. In 2006, after attending a deal.II workshop in Heidelberg, Germany, and discussing the idea of creating an open-source code for fuel cells based on deal.II with Dr. Guido Kanschat and Dr. Wolfgang Bangerth, M. Secanell decided to integrate the routines he had developed into AppFrame, an application framework developed by Dr. Guido Kanschat, thereby initiating the development of a toolbox that could be used to create modules or applications for fuel cell analysis. From 2006 to 2008, OpenFCST development continued with the implementation of a complete membrane electrode assembly model; however, with M. Secanell as a sole developer, the code was too rough and disorganized to result in an open-source fuel cell package that the research community could use. 
+
+In 2009, once M. Secanell joined the University of Alberta, the idea of developing OpenFCST was solidified. Thanks to the funding provided by the \htmladdnormallink{Automotive Fuel Cell Cooperation Corp.}{http://www.afcc-auto.com/}, \htmladdnormallink{MITACS}{http://www.mitacs.ca/} and the \htmladdnormallink{Natural Science and Engineering Research Council of Canada}{http://www.nserc-crsng.gc.ca}, a group of core developers was established at the \htmladdnormallink{Energy Systems Design Laboratory}{http://secanell-srv01.mece.ualberta.ca/} at the University of Alberta. Researchers at the Energy Systems Design Lab re-developed the majority of the classes in order to increase the modularity, usability and reliability of the code. Currently, OpenFCST is currently developed by 6-8 researchers at two different laboratories, and it is used by researchers in Canada, England and Germany. It contains unit and regression tests to guarantee accurate results, and contains a bug tracking site to report any issues with its performance. Current and past developers as well as other contributors to OpenFCST are listed below. \\
+
+\textbf{Current developers:} The current group of OpenFCST developers is formed by:
+\begin{itemize}
+\item M. Secanell, Associate Professor, Energy Systems Design Laboratory, University of Alberta, Canada (2006-): Responsible for overall project management and coordination, framework design (base class concepts), cathode, pemfc and anodeKG applications, Fick's gas transport, Ohmic transport, protonic, membrane water transport,  and kinetics classes.
+\item A. Jarauta, Post-doctoral Fellow, Energy Systems Design Laboratory, University of Alberta, Canada (2016-): Responsible for stabilizing the fluid flow and multi-component solvers
+\item A. Kosakian, Ph.D. student, Energy Systems Design Laboratory, University of Alberta, Canada (2014-): Responsible for the development of transient solvers and applications (for release 1.0)
+\item A. Putz, Senior Research Scientist, Automotive Fuel Cell Cooperation Corp. (2010-): Responsible for plug-points and AFCC contributions 
+\item M. Sabharwal, Ph.D. student, Energy Systems Design Laboratory, University of Alberta, Canada (2014-): Responsible for the development of micro-scale simulation applications, e.g. appDiffusion and microscale example.   
+\item J. Zhou, Ph.D. student, Energy Systems Design Laboratory, University of Alberta, Canada (2013-): Responsible for the development of a two-phase flow applications
+\end{itemize}
+
+\textbf{Past developers:} In addition to the current OpenFCST development team, scientists that have contributed substantial portions of code are:
+\begin{itemize}
+\item C. Balen, M.Sc. graduate from the Energy Systems Design Laboratory, University of Alberta, Canada (2014-6): Developed CMake and installation script for release 0.3, extended Navier-Stokes, Darcy and multi-component fluid flow applications, and developed cathodeKG application
+ \item M. Bhaiya, M.Sc. student, Energy Systems Design Laboratory, University of Alberta, Canada (2012-14): Responsible for overall framework (base class concepts) and thermal physical models and applications    
+\item P. Dobson, M.Sc. graduate from the Energy Systems Design Laboratory, University of Alberta, Canada (2010-12): Developed parts of overall framework (base class concepts), optimization interface and multi-scale framework (1D agglomerate models)
+\item M. Moore, M.Sc. graduate from the Energy Systems Design Laboratory, University of Alberta, Canada (2011-13): Responsible for installation script, double-trap kinetics model for ORR reaction and multi-scale framework (1D agglomerate models)
+\item V. Zingan, Post-doctoral Fellow, Energy Systems Design Laboratory, University of Alberta, Canada (2012-14): Developed a preliminary version of Navier-Stokes, Darcy and multi-component fluid flow physical models and applications
+\item P. Wardlaw, M.Sc. student, Energy Systems Design Laboratory, University of Alberta, Canada (2012-14): Responsible for installation script (v 0.1) and multi-scale framework (1D agglomerate models)
+\end{itemize}
+     
+\textbf{Contributors:} Other scientists that have also contributed to OpenFCST are:
+\begin{itemize}
+\item K. Domican, M.Sc. student, Energy Systems Design Laboratory, University of Alberta, Canada 
+   \subitem Responsible for optimization interface and documentation
+\item G. Kanschat, Universität Heidelberg
+  \subitem Developer of AppFrame (now part of OpenFCST application\_core routines)
+\item Simon Mattern, intern at the Energy Systems Design Laboratory, University of Alberta, Canada (2016)
+  \subitem Enhancements to the graphical user interface and PorousLayer class
+ \item A. Malekpourkoupaei, former M.Sc. graduate student at the Energy Systems Design Laboratory, University of Alberta, Canada (2010)
+    \subitem Developed classes PureGas and classes to compute binary diffusivity (together with M. Secanell)
+\end{itemize}
+
+\section{Release notes} \label{main_changes}
+
+New in Release 0.3 (December 2016):
+\begin{itemize}
+ \item Improved graphical user interface (GUI): New toolbar menu for easy access. Ability to convert PRM files to project files (XML) directly though the GUI, as well as to export project files to PRM files. GUI now provides the option to switch between 2D and 3D simulations, as well as to select the number of processors to run OpenFCST with (for parallel computing)
+ \item Micro-scale simulation capabilities allow users to generate a mesh from a .tiff stack and then perform gas transport (with and without Knudsen effects), electron transport, and reaction simulations (see M. Sabharwal, L. Pant, A. Putz, D. Susac, J. Jankovic, M. Secanell, "Analysis of Catalyst Layer Microstructures: From Imaging to Performance", Fuel Cells. \htmladdnormallink{doi: 10.1002/fuce.201600008}{http://onlinelibrary.wiley.com/doi/10.1002/fuce.201600008/abstract})
+ \item Non-isothermal, two-phase flow model based on saturation equation (Note: Release v1.0 will contain an updated model based on capillary equation)
+ \item Parallel capabilities. Compile OpenFCST with flag \texttt{--with-petsc} in order to assemble the linear system in parallel and solve the problem using MUMPS, a parallel direct solver.
+ \item Bug fixes in post-processing routines.
+\end{itemize}
+ 
+In release 0.2 (April 2015):
+\begin{itemize}
+ \item New graphical user interface (GUI)
+ \item Non-isothermal membrane electrode assembly model (see M. Bhaiya, A. Putz and M. Secanell, "Analysis of non-isothermal effects on polymer electrolyte fuel cell electrode assemblies", Electrochimica Acta, 147C:294-309, 2014. DOI: 10.1016/j.electacta.2014.09.051)
+  \item Double-trap kinetic model (see M. Moore, A. Putz and M. Secanell, "Investigation of the ORR Using the Double-Trap Intrinsic Kinetic Model", Journal of the Electrochemical Society 160(6): F670-F681. doi: 10.1149/2.123306jes)
+  \item Multi-scale framework for analysis of complex agglomerate structures (see M. Moore, P. Wardlaw, P. Dobson, J.J. Boisvert, A. Putz, R.J. Spiteri, M. Secanell, "Understanding the Effect of Kinetic and Mass Transport Processes in Cathode Agglomerates", Journal of The Electrochemical Society, 161(8):E3125-E3137 DOI: 10.1149/2.010408jes)
+  \item Improved compilation script and transition to CMake: OpenFCST will automatically look for all dependent libraries and download any missing libraries if necessary (installation tested nightly in OpenSUSE 13.1, 13.2, and Ubuntu 14.04)
+  \item Improved documentation: Improved user guide and folder with input files for several of the articles above
+  \item Improved post-processing capabilities: New classes developed to be able to output oxide coverage, agglomerate effectiveness, relative humidity, overpotentials and more
+  \item Improved post-processing capabilities: New classes to compute functionals such as overall current density and all types of heat losses
+\end{itemize}
+
+
+\section{License}
+
+The Fuel Cell Simulation Toolbox (OpenFCST) is distributed under the MIT License.
+
+Copyright (C) 2013-16 Energy Systems Design Laboratory, University of Alberta
+
+The MIT License (MIT)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
+and associated documentation files (the "Software"), to deal in the Software without restriction, 
+including without limitation the rights to use, copy, modify, merge, publish, distribute, 
+sublicense, and/or sell copies of the Software, and to permit persons to whom the Software 
+is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all 
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
+PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE 
+FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+%%===============================================================
+%%===============================================================

@@ -1,0 +1,97 @@
+######################################################################
+#
+# Default catalyst layer with EG, 5L, parallel channels.
+#
+# Thickness = 1.9 um
+#
+# Note: MaterialID set to 6
+#
+######################################################################
+#subsection Fuel cell data
+##############################################################
+#subsection Anode catalyst layer                    
+    set Material id                                                      = 3
+    set Catalyst type                                                    = Platinum
+    set Catalyst support type                                            = CarbonBlack
+    set Electrolyte type                                                 = Nafion
+    set Kinetics type                                                    = DualPathKinetics
+    ####
+    ###############################################    
+  subsection Generic data
+    set Porosity = 1e20
+    set Use Bosanquet approx. = true
+    set Knudsen pore radius [um] = 40e-3 
+    set PSD is used in porous media = false
+  end   
+
+  ###############################################   
+  subsection Materials
+      subsection Platinum
+        set Reference hydrogen concentration (HOR)            = 0.59e-6              # Required for Dual Path Kinetics, rest parameters automatically calculated
+      end    
+      subsection CarbonBlack
+        set Density [g/cm^3]                                  = 1.25                 # GM data
+      end
+      subsection Nafion
+        set Henry's Law Constant for Hydrogen [Pa cm^3/mol]    = 6.69e10
+        set Method to compute proton conductivity              = Iden11
+        set Method to compute water diffusion                  = Motupally
+        set Electro-osmotic drag method                        = Constant
+        set Electro-osmotic drag coefficient                   = 1.0
+        set Method for sorption isotherm                       = Liu09
+        set Method to compute enthalpy of sorption of water    = Constant
+        set Enthalpy of sorption of water [J/mol]              = 45000.0
+      end
+    end
+    ####
+    set Catalyst layer type                                              = MultiScaleCL
+    
+    subsection ConventionalCL
+      set Platinum loading on support (%wt)                              = 3:0.50
+      set Platinum loading per unit volume (mg/cm3)                      = 3:321.7503217503
+      set Electrolyte loading (%wt)                                      = 3:0.4230769231
+      set Method to compute active area                                  = given
+      set Active area [cm^2/cm^3]                                        = 3:56557         # <- Need this value
+      
+      set Method effective transport properties in pores                 = Percolation
+      set Porosity threshold                                             = 0.25884
+      set Porosity network constant                                      = 2.0
+      set Porosity gamma network constant                                = 0.0
+      
+      set Method effective transport properties in solid phase           = Percolation
+      set Solid network threshold                                        = 0.118
+      set Solid network constant                                         = 2.0
+      
+      set Method effective transport properties in electrolyte phase     = Iden11
+      set Electrolyte network threshold                                  = 0.0                   # Not used in "Iden11" Method
+      set Electrolyte network constant                                   = 2.0                   # Not used in "Iden11" Method 
+      
+      set Method effective thermal conductivity                          = Given
+      set Thermal conductivity, [W/(cm K)]                               = 3:0.0027         # <- Need this value
+      
+      set Method relative liquid permeability                            = Kumbur07
+      set Irreducible liquid water saturation                            = 3:0.0
+      set Absolute permeability [cm^2]                                   = 3:1.5e-9
+      
+      set Method capillary pressure - saturation function                = Ye07
+    end
+
+    subsection MultiScaleCL
+    
+      subsection MicroScale      
+      
+        set Microscale type = ICCP        
+        
+        subsection ICCP
+          set Radius [nm] = 50
+          set Non Equilibrium BC Rate constant = 0.1
+          set Use non equilibrium BC = true
+        end
+        
+      end
+    end 
+#  end
+  ##############################################################
+#end
+######################################################################
+######################################################################

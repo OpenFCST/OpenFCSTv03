@@ -1,0 +1,188 @@
+######################################################################
+#
+#  This file is used to simulate an cathode and to obtain
+#  a single point on a polarisation curve. It is based on 
+#  the test case and will be called by the 
+#  main_app_cathode_analysis.prm file. 
+#
+#   Copyright (C) 2011-13 by Marc Secanell
+#
+######################################################################
+
+######################################################################
+subsection Grid generation
+  set Type of mesh = CathodeMPL
+  set Initial refinement = 2
+  ####  
+  subsection Internal mesh generator parameters
+    ####
+    subsection Dimensions
+       set Cathode current collector width [cm] = 0.1
+       set Cathode channel width [cm] = 0.1
+       set Cathode CL thickness [cm] =  1.0e-3
+       set Cathode MPL thickness [cm] =  0
+       set Cathode GDL thickness [cm] = 0.01
+    end
+    ####
+    subsection Material ID
+       set Cathode GDL = 2
+       set Cathode CL = 4
+    end
+    ####
+    subsection Boundary ID
+     set c_CL/Membrane = 1
+     set c_BPP/GDL = 2
+     set c_Ch/GDL = 3
+     set c_GDL/CL = 255
+    end
+    ####
+  end
+  ####
+end
+######################################################################
+
+######################################################################
+subsection Initial Solution
+  set Read in initial solution from file = false
+  set Output initial solution = false
+  set Output solution for transfer = false
+end
+######################################################################
+
+######################################################################
+subsection Adaptive refinement
+  set Number of Refinements = 4
+  set Refinement         = adaptive  #global | adaptive 
+  set Output initial mesh = false
+  set Output final solution = false
+end
+######################################################################
+
+######################################################################
+subsection Newton
+  set Max steps          = 100
+  set Tolerance          = 1.e-8
+end
+######################################################################
+
+######################################################################
+subsection System management
+ set Number of solution variables = 3
+ subsection Solution variables
+  set Solution variable 1 = oxygen_molar_fraction
+  set Solution variable 3 = electronic_electrical_potential
+  set Solution variable 2 = protonic_electrical_potential
+ end
+ subsection Equations
+  set Equation 1 = Ficks Transport Equation - oxygen
+  set Equation 3 = Electron Transport Equation
+  set Equation 2 = Proton Transport Equation
+ end
+end
+######################################################################
+
+#####################################################################
+subsection Equations
+ subsection Ficks Transport Equation - oxygen
+  subsection Initial data
+   set oxygen_molar_fraction = 2: 1.0, 4: 1.0
+  end
+  subsection Boundary data
+   set oxygen_molar_fraction = 3: 1.0
+  end
+ end
+ subsection Electron Transport Equation
+  subsection Initial data
+   set electronic_electrical_potential = 2: 0.7, 4: 0.7
+  end
+  subsection Boundary data
+   set electronic_electrical_potential = 2: 0.7 # V
+  end
+ end
+ subsection Proton Transport Equation
+  subsection Initial data
+   set protonic_electrical_potential = 2: 0.0, 4: 0.0
+  end
+  subsection Boundary data
+   set protonic_electrical_potential = 1: 0.0 # V
+  end
+ end
+end
+#####################################################################
+
+######################################################################
+subsection Discretization
+  set Element = FESystem[FE_Q(1)^3] #FESystem[FE_Q(3)-FE_Q(1)^2] #FESystem[FE_Q(1)^3] #System of three fem
+end
+######################################################################
+
+######################################################################
+subsection Fuel cell data  
+  ####
+  subsection Operating conditions
+     set Adjust initial solution and boundary conditions = true
+     set Temperature cell [K] = 353
+     set Cathode pressure [Pa] = 101265 # (1 atm)
+     set Cathode relative humidity = 0.6
+     set Voltage cell [V] = 0.7 #828 ## Convergence up to 0.66V
+  end
+  #### 
+  ####
+  subsection Gas diffusion layer
+    set Material id = 2 
+    set Gas diffusion layer type = DummyGDL #[ DesignFibrousGDL | DummyGDL | SGL24BA ]    
+    ####
+    subsection DummyGDL
+        set Oxygen diffusion coefficient, [cm^2/s] = 0.22
+        set Electrical conductivity, [S/cm] = 40
+    end
+    ####   
+  end  
+  ####
+   subsection Catalyst layer  
+    set Material id = 4
+    set Catalyst layer type = DummyCL   #[ DummyCL | AgglomerateCL | HomogeneousCL ]
+    set Kinetics type = TafelKinetics
+    set Catalyst type = Platinum
+    set Catalyst support type = CarbonBlack
+    set Electrolyte type = Nafion    
+    ##
+    subsection Materials      
+      subsection Platinum
+        set Method for kinetics parameters (ORR) = Parthasarathy
+      end  
+    end
+    ##
+    subsection DummyCL
+      set Oxygen diffusion coefficient, [cm^2/s] = 4:0.0108934499 
+      set Electrical conductivity, [S/cm] = 4:12.00845293 
+      set Protonic conductivity, [S/cm] = 4:0.00910831814 
+      set Active area [cm^2/cm^3] = 4:341183.43125 
+    end 
+    ##
+  end
+end
+######################################################################
+
+######################################################################
+subsection Output Variables
+  set num_output_vars = 1
+  set Output_var_0 = current
+  set Output_var_1 =t_m_Pt
+end
+######################################################################
+
+######################################################################
+subsection Output
+  subsection Data
+    set Output format = vtu #tecplot
+  end
+  subsection Grid
+    set Format = eps
+  end
+end
+######################################################################
+
+######################################################################
+######################################################################
+

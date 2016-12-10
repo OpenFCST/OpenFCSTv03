@@ -1,0 +1,14 @@
+# Create the runtime environment for FCST
+# source fcst_env.sh
+
+export FCST_DIR=@CMAKE_INSTALL_PREFIX@
+export SALOME_DIR=/opt/salome_6.5.0
+export PYTHONPATH=$PYTHONPATH:${FCST_DIR}/python
+export PATH=$PATH:${FCST_DIR}/bin
+export PATH=$PATH:${FCST_DIR}/python/bin
+export QT_API=pyqt
+
+alias fcst2D=${FCST_DIR}/bin/fuel_cell-2d.bin
+alias fcst3D=${FCST_DIR}/bin/fuel_cell-3d.bin
+
+alias fcstCleanUp="rm *.vtu *.dat *.log"

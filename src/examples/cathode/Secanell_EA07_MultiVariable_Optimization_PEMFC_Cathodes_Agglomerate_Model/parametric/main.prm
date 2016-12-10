@@ -1,0 +1,35 @@
+######################################################################
+#   $Id: sample_main_param_file.prm  2011-02-09 secanell $
+#
+#  This file is used to simulate an cathode and to obtain
+#  a single point on a polarisation curve. Use this file 
+#  if you wish to perform a single analysis simulation. 
+#
+#
+#   Copyright (C) 2011 by Marc Secanell
+#
+######################################################################
+
+include ../template/main.prm
+
+######################################################################
+#
+# The following parameters are modified in order to obtain a polarization
+# curve with respect to the template file
+#
+######################################################################
+subsection Simulator
+
+  set Analysis type = PolarizationCurve
+  
+  ################################################
+  subsection Polarization Curve
+    set Initial voltage [V] = 0.94
+    set Final voltage [V] = 0.19
+    set Increment [V] = 0.074
+    set Min. Increment [V] = 0.01
+  end  
+  ################################################
+  
+end
+######################################################################

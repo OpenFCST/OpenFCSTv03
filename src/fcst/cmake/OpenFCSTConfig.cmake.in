@@ -1,0 +1,172 @@
+## ---------------------------------------------------------------------
+## $Id: Config.cmake.in 32019 2013-12-15 16:37:29Z maier $
+##
+## Copyright (C) 2012 - 2013 by the deal.II authors
+##
+## This file is part of the deal.II library.
+##
+## The deal.II library is free software; you can use it, redistribute
+## it, and/or modify it under the terms of the GNU Lesser General
+## Public License as published by the Free Software Foundation; either
+## version 2.1 of the License, or (at your option) any later version.
+## The full text of the license can be found in the file LICENSE at
+## the top level of the deal.II distribution.
+##
+## ---------------------------------------------------------------------
+
+####################### 
+# 
+# OpenFCST Config File
+#
+# NOTE: As can be seen by the Copyright above this configure file was
+#       adapted to meet OpenFCST needs from the deal.ii configure file
+#       template.
+#
+# This script is a template for a CMake config file
+# that will help users that write other programs requiring
+# our software.
+#
+#######################
+
+# The following variables are defined:
+#  OPENFCST_DIR         - path to OpenFCST Install folder
+#  OPENFCST_INCLUDE_DIRS - include directories for OpenFCST
+#  OPENFCST_LIBRARY_DIR - include directories for OpenFCST
+#  OPENFCST_LIBRARIES    - libraries to link against
+#  OPENFCST_EXECUTABLE_DIR - path to OpenFCST executables
+#  OPENFCST_2D        - set to ON if OpenFCST is built for 2D simulations
+#  OPENFCST_3D        - set to ON if OpenFCST is built for 3D simulations
+#  OPENFCST_MAJOR_VERSION   - if version is X.Y returns X
+#  OPENFCST_MINOR_VERSION   - if version is X.Y return Y
+#  OPENFCST_VERSION         - if version is X.Y return X.Y
+
+#-----------------------
+#
+# General information
+# 
+#----------------------
+
+SET(OPENFCST_MAJOR_VERSION "@OPENFCST_MAJOR_VERSION@")
+SET(OPENFCST_MINOR_VERSION "@OPENFCST_MINOR_VERSION@")
+SET(OPENFCST_VERSION "@OPENFCST_VERSION@")
+
+SET(OPENFCST_BUILD_TYPE "@CMAKE_BUILD_TYPE@")
+SET(OPENFCST_BUILD_TYPES "Debug;Release")
+
+#-----------------------
+#
+# Information about the project location
+# 
+#----------------------
+
+SET(OPENFCST_DIR "@OPENFCST_INSTALL_CONFIG@")
+SET(OPENFCST_EXECUTABLE_DIR "@OPENFCST_INSTALL_CONFIG@/bin")
+SET(OPENFCST_CONTRIB_DIR "@OPENFCST_INSTALL_CONFIG@/contrib")
+SET(OPENFCST_DATA_DIR "@OPENFCST_INSTALL_CONFIG@/data")
+SET(OPENFCST_DATABASES_DIR "@OPENFCST_INSTALL_CONFIG@/databases")
+SET(OPENFCST_TEST_DIR "@OPENFCST_INSTALL_CONFIG@/test")
+set(OPENFCST_INCLUDE_DIRS "@CMAKE_INSTALL_PREFIX@/include; @CMAKE_INSTALL_PREFIX@/include/applications; @CMAKE_INSTALL_PREFIX@/include/contribs; @CMAKE_INSTALL_PREFIX@/include/equations; @CMAKE_INSTALL_PREFIX@/include/grid; @CMAKE_INSTALL_PREFIX@/include/layers; @CMAKE_INSTALL_PREFIX@/include/materials; @CMAKE_INSTALL_PREFIX@/include/microscale; @CMAKE_INSTALL_PREFIX@/include/postprocessing; @CMAKE_INSTALL_PREFIX@/include/reactions; @CMAKE_INSTALL_PREFIX@/include/solvers; @CMAKE_INSTALL_PREFIX@/include/utils; @CMAKE_INSTALL_PREFIX@/unit_tests")
+
+SET(OPENFCST_LIBRARY "@OPENFCST_LIBRARY@" TYPE BOOL)
+SET(OPENFCST_DIMENSIONS "@OPENFCST_DIMENSIONS_CONFIG@")
+IF(OPENFCST_LIBRARY)
+  SET(OPENFCST_LIBRARY_DIR "@CMAKE_INSTALL_PREFIX@/lib")
+  IF(OPENFCST_DIMENSIONS STREQUAL "1")
+    SET(OPENFCST_LIBRARIES "@CMAKE_INSTALL_PREFIX@/lib/fuel_cell-2d.so; @CMAKE_INSTALL_PREFIX@/lib/fuel_cell-3d.so") #Will need to change if we ever allow static libraries
+  ELSEIF(OPENFCST_DIMENSIONS STREQUAL "2")
+    SET(OPENFCST_LIBRARIES "@CMAKE_INSTALL_PREFIX@/lib/fuel_cell-2d.so") #Will need to change if we ever allow static libraries
+  ELSE() #If it's not 1 or 2 must only be 3
+    SET(OPENFCST_LIBRARIES "@CMAKE_INSTALL_PREFIX@/lib/fuel_cell-3d.so") #Will need to change if we ever allow static libraries
+  ENDIF()
+ELSE()
+  SET(OPENFCST_LIBRARY_DIR "OPENFCST_LIBRARY_DIR-NOTFOUND")
+  SET(OPENFCST_LIBRARIES "OPENFCST_LIBRARIES-NOTFOUND")
+ENDIF()
+
+IF(OPENFCST_DIMENSIONS STREQUAL "1")
+  SET(OPENFCST_2D "ON" TYPE BOOL)
+  SET(OPENFCST_3D "ON" TYPE BOOL)
+ELSEIF(OPENFCST_DIMENSIONS STREQUAL "2")
+  SET(OPENFCST_2D "ON" TYPE BOOL)
+  SET(OPENFCST_3D "OFF" TYPE BOOL)
+ELSE() #If it's not 1 or 2 must only be 3
+  SET(OPENFCST_2D "OFF" TYPE BOOL)
+  SET(OPENFCST_3D "ON" TYPE BOOL)
+ENDIF()
+
+#-----------------------
+#
+# Compiler and linker configuration
+# 
+#----------------------
+
+SET(OPENFCST_CXX_COMPILER "@CMAKE_CXX_COMPILER@")
+SET(OPENFCST_C_COMPILER "@CMAKE_C_COMPILER@")
+SET(OPENFCST_Fortran_COMPILER "@CMAKE_Fortran_COMPILER@")
+
+# used for all targets:
+SET(OPENFCST_CXX_FLAGS "-DGLIBCXX_DEBUG -D_GLIBCXX_USE_NANOSLEEP @CMAKE_CXX_FLAGS@ @DEAL_II_CXX_FLAGS@")
+
+# _additionally_ used for debug targets:
+SET(OPENFCST_CXX_FLAGS_DEBUG "-O @CMAKE_CXX_FLAGS_DEBUG@ @DEAL_II_CXX_FLAGS_DEBUG@")
+
+# _additionally_ used for release targets:
+SET(OPENFCST_CXX_FLAGS_RELEASE "@CMAKE_CXX_FLAGS_RELEASE@ @DEAL_II_CXX_FLAGS_RELEASE@")
+
+# used for all targets:
+SET(OPENFCST_LINKER_FLAGS "@DEAL_II_LINKER_FLAGS@")
+
+# _additionally_ used for debug targets:
+SET(OPENFCST_LINKER_FLAGS_DEBUG "@CMAKE_LINKER_FLAGS_DEBUG@ @DEAL_II_LINKER_FLAGS_DEBUG@")
+
+# _additionally_ used for release targets:
+SET(OPENFCST_LINKER_FLAGS_RELEASE "@CMAKE_LINKER_FLAGS_RELEASE@ @DEAL_II_LINKER_FLAGS_RELEASE@")
+
+#-----------------------
+#
+# Feature configuration
+# 
+#----------------------
+
+SET(OPENFCST_WITH_BOOST ON)   #Requirement so might as well not bother giving option to be OFF
+SET(OPENFCST_WITH_MPI ON)     #Requirement so might as well not bother giving option to be OFF
+SET(OPENFCST_WITH_CXX11 ON)   #Requirement so might as well not bother giving option to be OFF
+SET(OPENFCST_WITH_LAPACK ON)  #Requirement so might as well not bother giving option to be OFF
+SET(OPENFCST_WITH_MPI ON)     #Requirement so might as well not bother giving option to be OFF
+SET(OPENFCST_WITH_UMFPACK ON) #Requirement so might as well not bother giving option to be OFF
+
+SET(OPENFCST_WITH_DAKOTA @OPENFCST_WITH_DAKOTA@)
+SET(OPENFCST_WITH_PETSC @OPENFCST_WITH_PETSC@)
+#SET(OPENFCST_WITH_TRILINOS @OPENFCST_WITH_TRILINOS@)
+
+IF(OPENFCST_WITH_PETSC)
+#IF(OPENFCST_WITH_PETSC OR OPENFCST_WITH_TRILINOS)
+  SET(OPENFCST_WITH_P4EST ON)
+  SET(OPENFCST_WITH_METIS ON)
+ELSE()
+  SET(OPENFCST_WITH_P4EST OFF)
+  SET(OPENFCST_WITH_METIS OFF)
+ENDIF()
+
+#-----------------------
+#
+# Set paths to External packages
+# 
+#----------------------
+IF(OPENFCST_WITH_PETSC)
+#IF(OPENFCST_WITH_PETSC OR OPENFCST_WITH_TRILINOS)
+  SET(OPENFCST_P4EST_DIR "@P4EST_DIR@")
+  SET(OPENFCST_METIS_DIR "@METIS_DIR@")
+ENDIF()
+
+IF(OPENFCST_WITH_PETSC)
+  SET(OPENFCST_PETSC_DIR "@PETSC_DIR@")
+ENDIF()
+
+#IF(OPENFCST_WITH_TRILINOS)
+#  SET(OPENFCST_TRILINOS_DIR "@TRILINOS_DIR@")
+#ENDIF()
+
+IF(OPENFCST_WITH_DAKOTA)
+  SET(OPENFCST_DAKOTA_DIR "@DAKOTA_DIR@")
+ENDIF()

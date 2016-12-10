@@ -1,0 +1,83 @@
+%%===============================================================
+%%===============================================================
+%%===============================================================
+%%===============================================================
+\section{Appendix}
+%%===============================================================
+%%===============================================================
+%%===============================================================
+%%===============================================================
+
+\subsection{Example test script}
+\begin{changemargin}{-1.5cm}{-1cm} 
+\begin{lstlisting}
+#!/bin/bash
+
+########################################################################################
+# This file will run the app_cathode test that is contained in the data/cathode/testing 
+# folder. The script is run by ctest, keep in mind that the results that would normally 
+# be printed to screen will be suppressed by ctest and printed to its own file. 
+
+# The script will (by line number): 
+# (1) first navigate to the folder where the test is
+# (2) will run the code with the correct data files. 
+# (3) The result from the simulation is queried to see if it ran without error by 
+#     checking ${PIPESTATUS[0]}. A zero means the test ran without error.
+# (4) If a non-zero result is returned by the simulation, the code will print out a 
+#     message saying that there was an error. As this will also be suppressed by the 
+#     code, the message is also printed to the tests_summary.log file. The first line 
+#     containing a 'tee' command will create the file, subsequent calls will append 
+#     their output to the end of the file, so as not to overwrite it. 
+# (5) Before exiting, the test_summary.log file is copied to the fcst main folder 
+#     where it will be opened by the run_tests script.
+# (6) If the simulation ran correctly, then the results from the simulation are 
+#     compared to expected results. Both sets of results are stored in a texts files, 
+#     appended with .dat. The test_comparison script is a python file that will read in 
+#     the two files and compare them. If they are not within a reasonable agreement the 
+#     python script will return a non-zero (7) and an error is printed. If they are in 
+#     reasonable agreement, a zero is returned indicated that all is well and a message 
+#     is printed. Again the message is captured by ctest, so it is also appended to the 
+#     tests_summary.log file. 
+########################################################################################
+(1)cd ../data/cathode/testing
+(2)../../../lib/fuel_cell-2d.bin main_app_cathode_test.prm
+(3)if [ "${PIPESTATUS[0]}" != "0" ]; then
+(4) echo  2>&1 | tee tests_summary.log
+    echo  "Results summary from app_cathode test:" 2>&1 | tee --append tests_summary.log
+    echo  2>&1 | tee --append tests_summary.log
+    echo "-------------------------------------" 2>&1 | tee --append tests_summary.log
+    echo "The simulation did not run correctly. " 2>&1 | tee tests_summary.log
+    echo  Please review the tests_output.log file"  2>&1 | tee tests_summary.log
+    echo "-------------------------------------" 2>&1 | tee --append tests_summary.log
+(4) echo  2>&1 | tee --append tests_summary.log
+(5) cp tests_summary.log ../../../tests_summary.log 
+    exit 2
+   else
+(6) ../../../test/test_comparison.py dakota_tabular.dat test_results.dat
+    if [ "${PIPESTATUS[0]}" != "0" ]; then
+     echo  2>&1 | tee tests_summary.log
+     echo "Results summary from app_cathode test:" 2>&1 | tee --append tests_summary.log
+     echo 2>&1 | tee --append tests_summary.log
+     echo "-------------------------------------" 2>&1 | tee --append tests_summary.log
+     echo "Results from the test do not match " 2>&1 | tee --append tests_summary.log
+     echo "expected results" 2>&1 | tee --append tests_summary.log
+     echo "Please check results in dakota_tabular.dat "2>&1 | tee --append tests_summary.log
+     echo "against that of test_results.dat" 2>&1 | tee --append tests_summary.log
+     echo "-------------------------------------" 2>&1 | tee --append tests_summary.log
+     echo 2>&1 | tee --append tests_summary.log
+     cp tests_summary.log ../../../tests_summary.log 
+(7)  exit 2
+    else 
+     echo  2>&1 | tee tests_summary.log
+     echo  "Results summary from app_cathode test:" 2>&1 | tee --append tests_summary.log
+     echo 2>&1 | tee --append tests_summary.log
+     echo "--------------------------------------------" 2>&1 | tee --append tests_summary.log
+     echo "Results from the test match expected results" 2>&1 | tee --append tests_summary.log
+     echo  "--------------------------------------------" 2>&1 | tee --append tests_summary.log
+     echo 2>&1 | tee --append tests_summary.log
+     cp tests_summary.log ../../../tests_summary.log 
+     exit 0
+    fi
+ fi 
+\end{lstlisting}
+\end{changemargin}

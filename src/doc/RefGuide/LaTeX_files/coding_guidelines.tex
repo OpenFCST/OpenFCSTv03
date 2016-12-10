@@ -1,0 +1,284 @@
+%%===============================================================
+%%===============================================================
+\chapter{Coding Guidelines}
+%%===============================================================
+%%===============================================================
+
+The purpose of this chapter is to specify coding guidelines for developers of OpenFCST in order to improve code understanding, reliability and readability.
+
+It is intended that this document will collaboratively cover topics of naming, syntax, documentation, and development.
+
+%%===============================================================
+\section{Class and Member Naming Conventions}
+%%===============================================================
+
+Naming conventions are defined in this section. Consistent naming is important as it improves code understanding and readability. Distinct naming styles help us understand whether a name pertains to a type, function, or variable. It is important that all names communicate without ambiguity of the meaning and/or purpose of the object they represent. The following convention is used in OpenFCST.
+  
+\textbf{Class naming:} Class names and Types should be written in camel-case with their first letter capitalized. Class names should consist of un-abbreviated nouns. For example:
+\begin{lstlisting}
+class ClassName; //Good
+
+class my_class;  //Not good
+\end{lstlisting}
+
+\textbf{Function naming definition:} Function names should be written with words separated by an underscore. Function names should contain verbs that describe their actions without ambiguity. If a class contains two functions with similar names but different purposes then at least one of the functions should be renamed. Example:
+
+\begin{lstlisting}
+compute_I(double a); 		 // Good
+
+generateInverse(double numToInvert): //Not Good
+\end{lstlisting}
+
+\textbf{Variable naming definition:} Use of simple variable names like \emph{i} or \emph{count} should be avoided for all cases except for loop counters. The variable name should reflect the content stored in the variable. Variable names should follow either camel-case style with the first letter being lower case or with words separated by an underscore, e.g.,
+
+\begin{lstlisting}
+anodeKinetics	//Good
+int num		//Not Good
+\end{lstlisting}
+  
+\textbf{Constant naming definition:} Constants should be written as capital letters and the name should reflect the meaning of the constant. Also, avoid using a single letter, e.g. write $GAS\_CONSTANT$ instead of R. 
+\begin{lstlisting}
+SPEED_OF_LIGHT	//Good
+c               //Not Good
+\end{lstlisting}
+OpenFCST contains a file with many constants already available named \texttt{fcst\_constants.h}. If you need additional constants, please define them there so that we can all use them.
+
+\textbf{A Word on Commenting:} Comments can be useful tips that will help us to understand code, but should not be used primarily to help us understand complicated code. Well written code with
+correct object and function naming should be self explanatory without the need for excess comments.
+
+%%===============================================================
+\section{File headers}
+%%===============================================================
+Each file in OpenFCST should start with the following header:
+
+\begin{lstlisting}
+// ----------------------------------------------------------------------------
+//
+// FCST: Fuel Cell Simulation Toolbox
+//
+// Copyright (C) insert_date by author_name
+//
+// This software is distributed under the MIT License
+// For more information, see the README file in /doc/LICENSE
+//
+// - Class: insert_class_name
+// - Description: insert_one_sentence_description
+// - Developers: insert_author_name
+//               
+// ----------------------------------------------------------------------------
+\end{lstlisting}
+
+%%===============================================================
+\section{Developing documentation using Doxygen}
+%%===============================================================
+
+OpenFCST uses Doxygen to automatically generate the documentation for namespaces, classes, and data members. Doxygen uses comments which accompany class, function and variable definitions in the header file to produce the class documentation for OpenFCST. Doxygen allows us to develop styled, easily readable documentation with minimal developer effort. The following are doc string templates that should be implemented by OpenFCST developers when creating new classes, functions, variables, and namespaces.
+
+%%============
+\subsection{Documenting classes}
+
+The structure for the documentation for each class in a \texttt{.h} file is found below. A template file is located in \texttt{src/fcst/include/utils/documentation.template}. Documentation for a class should contain the following main sections:
+\begin{itemize}
+ \item @brief: 
+ \item Introduction parameter
+ \item Theory
+ \item Input parameter
+ \item Usage
+ \item References
+\end{itemize}
+
+The documentation is placed prior to the class declaration, i.e., prior to \texttt{class TemplateClass} in the example above. The documentation must be placed in a section between a symbol \texttt{/**} and a symbol \texttt{*/} following the Doxygen input syntax, i.e., 
+\begin{lstlisting}
+/**
+  *
+ */
+\end{lstlisting}
+For more information on Doxygen formatting tips visit the \htmladdnormallink{Doxygen site}{http://www.stack.nl/~dimitri/Doxygen/manual/docblocks.html}. 
+
+An example template class documentation is shown below:
+\begin{lstlisting}
+namespace FuelCell
+{
+    /**
+     * 
+     * @ brief SHORT DESCRIPTION OF THE CLASS
+     * 
+     * MORE DETAILED DESCRIPTION OF THE CLASS
+     * 
+     * Explain here the purpose of the class and its main use.
+     * 
+     * If the class is a child of another base class, explain 
+     * which member functions are redeclared
+     * and the extensions to the parent class
+     * 
+     * <h3> Theory </h3>
+     * DETAILED EXPLANATION FOR THE THEORY BEHIND THE CLASS. FOR EQUATIONS DESCRIBE
+     * HERE THE PDE THAT YOU ARE SOLVING.
+     * 
+     * <h3> Input parameters </h3>
+     * LIST OF INPUT PARAMETERS FOR THE CLASS. 
+     * @code
+     * subsection FuelCell
+     *   subsection EXAMPLE
+     *     set PARAM1 = DEFAULT VALUE # EXPLANATION
+     *     set PARAM2 = DEFAULT VALUE # EXPLANATION (IF SEVERAL OPTIONS, ADD HERE)
+     *   end
+     * end
+     * @endcode
+     * 
+     * <h3> Usage details</h3>
+     * Here please enter the usage details on how the class 
+     * should be used. Including the following
+     * - Does it need to read data from file?
+     * - Are there any member functions that are required to initialize the class? In which order should
+     * they be called
+     * - Include a piece of code showing how the class would be used 
+     * (see example below from FuelCellShop::Material::IdealGas
+     * 
+     * @code
+     * //Create an object of TemplateClass
+     * FuelCellShop::TemplateClass example; 
+     * // Set necessary variables
+     * marc = 358;
+     * example.set_variable(marc);
+     * // You can now request info from your class.
+     * double marc = example.get_variable();
+     * //Print to screen all properties
+     * example.print_data();
+     * @endcode 
+     * 
+     * <h3> References </h3>
+     *
+     * [1] articles
+     *
+     * @author YOUR NAME HERE
+     *
+     * @date 2013
+     *
+     */
+    //Name class as per coding conventions
+    class TemplateClass
+    {
+    public:
+        /** Constructor */
+        TemplateClass()
+        {}
+        
+        /** Destructor */
+        ~TemplateClass()
+        {}
+        
+        /** Explanation of what the function does. Use get_***() 
+        * functios whenever you want to
+        * retrive information from the class instead of acessing the data directly */
+        double get_variable()
+        {variable};
+        
+        /** Develop a routine that prints the data stored in the class out. This class
+         * is extremely useful for debugging.
+         * Make sure you output to the variable deallog otherwise your output will not
+         * be stored in the .log file.
+         */
+        void print_data()
+        {
+            deallog<<"Output data: "<<variable<<std::endl;	
+        }			
+        
+    private:
+        /** Explanation of what the variable means. Units of the variable if it is a physical quantity
+         *  For example:
+         * This variable stores the inlet temperature of the gas. Units are in Kelvin.
+         */
+        double variable;
+    }; //class
+} //namespacie
+
+#endif
+\end{lstlisting}
+
+%%============
+\subsection{Documenting member functions} 
+
+Before each member function definition in every class, the following doc string should be implemented:
+  
+\begin{lstlisting}
+/**
+  *Description : A brief description of the purpose 
+  *
+  *Use cases	 : A list of intended uses
+  *
+  *Access rules: Public/Private/Protect
+  *
+  *Inputs	 : Variable descriptions and Types
+  *
+  *Outputs	 : Description of output
+  *
+  *Notes	 : Other important information
+  *
+*/
+\end{lstlisting}
+  
+%%============
+\subsection{Documenting variables} 
+
+Before each data member definition, the following doc string should be implemented:  
+\begin{lstlisting}
+/**
+  *Description : A brief description of the purpose, units (if applicable) 
+  *
+  *Use cases	 : A list of intended uses
+  *
+  *Access rules: Public/Private/Protect
+  *
+  *Notes	 : Other important information
+  *
+*/
+\end{lstlisting}
+  
+%%============
+\subsection{Documenting namespaces}
+
+All namespace information is found on the file \texttt{namespaces.h} which is used only for documentation. In general, we have two namespaces:
+
+\begin{itemize}
+ \item FuelCell: This namespace is used for Applications and supporting routines;
+ \item FuelCellShop: This namespace is used for Equations, Layers, and Materials.
+\end{itemize}
+
+%%============
+\subsection{TODO list in HTML documentation}
+ If you would like to include new tasks to the TODO list, you can include them in the *.h file where the task needs to be done. Doxygen will move all TODO tasks to a page in the HTML documentation. The Doxygen documentation has been setup to contain three TODO subcategories in order of priority. To include a TODO task, go to the *.h file and type the following:
+\begin{lstlisting}
+\todo1 Task to do -- Top priority
+\todo2 Task to do -- Medium priority
+\todo3 Task to do -- Low priority
+\end{lstlisting}
+
+%%============
+\subsection{Linking to other functions}
+
+While referencing to a particular method used while explaining a function, it can be linked to the application by using \# before the method name. If the method belongs to the same class, then this would suffice. Else, we can use the full namespace definition of the function in the documentation. Doxygen will automatically link the function to its documentation. Same thing can be done for the data members.
+
+For example:
+\begin{lstlisting}
+/** This structure has two constructors. Default constructor doesn't set any value. It also sets the 
+ *   boolean member #initialized to \p \b false. This can be checked by using #is_initialized member function and(...)
+ */
+\end{lstlisting}
+
+%%===============================================================
+\section{Assertions and exception handling}
+%%===============================================================
+
+OpenFCST includes many assertions in order to check if member function are receiving the expected data. Please make sure that all your member functions check that the data you are expecting is received by the class. OpenFCST uses two types of assertions:
+\begin{itemize}
+ \item Assert: Checks that the desired information is provided. This assertion will only work in debug mode. This means that when running in optimized mode this check will not take place. However, this also means that the code performance will not be impacted once you run in optimized mode, i.e. the default compilation method. If you are coding, always work on debug mode. If you are developing routines, always work on optimized mode.
+ \item AssertThrow: Some assertions check that the parameters in the input file are correct. Such assertions should be active in either debug or optimized mode. For such cases use AssertThrow.
+\end{itemize}
+
+An example of an Assert call is as follows:
+\begin{lstlisting}
+  Assert( solution_vector.size() == residual_vector.size(), 
+          ExcMessage("Solution and residual vectors are not the same size in Class XX, Function YY") );
+\end{lstlisting}
+In this case, if solution and residual are the same size, the code will continue without any problems. If solution and residual are of different size, i.e. if the assertion is FALSE, then it will output the ExcMessage.

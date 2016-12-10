@@ -1,0 +1,123 @@
+// ----------------------------------------------------------------------------
+//
+// FCST: Fuel Cell Simulation Toolbox
+//
+// Copyright (C) 2006-2013 by Energy Systems Design Laboratory, University of Alberta
+//
+// This software is distributed under the MIT License
+// For more information, see the README file in /doc/LICENSE
+//
+// - Class: fevectors_test.cc
+// - Description: Test for events class
+// - Developers: Marc Secanell Gallart,    University of Alberta
+// - $Id: fevectors_test.cc 2498 2014-07-16 22:31:55Z secanell $
+//
+// ----------------------------------------------------------------------------
+
+#include<fevectors_test.h>
+
+namespace NAME = FuelCell::ApplicationCore;
+
+void 
+FuelCell::UnitTest::FEVectorsTest::testScalar(){
+    
+    NAME::FEVectors vector;
+
+    int cycle(4);
+    double cycle_d = (double)cycle;   
+    vector.add_scalar(NAME::FEVectors::ScalarNames::adaptive_cycle, cycle_d);
+
+    double extracted_cycle = vector.scalar(NAME::FEVectors::ScalarNames::adaptive_cycle);    
+    TEST_ASSERT( cycle == (int)extracted_cycle );
+  
+    double time_step(1e-6);
+    vector.add_scalar(NAME::FEVectors::ScalarNames::time_step, time_step);  
+    TEST_ASSERT( time_step ==  vector.scalar(NAME::FEVectors::ScalarNames::time_step));
+    
+    TEST_ASSERT( vector.n_scalars() == 2);   
+    
+    vector.erase_scalar(NAME::FEVectors::ScalarNames::adaptive_cycle);
+    TEST_THROWS_ANYTHING(vector.scalar(NAME::FEVectors::ScalarNames::adaptive_cycle));
+    
+    vector.clear_scalars();
+    TEST_ASSERT( vector.n_scalars() == 0);
+
+}
+
+//=======================================
+//=======================================
+void 
+FuelCell::UnitTest::FEVectorsTest::testVector(){
+
+    NAME::FEVector vector(2,2);
+    double value(1.2);
+    vector = value;
+    
+    NAME::FEVectors fevectors;
+    fevectors.add_vector(NAME::FEVectors::FEVectorNames::netwon_iterate, vector);
+    
+    TEST_ASSERT( vector.block(0)(0) == value);
+    TEST_ASSERT( vector.block(0)(0) == (fevectors.vector(NAME::FEVectors::FEVectorNames::netwon_iterate)).block(0)(0) );
+    
+    NAME::FEVector vector2(3,2);
+    double value2(3.2);
+    vector2 = value2;
+    fevectors.add_vector(NAME::FEVectors::FEVectorNames::netwon_residual, vector2);
+    TEST_ASSERT( vector2.block(2)(1) == (fevectors.vector(NAME::FEVectors::FEVectorNames::netwon_residual)).block(2)(1) );
+    TEST_ASSERT( vector2.block(2)(1) != (fevectors.vector(NAME::FEVectors::FEVectorNames::netwon_iterate)).block(0)(1) );  
+    
+    TEST_ASSERT( fevectors.n_vectors() == 2);
+    
+    fevectors.clear_FEVectors();   
+    TEST_ASSERT( fevectors.n_vectors() == 0);
+
+}
+
+//=======================================
+//=======================================
+void 
+FuelCell::UnitTest::FEVectorsTest::testMerge(){
+
+    NAME::FEVectors fevectors;
+    
+    int cycle(4);
+    double cycle_d = (double)cycle;   
+    fevectors.add_scalar(NAME::FEVectors::ScalarNames::adaptive_cycle, cycle_d);
+    NAME::FEVector vector(2,2);
+    double value(1.2);
+    vector = value;
+    fevectors.add_vector(NAME::FEVectors::FEVectorNames::netwon_iterate, vector);  
+    
+    NAME::FEVectors fevectors2;
+    fevectors2.merge(fevectors);
+    
+    double time_step(1e-6);
+    fevectors2.add_scalar(NAME::FEVectors::ScalarNames::time_step, time_step);  
+   
+    TEST_ASSERT( fevectors2.n_scalars() == 2);
+    TEST_ASSERT( fevectors2.n_vectors() == 1);
+    
+    //fevectors.list(FcstUtilities::log);
+    //fevectors2.list(FcstUtilities::log);  
+
+}
+//=======================================
+//=======================================
+void 
+FuelCell::UnitTest::FEVectorsTest::testOutput(){
+
+    NAME::FEVectors fevectors;
+    
+    int cycle(4);
+    double cycle_d = (double)cycle;   
+    fevectors.add_scalar(NAME::FEVectors::ScalarNames::adaptive_cycle, cycle_d);
+    double time_step(1e-6);
+    fevectors.add_scalar(NAME::FEVectors::ScalarNames::time_step, time_step);  
+   
+    NAME::FEVector vector(2,2);
+    double value(1.2);
+    vector = value;
+    fevectors.add_vector(NAME::FEVectors::FEVectorNames::netwon_iterate, vector);
+    //fevectors.list(FcstUtilities::log);   
+
+}

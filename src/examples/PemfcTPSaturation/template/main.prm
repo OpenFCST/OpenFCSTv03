@@ -1,0 +1,42 @@
+######################################################################
+#
+#  This file is used to simulate a NonIsothermal two phase saturation MEA model
+#  using a macro-homogeneous catalyst layer structure
+#
+#
+#   Copyright (C) 2015 by Jie Zhou
+#
+######################################################################
+
+#####################################################################
+subsection Simulator
+
+  set simulator name = meaTwoPhaseSaturationNIT
+  set simulator parameter file name = data.prm
+  
+  set nonlinear solver name = NewtonLineSearch
+  
+  set refinement method = AdaptiveRefinement  
+
+  set Analysis type = PolarizationCurve
+
+  ################################################
+  subsection Polarization Curve
+    set Initial voltage [V] = 0.5
+    set Final voltage [V] = 0.35
+    set Increment [V] = 0.1
+    set Min. Increment [V] = 0.01
+  end  
+  ################################################
+
+end
+#####################################################################
+
+#####################################################################
+subsection Logfile
+ set Logfile name = logfile.log
+ set FileDepth    = 100000
+ set ConsoleDepth = 100000
+end
+#####################################################################
+#####################################################################

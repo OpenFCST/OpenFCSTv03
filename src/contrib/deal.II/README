@@ -1,0 +1,217 @@
+deal.II 8.1.1 has been modified by OpenFCST developers.
+
+###############
+Modification #1
+###############
+
+Added  virtual function overloading for compute_derived_quantities_vector() in the DataPostprocessor class:
+
+
+ /**
+   * @author Philip Wardlaw, ESDL
+   * 
+   * compute_derived_quantities_vector() with extra argument to specify material id of cell
+   * 
+   * Virtual wrapper implemented to call previous overloading of compute_derived_quantities_vector()
+   * without material id.
+   * 
+   * Implemented so that DataPostprocessor derivatives in fcst can recieve material ids from
+   * data_out postprocessing loop in DataOut<dim,DH>::build_one_patch()
+   * 
+   */
+  virtual
+  void
+  compute_derived_quantities_vector (const std::vector<Vector<double> >              &uh,
+                                     const std::vector<std::vector<Tensor<1,dim> > > &duh,
+                                     const std::vector<std::vector<Tensor<2,dim> > > &dduh,
+                                     const std::vector<Point<dim> >                  &normals,
+                                     const std::vector<Point<dim> >                  &evaluation_points,
+                                     const types::material_id &mat_id,
+                                     std::vector<Vector<double> >                    &computed_quantities ) const; 
+
+
+
+
+###############
+Modification #2
+###############
+
+Modified data_out.cc at line 195 in 
+
+postprocessor->compute_derived_quantities_vector(data.patch_values_system,
+                                                    data.patch_gradients_system,
+                                                    data.patch_hessians_system,
+                                                    dummy_normals,
+                                                    data.patch_evaluation_points,
+                                                    cell_and_index->first->material_id(), //Modified by Philip Wardlaw, ESDL
+                                                    data.postprocessed_values[dataset] ); 
+
+
+
+In order to maintain backwards compatibility of classes derived from DataPostprocessor which don't implement the new function overloading
+with material_id we implemented the virtual wrapping function in the DataPostprocessor class:
+
+
+###############
+Modification #3
+###############
+
+template <int dim>
+void
+DataPostprocessor<dim>::
+compute_derived_quantities_vector (const std::vector<Vector<double> >              &uh,
+                                     const std::vector<std::vector<Tensor<1,dim> > > &duh,
+                                     const std::vector<std::vector<Tensor<2,dim> > > &dduh,
+                                     const std::vector<Point<dim> >                  &normals,
+                                     const std::vector<Point<dim> >                  &evaluation_points,
+                                      const types::material_id &/*mat_id*/,
+                                     std::vector<Vector<double> >                    &computed_quantities  ) const
+{
+  compute_derived_quantities_vector(uh, duh, dduh, normals, evaluation_points, computed_quantities);
+}
+
+
+###############
+Modification #4
+###############
+
+If you wish to use your own installation for deal.II then a flag needs to be changed that OpenFCST uses else you will receive issue when linking to Dakota. 
+deal.II typically wants to compile with the -Wl,--as-needed LDFLAG, this creates problems when linking to Dakota. So if you require Dakota
+and wish to build your own deal.II then either:
+      
+a) Before installing deal.II in the deal.II src folder replace the following lines in certain files:
+        
+      i) File: deal.II_src_folder/cmake/setup_compiler_flags_gnu.cmake
+         Replace Line 56: ENABLE_IF_LINKS(DEAL_II_LINKER_FLAGS "-Wl,--as-needed")
+         With: ENABLE_IF_LINKS(DEAL_II_LINKER_FLAGS "")
+
+      ii) File: deal.II_src_folder/cmake/setup_compiler_flags_intel.cmake
+          Replace Line 47: ENABLE_IF_LINKS(DEAL_II_LINKER_FLAGS "-Wl,--as-needed")
+          With: ENABLE_IF_LINKS(DEAL_II_LINKER_FLAGS "")
+                  
+b) If you have already installed deal.II and don't wish to recompile it with the above changes then you can go into your deal.II install folder
+    and make the following change:
+      
+      File: deal.II_Install_folder/lib/cmake/deal.II/deal.IIConfig.cmake
+      Replace Line 121: SET(DEAL_II_LINKER_FLAGS "-Wl,--as-needed -rdynamic  -Wl,--export-dynamic")
+      With: SET(DEAL_II_LINKER_FLAGS "-rdynamic  -Wl,--export-dynamic")
+
+###############
+Modification #5
+###############
+
+Fixed numbering bug with the boundary faces. 
+
+
+ /**
+   * @author Mayank Sabharwal, ESDL
+   * 
+   * The GridIn<dim,spacedim>::read_vtk(std::istream &in) function has been modified to fix the issue with the boundary ids.
+   * Currently the boundary ids were being assigned incorrectly (boundary id corresponding to a particular boundary was assigned to the 
+   * next boundary). For this the quad_indices and line_indices assignment was changed in lines 194 and 246 of the file gridin.cc.
+   * 
+   */
+  Old code:
+  --------
+  quad_indices[no_quads] = no_quads+1;
+  line_indices[no_lines] = no_lines+1;
+  
+  New code:
+  ---------
+  quad_indices[no_quads] = no_quads;
+  line_indices[no_lines] = no_lines;
+
+###############
+Modification #6
+###############
+
+Made the read_vtk function in grid_in.cc more generic by being able to read FIELD data from VTK files and store it as a map corresponding to cell indexes. 
+
+ /**
+   * @author Mayank Sabharwal, ESDL
+   * 
+   * The GridIn<dim,spacedim>::read_vtk(std::istream &in) function has been modified to read field data from VTK files and store it as a map corresponding to cell indexes.
+   * Lines 348-382 have been added for this purpose. Modified files are grid_in.cc and grid_in.h.
+   *
+   */
+  Code added:
+  ----------
+  
+    in>>keyword_4;
+    if (strcmp(keyword_4,"FIELD") == 0)
+    {
+        std::cout<<std::endl<<"Processing FIELD_DATA...."<<std::endl;
+        int no_fields;
+        char word[10];   //FieldData in the Field Section
+        in>>word;
+        if (strcmp(word,"FieldData")==0)
+            in>>no_fields;
+
+        for(i = 0;i < no_fields;i++)
+        {
+            std::string section_name;
+            std::string data_type;
+            int temp,no_ids;
+            double data;
+            in>>section_name;
+            std::cout<<std::endl<<"Section name: "<<section_name<<std::endl;
+            std::cout<<std::endl<<"Data type: "<<section_name<<std::endl;
+            in>>temp;
+            in>>no_ids;
+            in>>data_type;
+            std::cout<<std::endl<<"No of ids: "<<no_ids<<std::endl;
+            std::map<int,double> temp_data;
+            for (unsigned int j=0;j<no_ids;j++)
+            {
+                in>>data;
+                if (j<no_cells)
+                    temp_data[j]=data;
+            }
+            this->field_data[section_name]=temp_data;
+        }
+        std::cout<<std::endl<<"Processing FIELD section complete."<<std::endl;
+    }
+
+
+  
+###############
+Modification #7
+###############
+
+Modified read_unv function in grid_in.cc to account for a new type element, 94, and new section, 2477, that are used in Trelis mesh generator.
+
+/**
+  * @author Aslan Kosakian, ESDL
+  * 
+  * The GridIn<dim, spacedim>::read_unv(std::istream &in) function has been modified to be compatible with I-DEAS element type 94 and read elements from section 2477 as well as 2467.
+  *
+  */
+
+Code differences:
+
+----------
+
+508c508
+<             AssertThrow((type == 11)||(type == 44)||(type == 94)||(type == 115), ExcUnknownElementType(type));
+---
+>             AssertThrow((type == 11)||(type == 44)||(type == 115), ExcUnknownElementType(type));
+
+510c510
+<             if( (((type == 44)||(type == 94))&&(dim == 2)) || ((type == 115)&&(dim == 3)) ) // cell
+---
+>             if( ((type == 44)&&(dim == 2)) || ((type == 115)&&(dim == 3)) ) // cell
+
+547c547
+<             else if( ((type == 44)||(type == 94)) && (dim == 3) ) // boundary quad
+---
+>             else if( (type == 44) && (dim == 3) ) // boundary quad
+
+567c567
+<     else if ( (tmp == 2467)||(tmp == 2477) )
+---
+>     else if ( tmp == 2467 )
+
+570c570
+<           AssertThrow((tmp == 2467)||(tmp == 2477), ExcUnknownSectionType(tmp)); // section 2467 describes (materials - first and bcs - second) or (bcs - first and materials - second) - sequence depends on which group is created first
+---
+>           AssertThrow(tmp == 2467, ExcUnknownSectionType(tmp)); // section 2467 describes (materials - first and bcs - second) or (bcs - first and materials - second) - sequence depends on which group is created firs

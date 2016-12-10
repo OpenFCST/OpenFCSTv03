@@ -1,0 +1,65 @@
+#!/bin/bash
+
+######################################################################
+# Run the tests.cmake file using ctest and open the results summary
+# in the default text editor. More information on the tests will be
+# given in the tests_output.log file. Run this script by navigating 
+# to the fcst folder and calling 
+# $ ./run_tests 
+# in a terminal
+
+######################################################################
+
+. fcst_env.sh
+
+#=======================================================
+# Check for multicore make command
+#=======================================================
+argnumcores=`echo "$*" | perl -n -e 'm/--cores=(\S+)/; print $1'`
+if [ "$argnumcores" == "" ];then
+  echo
+  echo "======================================================="
+  echo "            Running tests on a single core             "
+  echo "======================================================="
+  argnumcores=1
+elif [[ $argnumcores =~ ^-?[0-9]+$ ]];then
+  echo
+  echo "======================================================="
+  echo "            Using " $argnumcores " cores               "
+  echo " NOTE: multiple cores will not be used if OpenFCST     "
+  echo "       was not compiled with PETSc; i.e. must use flag "
+  echo "       --with-petsc                                    "
+  echo "======================================================="
+else
+  echo
+  echo "======================================================="
+  echo " --cores="$argnumcores" is an invalid core number      "
+  echo " Please either omit or try the following syntax:       "
+  echo "                 ./run_tests --cores=7                 "  
+  echo "======================================================="
+  exit 1
+fi
+
+#Test for python packages
+python test/testPy.py
+
+if [ "$?" != "0" ]; then
+  echo "Necessary python packages are missing!"
+fi
+
+rm test/config.txt
+echo "List of current build flags:" >> test/config.txt #Write to file
+echo "--cores=" >> test/config.txt #Write flag for number of cores to file
+echo $argnumcores >> test/config.txt #put variable for flag above to next line
+
+run_directory=`pwd`
+
+ctest -S tests.cmake
+
+mv test/build*/Testing/Temporary/LastTest_* $run_directory/tests_output.log
+
+rm test/build*/Testing/Temporary/*
+
+xdg-open tests_summary.log &> /dev/null
+
+rm test/config.txt

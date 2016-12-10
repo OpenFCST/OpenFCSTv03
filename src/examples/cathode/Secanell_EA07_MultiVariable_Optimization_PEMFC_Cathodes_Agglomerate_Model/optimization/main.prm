@@ -1,0 +1,16 @@
+######################################################################
+
+include ../template/main.prm
+
+######################################################################
+subsection Simulator
+
+  set Analysis type = Optimization
+  
+  subsection Optimization
+    set optimization parameter file name = opt.prm
+    set Dakota direct = true
+  end
+  
+end
+######################################################################

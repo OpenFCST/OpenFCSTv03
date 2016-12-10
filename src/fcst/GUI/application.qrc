@@ -1,0 +1,14 @@
+<!DOCTYPE RCC><RCC version="1.0">
+ <qresource>
+     <file>images/logo_fcst_64.png</file>
+     <file>images/3D_icon.png</file>
+     <file>images/close_icon.png</file>
+     <file>images/include_icon.png</file>
+     <file>images/2D_icon.png</file>
+     <file>images/new_icon.png</file>
+     <file>images/open_icon.png</file>
+     <file>images/save_as_icon.png</file>
+     <file>images/save_icon.png</file>
+     <file>images/settings_icon.png</file>
+ </qresource>
+ </RCC>

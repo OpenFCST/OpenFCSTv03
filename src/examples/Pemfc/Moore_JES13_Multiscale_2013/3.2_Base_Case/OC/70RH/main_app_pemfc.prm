@@ -1,0 +1,16 @@
+######################################################################
+#
+#  This file runs the water-filled agglomerate simulation.
+#
+#              Copyright (C) 2011 by Peter Dobson
+#
+######################################################################
+
+subsection Simulator
+	set simulator name = MEA
+	set simulator parameter file name = data_app_pemfc.prm
+	set optimization parameter file name = opt_app_parametric_default.prm
+	set nonlinear solver name = Newton3pp # NewtonLineSearch # 
+	set Dakota direct = true
+	set save transfer files = true
+end

@@ -1,0 +1,119 @@
+// ----------------------------------------------------------------------------
+//
+// FCST: Fuel Cell Simulation Toolbox
+//
+// Copyright (C) 2006-2013 by Energy Systems Design Laboratory, University of Alberta
+//
+// This software is distributed under the MIT License
+// For more information, see the README file in /doc/LICENSE
+//
+// - Class: INSERT NAME OF CLASS HERE
+// - Description: INSERT SHORT DEFINITION HERE
+// - Developers: INSERT DEVELOPER HERE, University of Alberta
+// - $Id: documentation.template 2135 2014-03-31 16:15:17Z secanell $
+//
+// ----------------------------------------------------------------------------
+
+// ALL FILES SHOULD HAVE THE HEADER ABOVE
+
+// Include the following ifndef and define and the endif statement at the end
+// in order for the .h file to not be read more than once which would cause an error
+
+#ifndef _FUELCELL__TEMPLATE_CLASS_H
+#define _FUELCELL__TEMPLATE_CLASS_H
+
+// Use the correct namespace
+// - For Applications use FuelCell
+// - For Equations, Layers and Materials use FuelCellShop
+// For documenting namespaces go to namespeces.h
+namespace FuelCell
+{
+    /**
+     * 
+     * @brief SHORT DESCRIPTION OF THE CLASS
+     * 
+     * MORE DETAILED DESCRIPTION OF THE CLASS
+     * 
+     * Explain here the purpose of the class and its main use.
+     * 
+     * If the class is a child of another base class, explain which member functions are redeclared
+     * and the extensions to the parent class
+     * 
+     * <h3> Theory </h3>
+     * DETAILED EXPLANATION FOR THE THEORY BEHIND THE CLASS. FOR EQUATIONS DESCRIBE
+     * HERE THE PDE THAT YOU ARE SOLVING.
+     * 
+     * <h3> Input parameters </h3>
+     * LIST OF INPUT PARAMETERS FOR THE CLASS. 
+     * @code
+     * subsection FuelCell
+     *   subsection EXAMPLE
+     *     set PARAM1 = DEFAULT VALUE # EXPLANATION
+     *     set PARAM2 = DEFAULT VALUE # EXPLANATION (IF SEVERAL OPTIONS, ADD HERE)
+     *   end
+     * end
+     * @endcode
+     * 
+     * <h3> Usage details</h3>
+     * Here please enter the usage details on how the class should be used. Including the following
+     * - Does it need to read data from file?
+     * - Are there any member functions that are required to initialize the class? In which order should
+     * they be called
+     * - Include a piece of code showing how the class would be used (see example below from FuelCellShop::Material::IdealGas
+     * 
+     * @code
+     * //Create an object of TemplateClass
+     * FuelCellShop::TemplateClass example; 
+     * // Set necessary variables
+     * marc = 358;
+     * example.set_variable(marc);
+     * // You can now request info from your class.
+     * double marc = example.get_variable();
+     * //Print to screen all properties
+     * example.print_data();
+     * @endcode 
+     * 
+     * <h3> References </h3>
+     *
+     * [1] articles
+     * 
+     * @author YOUR NAME HERE
+     * @date 2013
+     */
+    //Name class as per coding conventions
+    class TemplateClass
+    {
+    public:
+        /** Constructor */
+        TemplateClass()
+        {}
+        
+        /** Destructor */
+        ~TemplateClass()
+        {}
+        
+        /** Explanation of what the function does. Use get_***() functios whenever you want to
+         re*trive information from the class instead of acessing the data directly */
+        double get_variable()
+        {variable};
+        
+        /** Develop a routine that prints the data stored in the class out. This class
+         * is extremely useful for debugging.
+         * Make sure you output to the variable FcstUtilities::log otherwise your output will not
+         * be stored in the .log file.
+         */
+        void print_data()
+        {
+            FcstUtilities::log<<"Output data: "<<variable<<std::endl;	
+        }			
+        
+    private:
+        /** Explanation of what the variable means. Units of the variable if it is a physical quantity
+         *  For example:
+         * This variable stores the inlet temperature of the gas. Units are in Kelvin.
+         */
+        double variable;
+    }; //class
+} //namespacie
+
+#endif

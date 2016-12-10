@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="catalyst_layer_diagram.svg"
+   inkscape:export-filename="/home/secanell/H_Drive/Documents/My_Papers/2013/Conferences/dealii_workshop/Presentation/figures/catalyst_layer_diagram.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2"
+     inkscape:cx="240.68598"
+     inkscape:cy="909.37452"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1002"
+     inkscape:window-x="-2"
+     inkscape:window-y="-3"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#ff8080;stroke:#f30000;stroke-width:4.17179251;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect2985"
+       width="237.8282"
+       height="260.32822"
+       x="78.085899"
+       y="52.448078" />
+    <text
+       xml:space="preserve"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="86.5"
+       y="84.862183"
+       id="text2987"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan2989"
+         x="86.5"
+         y="84.862183">CatalystLayer</tspan></text>
+    <g
+       id="g3784"
+       transform="matrix(1.0847459,0,0,1,-7.3217241,8)">
+      <rect
+         y="94.258423"
+         x="86.39624"
+         height="35.707516"
+         width="199.70752"
+         id="rect2991"
+         style="opacity:0.5;fill:#ffff00;fill-opacity:1;stroke:#030300;stroke-width:1.79248512;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text2987-1"
+         y="118.42664"
+         x="91.421875"
+         style="font-size:18px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+         xml:space="preserve"><tspan
+           id="tspan3782"
+           sodipodi:role="line"
+           x="91.421875"
+           y="118.42664">Electrolyte Material</tspan></text>
+    </g>
+    <rect
+       style="opacity:0.5;fill:#ffff00;fill-opacity:1;stroke:#030300;stroke-width:1.8608278;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect2991-0"
+       width="215.63918"
+       height="35.639172"
+       x="87.180412"
+       y="146.54259" />
+    <text
+       xml:space="preserve"
+       style="font-size:18px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="92.171875"
+       y="170.67665"
+       id="text2987-1-6"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3782-2"
+         x="92.171875"
+         y="170.67665">Catalyst Support Material</tspan></text>
+    <g
+       id="g3888"
+       transform="translate(0,4)">
+      <rect
+         y="228.50842"
+         x="86.14624"
+         height="35.707516"
+         width="199.70752"
+         id="rect2991-0-5"
+         style="opacity:0.5;fill:#00bbff;fill-opacity:1;stroke:#030300;stroke-width:1.79248512;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text2987-1-6-8"
+         y="252.72546"
+         x="92.760246"
+         style="font-size:18px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+         xml:space="preserve"><tspan
+           y="252.72546"
+           x="92.760246"
+           id="tspan3782-2-9"
+           sodipodi:role="line">KineticsBase</tspan></text>
+    </g>
+    <g
+       id="g3784-4"
+       transform="matrix(1.0847459,0,0,1,-6.533924,95.250001)">
+      <rect
+         y="94.258423"
+         x="86.39624"
+         height="35.707516"
+         width="199.70752"
+         id="rect2991-8"
+         style="opacity:0.5;fill:#ffff00;fill-opacity:1;stroke:#030300;stroke-width:1.79248512;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text2987-1-4"
+         y="118.42664"
+         x="91.421875"
+         style="font-size:18px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+         xml:space="preserve"><tspan
+           id="tspan3782-25"
+           sodipodi:role="line"
+           x="91.421875"
+           y="118.42664">Catalyst Material</tspan></text>
+    </g>
+  </g>
+</svg>

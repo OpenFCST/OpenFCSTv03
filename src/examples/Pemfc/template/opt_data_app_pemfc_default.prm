@@ -1,0 +1,100 @@
+######################################################################
+#
+#  This file is used to run multi-dimensional parametric studies. 
+#  See end of file for a list of possible design variables.
+#
+#   Copyright (C) 2013, Kailyn Domican
+#
+######################################################################
+
+
+
+subsection Optimization Parameters
+  
+
+#### NOTE THAT THIS SECTION ONLY EXISTS WHEN RUNNING IN OPTIMIZATION MODE ###
+####----------------------------------------------------------------------###
+    subsection Optimization Program Options
+      set Use dakota input file = false				# (default) false
+      set Dakota_Input_File = dakota_input.in			# not needed if "Use dakota input file = "false"	
+
+      set Optimization strategy = single_method	 		# single_method | multi_start | pareto_set | hybrid
+      set Optimization method = multidim_parameter_study 	# multidim_parameter_study | optpp_q_newton | nl2sol | ncsu_direct
+
+    end
+
+
+    subsection Design Variables
+      set num_design_variables = 1			# 2
+      set DV_0_name = Fuel cell data>>Operating conditions>>Voltage cell
+      # set DV_1_name = T_cell
+      # set DV_2_name = prc_Pt_c
+
+
+
+      #######	  Lower Bound 	  #######
+      ####### lb < -1e30 for -inf #######
+      #---------------------------------#
+	set DV_0_lb = -1.0				# V # lower bound : change to -1.1, force dekota to start at -1.1 then go to -0.2
+	set DV_1_lb = 303				# K #  
+	set DV_2_lb = 0.2				# % # 
+
+
+      #######	 Upper Bound 	#######
+      ####### ub > 1e30 for inf #######
+      #-------------------------------#
+	set DV_0_ub = -0.55					# V # 
+	set DV_1_ub = 353				# K # 
+	set DV_2_ub = 0.5				# % #
+
+
+      ####### 		Parameter Study Partitions		  #######
+      ### NOTE: Evaluated at n+1 points between lower and upper bound ###
+      ###-------------------------------------------------------------###
+	set DV_0_partition = 3
+	set DV_1_partition = 8
+	set DV_2_partition = 10
+
+
+    end
+
+	  
+	subsection Responses
+	  set num_objectives = 1			# 2
+	  set num_nl_constraints = 0 			# (default) 0
+	  set num_eq_constraints = 0			# (default) 0
+
+	  set RESP_0_name = cathode_current
+    end
+  end
+
+
+#-------------------------------------------------------------------------------------------------------------#
+      ######### List of Possible Design Variable Names #########
+      #########----------------------------------------#########
+#	//		Conventional_CL.cc
+#	V_Pt_c | V_Pt_a				// Platinum loading per unit volume [mg/cm3] 	(Cathode | Anode)
+#	prc_Pt_c | prc_Pt_a			// Platinum loading on support [%wt] 		(Cathode | Anode)
+#	prc_N_c | prc_N_a			// Electrolyte loading [%wt] 			(Cathode | Anode)
+#	Av_c | Av_a				// Active area [cm^2/cm^3] 			(Cathode | Anode)
+
+#	//		Agglomerate_CL.cc
+#	r_agg_c	| r_agg_a			// Radius of the agglomerate [nm] 		(Cathode | Anode)
+#	r_agg					// Radius of the agglomerate [nm] **possibly redundant**
+#	epsilon_agg_c | epsilon_agg_a		// Agglomerate porosity 			(Cathode | Anode)
+#	epsilon_agg				// Agglomerate porosity **possibly redundant**
+
+#	//		Operating_Conditions.cc
+#	V_cell					// Cell Voltage
+#	T_cell					// Cell Temperature  
+#	dV_a					// Voltage drop in the Anode
+#	P_c | P_a				// Pressure  					(Cathode | Anode)
+#	
+#	RH_c | RH_a				// Relative Humidity 				(Cathode | Anode) 
+#	OCV					// Open Circuit Voltage
+
+#	//		Geometries.cc 
+#	L_CCL | L_ACL				// CL thickness  				(Cathode | Anode)
+#	L_CGDL | L_AGDL				// GDL thickness 				(Cathode | Anode)
+#	L_CMPL | L_AMPL				// MPL thickness 				(Cathode | Anode) 
+#	Ch_width				// Channel Width 				(Cathode | Anode)

@@ -1,0 +1,16 @@
+######################################################################
+#   $Id$
+#
+#  This file is used to simulate a non-isothermal MEA application, by 
+#  performing parametric study using Dakota on cell voltage. 
+#
+#
+#   Copyright (C) 2013-15 by Madhur Bhaiya
+#
+######################################################################
+
+######################################################################
+
+include ../../template/nonisothermal/main.prm
+
+######################################################################

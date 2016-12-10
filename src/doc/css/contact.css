@@ -1,0 +1,97 @@
+/* CSS Document *//*
+ ____________________________________________________________
+|                                                            |
+|    DESIGN : Jeremie Tisseau { http://web-kreation.com }    |
+|      DATE : 2007.08.31                                     |
+|     EMAIL : webmaster@web-kreation.com                     |
+|  DOWNLOAD : http://web-kreation.com/index.php/freebies/    |
+|____________________________________________________________|
+
+*/
+html, body {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font: 90%/1 arial, helvetica, sans-serif;
+  background: #443833;
+  width: 100%;
+}
+
+h1 {
+  margin: 10px 0 30px;
+  font-size: 220%;
+}
+
+/* the main layout */
+
+#contentForm {
+  display: block;
+  width: 500px;
+  margin: 70px auto;/*this line will center the page*/
+  padding: 25px;
+  border: 1px solid black;
+  background-color: white;
+}
+
+/* and now the form formatting itself */
+label {
+  display: block;
+  float: left;
+  clear: left;
+  Width: 150px;
+  line-height: 20px;
+  margin-bottom: 10px;
+  margin: 5px 0;
+}
+
+input, textarea, select {
+  margin: 0;
+  padding: 2px;
+  font-size: 1em;
+  color: #666666;
+  background: #F5F5F5;
+  border: 1px solid #ccc;
+  margin: 5px 0;
+}   
+
+input:focus, textarea:focus, select:focus {
+  border: 1px solid #999;
+  background-color: #FFFFFF;
+}
+
+input.button {
+  cursor: pointer;
+  border: none;
+  font-weight: bold;
+  background: url(images/submit.jpg) no-repeat left top;
+  width: 90px;
+  height: 28px;
+  margin-left: 150px;
+}
+
+span.required{
+  font-size: 13px !important;
+  color: red !important;
+}
+
+.errormsg {
+  display: block;
+  width: 90%;
+  height: 22px;
+  line-height: 22px;
+  color: #FFFFFF;
+  font-weight: bold;
+  background: #FF9D9D url(images/stop.gif) no-repeat 10px center;
+  padding: 3px 10px 3px 40px;
+  margin: 10px 0;
+  border-top: 2px solid #FF0000;
+  border-bottom: 2px solid #FF0000;
+}
+
+.msgSent {
+  font-size: 20px;
+  text-align: center;
+}

@@ -1,0 +1,206 @@
+######################################################################
+#
+#  This file is used to simulate an anode and to obtain
+#  a single point on a polarisation curve. 
+#
+#   Copyright (C) 2015 by Marc Secanell
+#
+######################################################################
+
+######################################################################
+subsection Application
+  subsection Electrode
+    set Anode simulation = true
+  end
+end
+
+######################################################################
+subsection Grid generation
+
+  set Type of mesh = CathodeMPL
+
+  set Initial refinement = 2
+  set Sort Cuthill-McKee = false
+  
+  ####  
+  subsection Internal mesh generator parameters
+    ####
+    subsection Dimensions
+       set Cathode current collector width [cm] = 0.1
+       set Cathode channel width [cm] = 0.1
+       set Cathode CL thickness [cm] =  1.0e-3
+       set Cathode MPL thickness [cm] =  0
+       set Cathode GDL thickness [cm] = 0.01
+    end
+    ####
+    subsection Material ID
+       set Cathode GDL = 1
+       set Cathode MPL = 2
+       set Cathode CL = 3
+    end
+    ####
+    subsection Boundary ID
+       set c_CL/Membrane = 1
+       set c_BPP/GDL = 2
+       set c_Ch/GDL = 3
+       set c_GDL/CL = 255
+    end
+    ####
+  end
+  ####
+end
+######################################################################
+
+######################################################################
+subsection Initial Solution
+  set Read in initial solution from file = false
+  set Output initial solution = false
+  set Output solution for transfer = false
+end
+######################################################################
+
+######################################################################
+subsection Adaptive refinement
+  set Number of Refinements = 2
+  set Refinement         = adaptive  #global | adaptive 
+  set Output initial mesh = false
+  set Output intermediate solutions = false
+  set Output intermediate responses = false
+  set Output final solution = false
+end
+######################################################################
+
+######################################################################
+subsection Newton
+  set Assemble threshold = 0.0
+  set Debug level        = 0
+  set Debug residual     = false
+  set Debug solution     = false
+  set Debug update       = false
+  set Max steps          = 100
+  set Reduction          = 1.e-20
+  set Tolerance          = 1.e-8
+end
+######################################################################
+
+######################################################################
+subsection System management
+
+ set Number of solution variables = 3
+
+ subsection Solution variables
+  set Solution variable 1 = hydrogen_molar_fraction
+  set Solution variable 3 = electronic_electrical_potential
+  set Solution variable 2 = protonic_electrical_potential
+ end
+
+ subsection Equations
+  set Equation 1 = Ficks Transport Equation - hydrogen
+  set Equation 3 = Electron Transport Equation
+  set Equation 2 = Proton Transport Equation
+ end
+
+end
+######################################################################
+
+#####################################################################
+subsection Equations
+
+ subsection Ficks Transport Equation - hydrogen
+  subsection Initial data
+   set hydrogen_molar_fraction = 1: 1.0, 2: 1.0, 3: 1.0
+  end
+  subsection Boundary data
+   set hydrogen_molar_fraction = 3: 1.0
+  end
+ end
+
+ subsection Electron Transport Equation
+  subsection Initial data
+   set electronic_electrical_potential = 1: 0.7, 2: 0.7, 3: 0.7
+  end
+  subsection Boundary data
+   set electronic_electrical_potential = 2: 0.7 # V
+  end
+ end
+
+ subsection Proton Transport Equation
+  subsection Initial data
+   set protonic_electrical_potential = 1: 0.0, 2: 0.0, 3: 0.0
+  end
+  subsection Boundary data
+   set protonic_electrical_potential = 1: 0.0 # V
+  end
+ end
+
+end
+#####################################################################
+
+######################################################################
+subsection Discretization
+  set Element = FESystem[FE_Q(1)^3] #FESystem[FE_Q(3)-FE_Q(1)^2] #FESystem[FE_Q(1)^3] #System of three fe
+  subsection Matrix
+    set Quadrature cell = -1
+    set Quadrature face = -1
+  end
+  subsection Residual
+    set Quadrature cell = -1
+    set Quadrature face = -1
+  end
+end
+
+######################################################################
+
+######################################################################
+subsection Fuel cell data
+  
+  ####
+  subsection Operating conditions
+        set Adjust initial solution and boundary conditions = true
+     
+        set Temperature cell [K]      = 363.15   #[K]
+        set Anode pressure [Pa]       = 101325.0 #[Pa] (1.0 atm)
+        set Anode relative humidity   = 0.5
+        set Voltage cell [V]          = 0.025
+        set Anode dry hydrogen mole fraction = 1.0
+  end
+  ####
+ 
+  ####
+  subsection Gas diffusion layer
+    include ../template/default_GDL.prm
+  end
+
+  subsection Microporous layer
+    include ../template/default_MPL.prm
+  end
+
+  subsection Catalyst layer
+    include ../template/default_ACL.prm
+  end
+end
+######################################################################
+
+######################################################################
+subsection Output Variables
+  set num_output_vars = 1
+  set Output_var_0 = current
+  set Output_var_1 =t_m_Pt
+end
+
+######################################################################
+
+######################################################################
+subsection Output
+  subsection Data
+    set Output format = vtu
+  end
+  subsection Grid
+    set Format = eps
+  end
+end
+######################################################################
+
+######################################################################
+######################################################################
+

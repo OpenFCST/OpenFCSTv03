@@ -1,0 +1,128 @@
+digraph g{
+  GasTransport -> FCST
+  ProtonTransport -> FCST
+  ElectronTransport -> FCST
+  HeatTransport -> FCST
+  LiquidWaterTransport -> FCST
+  MembraneWaterTransport -> FCST
+  MechanicalDeformation -> FCST
+
+  OxygenTransport -> GasTransport
+  HydrogenTransport -> GasTransport
+  NitrogenTransport -> GasTransport
+  
+  
+  OxygenDiffusionCoefficient 	-> OxygenTransport
+  CathodeReaction            	-> OxygenTransport
+  OxygenCrossover            	-> OxygenTransport
+  O2Concentration	    	-> OxygenTransport
+  HydrogenDiffusionCoefficient 	-> HydrogenTransport
+  AnodeReaction                	-> HydrogenTransport
+  HydrogenCrossover            	-> HydrogenTransport
+  H2Concentration		-> HydrogenTransport
+  NitrogenDiffusionCoefficient 	-> NitrogenTransport
+  NitrogenCrossover            	-> NitrogenTransport
+  N2Concentration		-> NitrogenTransport
+  
+  
+  
+  
+  
+  phi_proton			-> ProtonTransport
+  ProtonConductivity -> ProtonTransport
+  ProtonConductivityPEM -> ProtonConductivity
+  ProtonConductivityACL -> ProtonConductivity
+  ProtonConductivityCCL -> ProtonConductivity
+  
+  AnodeReaction -> ProtonTransport
+  CathodeReaction -> ProtonTransport
+  
+  
+  
+  ElectronConductivity 		-> ElectronTransport
+  phi_el				-> ElectronTransport
+  ElectronConductivityPlate 	-> ElectronConductivity
+  ElectronConductivityGDL 	-> ElectronConductivity
+  ElectronConductivityMPL 	-> ElectronConductivity
+  ElectronConductivityCCL 	-> ElectronConductivity
+  ElectronConductivityACL 	-> ElectronConductivity
+  
+  AnodeReaction -> ElectronTransport
+  CathodeReaction -> ElectronTransport
+  
+  ThermalConductivity 	-> HeatTransport
+  Temperature		-> HeatTransport
+  ThermalConductivityPlate -> ThermalConductivity
+  ThermalConductivityGDL -> ThermalConductivity
+  ThermalConductivityMPL -> ThermalConductivity
+  ThermalConductivityACL -> ThermalConductivity
+  ThermalConductivityCCL -> ThermalConductivity
+  
+  AnodeReaction -> HeatTransport
+  CathodeReaction -> HeatTransport
+  
+  lambda				-> MembraneWaterTransport
+  MembraneWaterDiffusionCoeff 	-> MembraneWaterTransport
+  OsmoticDrag 			-> MembraneWaterTransport
+  AnodeReaction 			-> MembraneWaterTransport
+  CathodeReaction 		-> MembraneWaterTransport
+  
+  
+  Macrohomogeneous	-> AnodeReaction
+  Macrohomogeneous	-> CathodeReaction
+  NguyenAgglomerate	-> CathodeReaction
+  NguyenAgglomerate	-> AnodeReaction
+  
+  NG_AggRadius		-> NguyenAgglomerate
+  NG_IonThickness	-> NguyenAgglomerate
+  NG_H2OThickness	-> NguyenAgglomerate
+  D_Reactant_Agg		-> NguyenAgglomerate
+  D_Reactant_Ion		-> NguyenAgglomerate
+  D_Reactant_H2O		-> NguyenAgglomerate
+  H_Reactant_Ion		-> NguyenAgglomerate
+  H_Reactant_H2O		-> NguyenAgglomerate
+  
+  ORR			-> CathodeReaction
+  HR			-> AnodeReaction
+  
+  TafelEquation		-> HR
+  ButlerVolmerEquation	-> ORR
+  
+  BV_Current				-> ButlerVolmerEquation
+  BV_ElectrodeActiveSurfaceArea		-> ButlerVolmerEquation
+  BV_ExchangeCurrentDensity		-> ButlerVolmerEquation
+  BV_EquilibriumPotential		-> ButlerVolmerEquation
+  BV_n_electrons				-> ButlerVolmerEquation
+  
+  TA_Current		-> TafelEquation
+  TA_RateConstant	-> TafelEquation
+  
+  WangsKinetics		-> ORR
+  
+  
+  
+  
+  FCST [label="FCST",shape=box,fillcolor="darkgreen",style="filled"];
+  GasTransport [label="Gas Transport",shape=box,fillcolor="palegreen",style="filled,rounded"];
+  ProtonTransport [label="Proton Transport",shape=box,fillcolor="palegreen",style="filled,rounded"];
+  ElectronTransport [label="Electron Transport",shape=box,fillcolor="palegreen",style="filled,rounded"];
+  HeatTransport [label="Heat Transport",shape=box,fillcolor="palegreen",style="filled,rounded"];
+  LiquidWaterTransport [label="Liquid Water Transport",shape=box,fillcolor="red",style="filled,rounded"];
+  MembraneWaterTransport [label="Membrane Water Transport",shape=box,fillcolor="palegreen",style="filled,rounded"];
+  MechanicalDeformation [label="Mechanical deformation",shape=box,fillcolor="red",style="filled,rounded"];
+  OxygenTransport [label="Oxygen Transport",shape=box,fillcolor="palegreen",style="filled,rounded"];
+  HydrogenTransport [label="Hydrogen Transport",shape=box,fillcolor="palegreen",style="filled,rounded"];
+  NitrogenTransport [label="Nitrogen Transport",shape=box,fillcolor="palegreen",style="filled,rounded"];
+  
+  O2Concentration [label="c_O2",shape=box,fillcolor="blue",style="filled"];
+  H2Concentration [label="c_H2",shape=box,fillcolor="blue",style="filled"];
+  N2Concentration [label="c_N2",shape=box,fillcolor="blue",style="filled"];
+  
+  phi_proton 	[label="\phi_H+",shape=box,fillcolor="blue",style="filled"];
+  phi_el 	[label="\phi_el",shape=box,fillcolor="blue",style="filled"];
+  
+  Temperature 	[label="T",shape=box,fillcolor="blue",style="filled"];
+  
+  lambda 	[label="lambda",shape=box,fillcolor="blue",style="filled"];
+  
+}

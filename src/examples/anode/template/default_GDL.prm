@@ -1,0 +1,66 @@
+##############################################################
+#subsection Fuel cell data
+
+    #subsection Cathode gas diffusion layer
+        set Gas diffusion layer type                            = DesignFibrousGDL
+        set Material id                                         = 1
+
+        subsection Generic data
+
+            set Porosity                                        = 0.7
+            
+            set Permeability_XX [cm^2] = 1.0e-8
+            set Permeability_XY [cm^2] = 0.0e-8
+            set Permeability_YX [cm^2] = 0.0e-8
+            set Permeability_YY [cm^2] = 1.0e-8
+
+            set Forchheimer_permeability_XX [1/cm] = 2047.50156148
+            set Forchheimer_permeability_XY [1/cm] = 0.0
+            set Forchheimer_permeability_YX [1/cm] = 0.0
+            set Forchheimer_permeability_YY [1/cm] = 2047.50156148
+
+            set Tortuosity_XX = 1.054
+            set Tortuosity_XY = 0.000
+            set Tortuosity_YX = 0.000
+            set Tortuosity_YY = 1.054
+
+        end
+  
+        subsection DesignFibrousGDL
+            set Porosity                                        = 0.6
+        
+            set Anisotropic transport                           = true
+            set Method effective transport properties in pores  = Tomadakis
+            set Method effective transport properties in solid  = Percolation
+            
+            set Porosity threshold X                            = 0.118
+            set Porosity network constant X                     = 0.785
+            set Porosity gamma network constant X               = 0.0
+            
+            set Electrical conductivity X [S/cm]                = 16.03
+            set Solid network threshold X                       = 0.0
+            set Solid network constant X                        = 1.5
+            
+            set Porosity threshold Y                            = 0.118
+            set Porosity network constant Y                     = 0.521
+            set Porosity gamma network constant Y               = 0.0
+            
+            set Electrical conductivity Y [S/cm]                = 272.78
+            set Solid network threshold Y                       = 0.0
+            set Solid network constant Y                        = 1.0
+            
+            set Method effective thermal conductivity           = Zamel
+            
+            set Method relative liquid permeability             = Kumbur07
+            set Irreducible liquid water saturation             = 0.0
+            set Absolute permeability X [cm^2]                  = 1.8e-7
+            set Absolute permeability Y [cm^2]                  = 1.8e-7
+            
+            set Method capillary pressure - saturation function = Kumbur07-corrected #Ref: Bhaiya Thesis (2013)
+            set Compaction pressure [MPa]                       = 0.0                # Reduced porosity due to compression already accounted for
+            set PTFE loading [% wt]                             = 5.0
+       end
+  #end  
+
+#end
+################################################################

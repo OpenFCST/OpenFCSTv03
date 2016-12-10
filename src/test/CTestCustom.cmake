@@ -1,0 +1,5 @@
+# Some custom settings for CTEST that will be read in whilst running tests.
+#
+set(CTEST_CUSTOM_MAXIMUM_NUMBER_OF_WARNINGS "500" )
+set(CTEST_CUSTOM_MAXIMUM_FAILED_TEST_OUTPUT_SIZE "100000" )
+set(CTEST_CUSTOM_MAXIMUM_PASSED_TEST_OUTPUT_SIZE "100000" )

@@ -1,0 +1,61 @@
+######################################################################
+#
+#  This file is the default file used to test that AppPemfc implementation
+#  with agglomerates is correct
+#
+#   Copyright (C) 2015 by Marc Secanell, University of Alberta
+#
+######################################################################
+
+
+######################################################################
+
+include ../template/data_app_pemfc_default.prm
+
+######################################################################
+subsection Adaptive refinement
+  set Number of Refinements                = 2
+end
+######################################################################
+
+######################################################################
+subsection Newton
+  set Tolerance          = 1.e-6
+end
+######################################################################
+######################################################################
+subsection Fuel cell data
+  
+  ##############################################################
+  subsection Cathode catalyst layer                    
+
+    set Kinetics type                                                    = TafelKinetics
+    ####
+    subsection Materials
+      subsection Platinum
+        set Method for kinetics parameters (ORR)              = Parthasarathy 
+      end    
+    end
+    ####
+    set Catalyst layer type                                              = MultiScaleCL
+    
+    subsection MultiScaleCL   
+      set Average current in cell = false
+      
+      subsection MicroScale
+	set Microscale type = IonomerAgglomerateAnalytical
+	subsection AgglomerateBase
+	  set Radius of the agglomerate [nm] = 100
+	  set Agglomerate porosity = 0.17
+	end
+	subsection NumericalAgglomerateBase
+	  set Database name = averagedValidation
+	  set Initial condition tolerance factor = 0.05
+	end
+      end
+    end    
+  end
+ 
+  ##############################################################
+  # END Fuel cell data
+end

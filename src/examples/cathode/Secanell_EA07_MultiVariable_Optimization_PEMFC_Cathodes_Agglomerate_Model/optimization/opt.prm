@@ -1,0 +1,10 @@
+######################################################################
+#
+#  This file is used to run multi-dimensional parametric studies. 
+#  See end of file for a list of possible design variables.
+#
+#   Copyright (C) 2013, Kailyn Domican
+#
+######################################################################
+
+include ../template/opt.prm

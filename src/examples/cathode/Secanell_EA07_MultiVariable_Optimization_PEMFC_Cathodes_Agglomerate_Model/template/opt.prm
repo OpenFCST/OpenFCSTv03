@@ -1,0 +1,97 @@
+######################################################################
+#
+#  This file is used to run multi-dimensional parametric studies. 
+#  See end of file for a list of possible design variables.
+#
+#   Copyright (C) 2013, Kailyn Domican
+#
+######################################################################
+
+
+
+subsection Optimization Parameters
+  
+    subsection Design Variables
+      set num_design_variables = 4
+      set DV_0_name = Fuel cell data>>Cathode catalyst layer>>ConventionalCL>>Platinum loading per unit volume (mg/cm3):4
+      set DV_1_name =  Fuel cell data>>Cathode catalyst layer>>ConventionalCL>>Electrolyte loading (%wt):4
+      set DV_2_name = Fuel cell data>>Cathode catalyst layer>>ConventionalCL>>Platinum loading on support (%wt):4
+      set DV_3_name = Fuel cell data>>Cathode gas diffusion layer>>DesignFibrousGDL>>Porosity
+
+      ######  Initial values   #######
+      #-------------------------------#
+      set DV_0_ip = 266.67
+      set DV_1_ip = 0.5313
+      set DV_2_ip = 0.28
+      set DV_3_ip = 0.5
+      #######	  Lower Bound 	  #######
+      ####### lb < -1e30 for -inf #######
+      #---------------------------------#
+      set DV_0_lb = 100
+      set DV_1_lb = 0.1
+      set DV_2_lb = 0.1
+      set DV_3_lb = 0.1
+      ######	 Upper Bound 	#######
+      ####### ub > 1e30 for inf #######
+      #-------------------------------#
+      set DV_0_ub = 833.33
+      set DV_1_ub = 0.9
+      set DV_2_ub = 0.9
+      set DV_3_ub = 0.9     
+      
+      end
+
+      subsection Responses
+      set num_objectives = 1
+      set num_nl_constraints = 3 			# (default) 0
+      set num_eq_constraints = 0			# (default) 0
+
+      set RESP_0_name = current
+      set RESP_1_name = epsilon_V_cat_c:4
+      set RESP_2_name = epsilon_S_cat_c:4
+      set RESP_3_name = epsilon_N_cat_c:4
+        
+      set RESP_1_ub = 1
+      set RESP_2_ub = 1
+      set RESP_3_ub = 1
+        
+      set RESP_1_lb = 0
+      set RESP_2_lb = 0
+      set RESP_3_lb = 0
+    end
+    
+    subsection Optimization Program Options
+    
+        set Use dakota input file = false			        # (default) false
+        set Dakota_Input_File = dakota_input.in			# not needed if "Use dakota input file = "false"	
+        set Optimization strategy = single_method	 		# single_method | multi_start | pareto_set | hybrid
+        set Optimization method = optpp_q_newton          	# multidim_parameter_study | optpp_q_newton | nl2sol | ncsu_direct | conmin_mfd
+        
+        ######### Method Independent Parameters #########
+        #########-------------------------------#########
+        set Scaling = true
+        set Maximum iterations = 100				# (default) 100
+        set Maximum function evaluations = 1000			# (default) 1000
+        set Convergence tolerance = 1.0e-6			# (default) 1.0e-4
+        set Constraint tolerance = 1.0e-6			# (default) 1.0e-4
+        
+        ######### Numerical Gradient Parameter #########
+        #########------------------------------#########
+        set Numerical gradients = true					# (default) false
+        set Numerical gradient type = central				# (default) forward | central
+        
+        ######### Method Specific Parameters #########
+        ######### 	   OPT++	   #########
+        #########----------------------------#########
+        subsection OPT++
+            set Gradient tolerance = 1.0e-4 		# (default) 1.0e-4
+            set Steplength to boundary = 0.9		# (default) 0.9
+            set Centering parameter = 0.2		# (default) 0.2
+            set Merit function = argaez_tapia		# (default) argaez_tapia
+        end
+        subsection CONMIN
+        
+        end
+    end
+    
+  end

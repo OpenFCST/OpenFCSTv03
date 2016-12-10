@@ -1,0 +1,23 @@
+######################################################################
+#   $Id: main.prm  2011-02-09 secanell $                             #
+#                                                                    #
+#  This file is used to simulate app_diffusion and obtain a          #
+#  a concentration profile                                           #
+#                                                                    #
+#                                                                    #
+#   Copyright (C) 2011-15 by ESDLab                                  #
+#                                                                    #
+######################################################################
+######################################################################
+subsection Simulator
+
+  set simulator name = diffusion
+  set simulator specification = reaction_and_knudsen        #reaction|reaction_and_knudsen|knudsen
+  set simulator parameter file name = data.prm
+
+  set nonlinear solver name = Picard
+
+  set Analysis type = Analysis
+  
+end
+######################################################################

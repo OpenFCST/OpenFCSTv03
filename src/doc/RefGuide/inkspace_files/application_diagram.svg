@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="application_diagram.svg"
+   inkscape:export-filename="/home/secanell/Programs/fcst/trunk/doc/RefGuide/figures/catalyst_layer_diagram.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2"
+     inkscape:cx="240.68598"
+     inkscape:cy="853.07371"
+     inkscape:document-units="px"
+     inkscape:current-layer="g3784-4-2"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1002"
+     inkscape:window-x="-2"
+     inkscape:window-y="-3"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#ff8080;stroke:#f30000;stroke-width:4.36050987;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect2985"
+       width="237.63948"
+       height="284.6395"
+       x="78.18026"
+       y="52.542439"
+       inkscape:export-filename="/home/secanell/H_Drive/Documents/My_Papers/2013/Conferences/dealii_workshop/Presentation/figures/application_diagram.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <text
+       xml:space="preserve"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="86.5"
+       y="84.862183"
+       id="text2987"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="/home/secanell/H_Drive/Documents/My_Papers/2013/Conferences/dealii_workshop/Presentation/figures/application_diagram.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan2989"
+         x="86.5"
+         y="84.862183">Application</tspan></text>
+    <rect
+       style="opacity:0.5;fill:#ffff00;fill-opacity:1;stroke:#030300;stroke-width:2.11032104;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect2991-0"
+       width="215.38968"
+       height="45.889679"
+       x="87.305161"
+       y="146.66733"
+       inkscape:export-filename="/home/secanell/H_Drive/Documents/My_Papers/2013/Conferences/dealii_workshop/Presentation/figures/application_diagram.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="opacity:0.5;fill:#ffff00;fill-opacity:1;stroke:#030300;stroke-width:1.86689365;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect2991"
+       width="216.63191"
+       height="35.707516"
+       x="86.39624"
+       y="102.25842"
+       inkscape:export-filename="/home/secanell/H_Drive/Documents/My_Papers/2013/Conferences/dealii_workshop/Presentation/figures/application_diagram.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <text
+       xml:space="preserve"
+       style="font-size:18.74720383px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="88.187019"
+       y="131.67479"
+       id="text2987-1"
+       sodipodi:linespacing="125%"
+       transform="scale(1.0415114,0.96014316)"
+       inkscape:export-filename="/home/secanell/H_Drive/Documents/My_Papers/2013/Conferences/dealii_workshop/Presentation/figures/application_diagram.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         y="131.67479"
+         x="88.187019"
+         sodipodi:role="line"
+         id="tspan3782">Triangulation and DoF</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text3061"
+       y="163.86218"
+       x="94.5"
+       style="font-size:17.99999809px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       xml:space="preserve"
+       inkscape:export-filename="/home/secanell/H_Drive/Documents/My_Papers/2013/Conferences/dealii_workshop/Presentation/figures/application_diagram.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         y="163.86218"
+         x="94.5"
+         id="tspan3065"
+         sodipodi:role="line">SparseBlockMatrix </tspan><tspan
+         id="tspan3067"
+         y="186.36218"
+         x="94.5"
+         sodipodi:role="line">BlockVector</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:18px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="92.171875"
+       y="170.67665"
+       id="text2987-1-6"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3782-2"
+         x="92.171875"
+         y="170.67665" /></text>
+    <rect
+       style="opacity:0.5;fill:#00bbff;fill-opacity:1;stroke:#030300;stroke-width:2.7866683;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect2991-0-5"
+       width="216.21333"
+       height="79.713333"
+       x="86.643333"
+       y="247.00552"
+       inkscape:export-filename="/home/secanell/H_Drive/Documents/My_Papers/2013/Conferences/dealii_workshop/Presentation/figures/application_diagram.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <text
+       xml:space="preserve"
+       style="font-size:18px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="92.760246"
+       y="270.72546"
+       id="text2987-1-6-8"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="/home/secanell/H_Drive/Documents/My_Papers/2013/Conferences/dealii_workshop/Presentation/figures/application_diagram.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan3782-2-9"
+         x="92.760246"
+         y="270.72546">Layer objects</tspan></text>
+    <g
+       id="g3784-4"
+       transform="matrix(1.0847459,0,0,1,-6.533924,109.25)"
+       inkscape:export-filename="/home/secanell/H_Drive/Documents/My_Papers/2013/Conferences/dealii_workshop/Presentation/figures/application_diagram.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         y="94.258423"
+         x="86.39624"
+         height="35.707516"
+         width="199.70752"
+         id="rect2991-8"
+         style="opacity:0.5;fill:#ffff00;fill-opacity:1;stroke:#030300;stroke-width:1.79248512;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text2987-1-4"
+         y="118.42664"
+         x="91.421875"
+         style="font-size:18px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+         xml:space="preserve"><tspan
+           id="tspan3782-25"
+           sodipodi:role="line"
+           x="91.421875"
+           y="118.42664">Equation objects</tspan></text>
+    </g>
+    <g
+       id="g3784-4-2"
+       transform="matrix(0.92270314,0,0,1,25.465961,186.25)">
+      <rect
+         y="94.258423"
+         x="86.39624"
+         height="35.707516"
+         width="199.70752"
+         id="rect2991-8-7"
+         style="opacity:0.50000000000000000;fill:#00ffff;fill-opacity:1;stroke:#030300;stroke-width:1.79248512000000004;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+         inkscape:export-filename="/home/secanell/H_Drive/Documents/My_Papers/2013/Conferences/dealii_workshop/Presentation/figures/application_diagram.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text2987-1-4-2"
+         y="118.42664"
+         x="91.421875"
+         style="font-size:18px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+         xml:space="preserve"
+         inkscape:export-filename="/home/secanell/H_Drive/Documents/My_Papers/2013/Conferences/dealii_workshop/Presentation/figures/application_diagram.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90"><tspan
+           id="tspan3782-25-4"
+           sodipodi:role="line"
+           x="91.421875"
+           y="118.42664"
+           style="font-size:18.73878834px">Material objects</tspan></text>
+    </g>
+  </g>
+</svg>

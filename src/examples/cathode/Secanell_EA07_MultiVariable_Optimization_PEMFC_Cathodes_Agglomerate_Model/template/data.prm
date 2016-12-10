@@ -1,0 +1,280 @@
+######################################################################
+#   $Id: $
+#
+#  File used to reproduce the results from the following paper:
+#  M. Secanell, B. Carnes, A. Suleman and N. Djilali, "Numerical optimization of proton exchange membrane fuel cell cathodes", Electrochimica Acta, 52, 2007, 2668-2682
+#
+#  This file is used to simulate an cathode and to obtain
+#  a single point on a polarisation curve. It is based on 
+#  the test case and will be called by the 
+#  main_app_cathode_analysis.prm file. 
+#
+#   Copyright (C) 2011-13 by Marc Secanell
+#
+######################################################################
+
+#############################################################
+subsection Grid generation
+
+  set Type of mesh = CathodeMPL
+  
+  set Initial refinement = 2
+  set Sort Cuthill-McKee = false
+  
+  ####   
+  subsection Internal mesh generator parameters
+     
+     #### 
+     subsection Dimensions
+        set Cathode current collector width [cm] = 0.1
+        set Cathode channel width [cm] = 0.1
+        set Cathode CL thickness [cm] =  1.5e-3
+        set Cathode MPL thickness [cm] = 0.0
+        set Cathode GDL thickness [cm] = 2.5e-2
+     end
+     ####
+     subsection Material ID
+        set Cathode CL = 4
+        set Cathode GDL = 2
+     end
+     ####
+     subsection Boundary ID
+        set c_CL/Membrane = 1
+        set c_BPP/GDL = 2
+        set c_Ch/GDL = 3
+        set c_GDL/CL = 255
+     end
+     
+  end
+  ####  
+end
+#############################################################
+
+#############################################################
+subsection System management
+
+ set Number of solution variables = 3
+
+ subsection Solution variables
+  set Solution variable 1 = oxygen_molar_fraction
+  set Solution variable 3 = electronic_electrical_potential
+  set Solution variable 2 = protonic_electrical_potential
+ end
+
+ subsection Equations
+  set Equation 1 = Ficks Transport Equation - oxygen
+  set Equation 3 = Electron Transport Equation
+  set Equation 2 = Proton Transport Equation
+ end
+
+end
+#####################################################################
+
+#############################################################
+subsection Equations
+
+ subsection Ficks Transport Equation - oxygen
+
+  subsection Initial data
+   set oxygen_molar_fraction = 2: 1.0, 4: 1.0
+  end
+
+  subsection Boundary data
+   set oxygen_molar_fraction = 3: 1.0
+  end
+
+ end
+
+ subsection Electron Transport Equation
+
+  subsection Initial data
+   set electronic_electrical_potential = 2: 0.9, 4: 0.9
+  end
+
+  subsection Boundary data
+   set electronic_electrical_potential = 2: 0.9 # V
+  end
+
+ end
+
+ subsection Proton Transport Equation
+
+  subsection Initial data
+   set protonic_electrical_potential = 2: 0.0, 4: 0.0
+  end
+
+  subsection Boundary data
+   set protonic_electrical_potential = 1: 0.0 # V
+  end
+
+ end
+
+end
+#####################################################################
+
+#############################################################
+subsection Discretization
+  set Element = FESystem[FE_Q(2)^3] #FESystem[FE_Q(3)-FE_Q(1)^2] #FESystem[FE_Q(1)^3] #System of three fe
+  subsection Matrix
+    set Quadrature cell = -1
+    set Quadrature face = -1
+  end
+  subsection Residual
+    set Quadrature cell = -1
+    set Quadrature face = -1
+  end
+end
+#############################################################
+
+#############################################################
+subsection Initial Solution
+  set Output initial solution = false
+  set Output solution for transfer = false
+  set Read in initial solution from file = false
+end
+#############################################################
+
+#############################################################
+subsection Adaptive refinement
+  set Refinement         = adaptive  #global | adaptive
+  set Number of Refinements = 2
+  set Output intermediate solutions = false
+  set Output intermediate responses = false #true
+  set Output final solution = true
+end
+#############################################################
+
+#############################################################
+subsection Newton
+  set Assemble threshold = 0.0
+  set Debug level        = 0
+  set Debug residual     = false
+  set Debug solution     = false
+  set Debug update       = false
+  set Max steps          = 20
+  set Reduction          = 1.e-20
+  set Tolerance          = 1.e-8
+  set Include step size prediction = true
+end
+#############################################################
+
+#############################################################
+subsection Fuel cell data
+  
+  ####
+  subsection Operating conditions
+     set Adjust initial solution and boundary conditions = true
+     set Temperature cell [K] = 353
+     set Cathode pressure [Pa] = 151987.5 # (1.5 atm)
+     #set Cathode initial oxygen mole fraction (prior to humidification) = 1.0
+     set Cathode relative humidity = 0.5
+     set Voltage cell [V] = 0.9 ## Equivalent to dV = 0.3 in paper
+  end
+  ####
+  
+  ####
+  
+  subsection Gas diffusion layer
+  
+    set Gas diffusion layer type = DesignFibrousGDL 
+    
+    set Material id = 2
+    ####
+    subsection DesignFibrousGDL
+      ######### Composition: #########
+      set Porosity = 0.50
+      ######### Gas transport #########
+      ## Anisotropy
+      set Anisotropic transport = false                                  # (default) false
+      set Method effective transport properties in pores = Bruggemann    # (default) Bruggemann | Given | Percolation | Tomadakis | Mezedur
+      set Method effective transport properties in solid = Bruggemann    # (default) Bruggemann | Given | Percolation
+      set Electrical conductivity [S/cm] = 100
+    end
+    
+  end
+  #############################################################
+  
+  #############################################################
+  subsection Catalyst layer
+    set Material id = 4  
+    set Catalyst layer type = MultiScaleCL  #[ DummyCL | MultiScaleCL | HomogeneousCL ]
+    set Catalyst type = Platinum
+    set Catalyst support type = CarbonBlack
+    set Electrolyte type = Nafion
+    set Kinetics type = TafelKinetics
+    
+    ####
+    subsection Materials
+      ####
+      subsection Platinum
+         set Method for kinetics parameters (ORR) = Given #Parthasarathy
+         set Cathodic transfer coefficient (ORR) = 0.61
+         set Given Open Cell Voltage (ORR) [V] = 1.2
+         set Reference exchange current density (ORR) [uA/cm2] = 1.5 #1.5e-2
+         set Reference oxygen concentration (ORR) = 0.85e-6
+         set Oxygen reaction order (ORR) = 1.0
+      end
+      ####
+      subsection Nafion
+        set Method to compute proton conductivity = Constant             # Options are: Constant|Springer|NRE211|Iden11
+        set Proton conductivity [S/cm] = 0.0263   #0.06                  # Proton conductivity inside the membrane, S/cm
+        set Oxygen diffusion coefficient [cm^2/s] = 8.45e-6              # O2 diffusivity
+        set Henry's Law Constant for Oxygen [Pa cm^3/mol] = 3.1664e10
+      end
+      subsection CarbonBlack
+        set Density [g/cm^3] = 2.0
+        set Electrical conductivity [S/cm] = 32.64  # Electrical conductivity of a group of particles packed to have 0% porosity. In S/cm      
+      end
+    end
+    
+    ####
+    subsection ConventionalCL
+        set Platinum loading on support (%wt) = 4:0.28                     # Mass percentage of platinum catalyst on the support carbon black
+        set Platinum loading per unit volume (mg/cm3) = 4:266.67           # Catalyst platinum mass loading per unit volume of CL
+        set Electrolyte loading (%wt) = 4:0.5313                           # Electrode loading is the weight percentage of ionomer per gram of CL
+        #//-- Network characteristics
+        set Method to compute porosity = marc                                             #OPTIONS: marc
+        set Method effective transport properties in pores = Bruggemann                   # OPTIONS: Given|Bruggemann|Percolation -- Method used to compute effective transport properties in the void phase.
+        set Method effective transport properties in solid phase = Bruggemann             # OPTIONS: Given|Bruggemann|Percolation --- Method used to compute effective transport properties in pores
+        set Method effective transport properties in electrolyte phase = Bruggemann       # OPTIONS: Given|Bruggemann|Percolation|Iden11 -- Method used to compute effective transport properties in pores
+        set Method to compute active area = Marr                                          # OPTIONS: given|Marr|ETEK06|ETEK07 --       
+    end
+    
+    ##  
+    subsection MultiScaleCL 
+    
+    set Average current in cell = false
+      
+      subsection MicroScale
+        set Microscale type = IonomerAgglomerateSun
+        subsection AgglomerateBase
+          set Radius of the agglomerate [nm] = 1000
+          set Constant agglomerate parameter [Thickness | Porosity] = Thickness
+          set Agglomerate porosity = 0.76 #mid 0.6345 #base 0.5
+          set Thickness of the agglomerate film [nm] = 80
+        end
+      end    
+    end  
+  end
+end
+#############################################################
+
+#############################################################
+subsection Output Variables
+  set num_output_vars = 1
+  set Output_var_0 = current
+  set Output_var_1 = t_m_Pt
+end
+#############################################################
+
+#############################################################
+subsection Output
+  subsection Data
+    set Output format = vtu #tecplot
+  end
+  subsection Grid
+    set Format = eps
+  end
+end
+#############################################################
+#############################################################

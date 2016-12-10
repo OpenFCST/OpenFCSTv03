@@ -1,0 +1,38 @@
+Tips when installing and linking OpenFCST to PETSc 3.4.4
+
+###############
+Tip #1
+###############
+    
+If you get the following error near the end when you install OpenFCST:
+    
+  undefined reference to `PetscObjectQueryFunction'
+  
+Then check the install log for PETSc (fcst/Build/contrib/PETSc/stamp/PETSc-install-out.log at the end it should have an output
+like the following:
+
+  C/C++ example src/snes/examples/tutorials/ex19 run successfully with 1 MPI process
+  C/C++ example src/snes/examples/tutorials/ex19 run successfully with 2 MPI processes
+  Fortran example src/snes/examples/tutorials/ex5f run successfully with 1 MPI process
+  
+Most likely one of these tests failed and you get an error in its place similar to:
+
+  symbol lookup error: ./ex5f: undefined symbol
+  
+In this case check to see if you need to update your OpenMPI compilers, if so then update them and try a clean build. 
+
+TIP: Instead of running through the whole thing when to get the error in OpenFCST, when PETSc is done installing check the
+PETSc-install-out.log file and see if this has worked, if not then stop the installation process.
+
+If updating your OpenMPI compilers did not work then please go to: fcst/openFCST/contrib/PETSc/CMakeLists.txt, and change
+lines 36 and 58 where they state:
+
+  Line 36: CONFIGURE_COMMAND ./config/configure.py --with-debugging=0 --with-shared-libraries=1 --with-x=0 --with-mpi=1 --download-hypre=1 --download-scalapack=1 --download-mumps=1 --download-ptscotch=1
+  Line 58: CONFIGURE_COMMAND ./config/configure.py --with-debugging=1 --with-shared-libraries=1 --with-x=0 --with-mpi=1 --download-hypre=1 --download-scalapack=1 --download-mumps=1 --download-ptscotch=1
+  
+to the following:
+
+  Line 36: CONFIGURE_COMMAND ./config/configure.py --with-debugging=0 --download-openmpi=1 --with-shared-libraries=1 --with-x=0 --with-mpi=1 --download-hypre=1 --download-scalapack=1 --download-mumps=1 --download-ptscotch=1
+  Line 58: CONFIGURE_COMMAND ./config/configure.py --with-debugging=1 --download-openmpi=1 --with-shared-libraries=1 --with-x=0 --with-mpi=1 --download-hypre=1 --download-scalapack=1 --download-mumps=1 --download-ptscotch=1
+  
+Then do a clean build (ie remove the Build folder). This change will tell PETSc to download and install its own OpenMPI compilers to use instead of the ones found on your computer. 

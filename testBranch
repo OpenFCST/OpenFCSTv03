@@ -1,0 +1,282 @@
+#!/bin/bash
+#---------------------------------------------------------------------------
+#
+#    FCST: Fuel Cell Simulation Toolbox
+#
+#    Copyright (C) 2006-13 by Energy Systems Design Laboratory, University of Alberta
+#
+#    This software is distributed under the MIT License.
+#    For more information, see the README file in /doc/LICENSE
+#
+#---------------------------------------------------------------------------
+
+#######################
+#
+# Test file for running tests under all possible configures
+# meant to make developers lives easier when wanting to merge
+# branch.
+#
+#
+# Developer: Chad Balen, 2015
+#
+#######################
+set -e #Exits if any command cannot be performed
+
+currentDir=$(pwd)
+installDir="$currentDir/Install"
+
+# Writing the help command. First checking if there are any
+# arguments.
+if [ -z "$*" ]; then
+    echo ""
+elif [[ $* == *--help* ]]; then
+    echo ""
+    echo "========================================================"
+    echo "                                                        "
+    echo "             testBranch script information:             "
+    echo
+    echo " This script assumes that this directory is the same as "
+    echo " openFCST_install. This script is to be used by         "
+    echo " developers that wish to test their branch before       "
+    echo " merging by running the run_tests script under all      "
+    echo " possible configurations for OpenFCST. The results are  "
+    echo " saved in different files so the developer can run this "
+    echo " and walk away without having to watch when tests are   "
+    echo " done to run a different configuration.                 "
+    echo
+    echo 
+    echo "             Options for testBranch script              "
+    echo 
+    echo " Multicore execution of the make command during         "
+    echo " installation can be activated by the following flag:   "
+    echo "                  --cores=<Num_Of_Cores>          "
+    echo
+    echo "========================================================"
+    echo ""
+    exit
+fi
+
+#-----------------------
+#
+# Check for multicore run test command
+#
+#-----------------------
+argnumcores=`echo "$*" | perl -n -e 'm/--cores=(\S+)/; print $1'`
+if [ "$argnumcores" == "" ];then
+    echo
+    echo "======================================================="
+    echo "              Compiling on a single core               "
+    echo "======================================================="
+    argnumcores=1
+elif [[ $argnumcores =~ ^-?[0-9]+$ ]];then
+    echo
+    echo "======================================================="
+    echo "                Compiling on " $argnumcores " cores    "
+    echo "======================================================="
+else
+    echo
+    echo "======================================================="
+    echo " --cores="$argnumcores" is an invalid core number      "
+    echo " Please either omit or try the following syntax:       "
+    echo "        ./openFCST_install_CMake --cores=7                       "
+    echo "======================================================="
+    exit 1
+fi
+
+#-----------------------
+#
+# Remove old tests_summary logs
+#
+#-----------------------
+#Do a clean Install
+if [ -d Build ]; then
+    rm -rf Build
+fi
+if [ -d $installDir/contrib/ALGLIB ]; then
+    rm -rf $installDir/contrib/ALGLIB
+fi
+if [ -d $installDir/contrib/COLDAE ]; then
+    rm -rf $installDir/contrib/COLDAE
+fi
+if [ -d $installDir/contrib/cpptest ]; then
+    rm -rf $installDir/contrib/cpptest
+fi
+# if [ -d $installDir/contrib/Dakota ]; then
+#     rm -rf $installDir/contrib/Dakota
+# fi
+if [ -d $installDir/contrib/deal.II ]; then
+    rm -rf $installDir/contrib/deal.II
+fi
+if [ -d $installDir/contrib/Metis ]; then
+    rm -rf $installDir/contrib/Metis
+fi
+if [ -d $installDir/contrib/p4est ]; then
+    rm -rf $installDir/contrib/p4est
+fi
+if [ -d $installDir/contrib/PETSc ]; then
+    rm -rf $installDir/contrib/PETSc
+fi
+if [ -d $installDir/contrib/sqlite ]; then
+    rm -rf $installDir/contrib/sqlite
+fi
+if [ -d $installDir/fcst ]; then
+    rm -rf $installDir/fcst
+fi
+if [ -d $installDir/examples ]; then
+    rm -rf $installDir/examples
+fi
+
+#Files created by run_tests
+if [ -f $installDir/tests_output.log ]; then
+    rm $installDir/tests_output.log
+fi
+if [ -f $installDir/tests_summary.log ]; then
+    rm $installDir/tests_summary.log
+fi
+
+# #With Dakota & PETSc files
+# if [ -f $installDir/1a_tests_summary_WithDakotaPETSc_Release.log ]; then
+#     rm $installDir/1a_tests_summary_WithDakotaPETSc_Release.log
+# fi
+# if [ -f $installDir/1b_tests_summary_WithDakotaPETSc_Debug.log ]; then
+#     rm $installDir/1b_tests_summary_WithDakotaPETSc_Debug.log
+# fi
+# 
+# #With Dakota files
+# if [ -f $installDir/2a_tests_summary_WithDakota_Release.log ]; then
+#     rm $installDir/2a_tests_summary_WithDakota_Release.log
+# fi
+# if [ -f $installDir/2b_tests_summary_WithDakota_Debug.log ]; then
+#     rm $installDir/2b_tests_summary_WithDakota_Debug.log
+# fi
+
+#With PETSc files
+if [ -f $installDir/3a_tests_summary_WithPETSc_Release.log ]; then
+    rm $installDir/3a_tests_summary_WithPETSc_Release.log
+fi
+if [ -f $installDir/3b_tests_summary_WithPETSc_Debug.log ]; then
+    rm $installDir/3b_tests_summary_WithPETSc_Debug.log
+fi
+
+#Without Dakota & PETSc files
+if [ -f $installDir/4a_tests_summary_Release.log ]; then
+    rm $installDir/4a_tests_summary_Release.log
+fi
+if [ -f $installDir/4b_tests_summary_Debug.log ]; then
+    rm $installDir/4b_tests_summary_Debug.log
+fi
+
+#-----------------------
+#
+# Optimized Simulations
+#
+#-----------------------
+cd $currentDir
+
+# echo "========================================================"
+# echo "  Configuration: With Dakota & PETSc in Optimized Mode  "
+# echo "========================================================"
+# ./openFCST_install --cores=$argnumcores --with-petsc --with-dakota  --with-paraview
+# cd $installDir
+# ./run_tests --cores=$argnumcores
+# cp tests_summary.log 1a_tests_summary_WithDakotaPETSc_Release.log
+# cd $currentDir
+#
+#
+# #Remove old example folder and begin next configuration
+# if [ -d $installDir/examples ]; then
+#     rm -rf $installDir/examples
+# fi
+# echo "========================================================"
+# echo "      Configuration: With Dakota in Optimized Mode      "
+# echo "========================================================"
+# ./openFCST_install --cores=$argnumcores --with-dakota --library-fcst
+# cd $installDir
+# ./run_tests --cores=$argnumcores
+# cp tests_summary.log 2a_tests_summary_WithDakota_Release.log
+# cd $currentDir
+#
+#
+# #Remove old example folder and begin next configuration
+# if [ -d $installDir/examples ]; then
+#     rm -rf $installDir/examples
+# fi
+echo "========================================================"
+echo "      Configuration: With PETSc in Optimized Mode       "
+echo "========================================================"
+./openFCST_install --cores=$argnumcores --with-petsc 
+cd $installDir
+./run_tests --cores=$argnumcores
+cp tests_summary.log 3a_tests_summary_WithPETSc_Release.log
+cd $currentDir
+
+#Remove old example folder and begin next configuration
+if [ -d $installDir/examples ]; then
+    rm -rf $installDir/examples
+fi
+echo "========================================================"
+echo "         Configuration: None in Optimized Mode          "
+echo "========================================================"
+./openFCST_install --cores=$argnumcores --library-fcst
+cd $installDir
+./run_tests --cores=$argnumcores
+cp tests_summary.log 4a_tests_summary_Release.log
+cd $currentDir
+
+#-----------------------
+#
+# Debug Simulations
+#
+#-----------------------
+#Remove old example folder and begin next configuration
+# if [ -d $installDir/examples ]; then
+#     rm -rf $installDir/examples
+# fi
+# echo "========================================================"
+# echo "    Configuration: With Dakota & PETSc in Debug Mode    "
+# echo "========================================================"
+# ./openFCST_install --cores=$argnumcores --with-petsc --with-dakota --library-fcst --openfcst-debug
+# cd $installDir
+# ./run_tests --cores=$argnumcores
+# cp tests_summary.log 1b_tests_summary_WithDakotaPETSc_Debug.log
+#cd $currentDir
+
+# #Remove old example folder and begin next configuration
+# if [ -d $installDir/examples ]; then
+#     rm -rf $installDir/examples
+# fi
+# echo "========================================================"
+# echo "        Configuration: With Dakota in Debug Mode        "
+# echo "========================================================"
+# ./openFCST_install --cores=$argnumcores --with-dakota --library-fcst --openfcst-debug
+# cd $installDir
+# ./run_tests --cores=$argnumcores
+# cp tests_summary.log 2b_tests_summary_WithDakota_Debug.log
+# cd $currentDir
+# 
+
+#Remove old example folder and begin next configuration
+if [ -d $installDir/examples ]; then
+    rm -rf $installDir/examples
+fi
+echo "========================================================"
+echo "        Configuration: With PETSc in Debug Mode         "
+echo "========================================================"
+./openFCST_install --cores=$argnumcores --with-petsc --openfcst-debug
+cd $installDir
+./run_tests --cores=$argnumcores
+cp tests_summary.log 3b_tests_summary_WithPETSc_Debug.log
+cd $currentDir
+
+#Remove old example folder and begin next configuration
+if [ -d $installDir/examples ]; then
+    rm -rf $installDir/examples
+fi
+echo "========================================================"
+echo "           Configuration: None in Debug Mode            "
+echo "========================================================"
+./openFCST_install --cores=$argnumcores --library-fcst --openfcst-debug
+cd $installDir
+./run_tests --cores=$argnumcores
+cp tests_summary.log 4b_tests_summary_Debug.log
+cd $currentDir

@@ -1,0 +1,53 @@
+%%===============================================================
+%%===============================================================
+\chapter{OpenFCST structure}
+%%===============================================================
+%%===============================================================
+% Authors: M. Secanell and Chad Balen.
+%%===============================================================
+
+Prior to installation, OpenFCST contains the following main folders:
+\begin{itemize}
+ \item \texttt{src} contains all source files for OpenFCST, documentation files, licenses and this guide;
+ \item \texttt{pre\_processing} contains a collection of additional programs to improve the usability of OpenFCST such as a collection of Python scripts for Salome;
+ \item \texttt{post\_processing} contains a collection of additional Python scripts to further post-process the results obtained using OpenFCST with ParaView; 
+ \item \texttt{python} contains a collection of Python scripts for plotting polarization curves and further post-processing of the solution.
+\end{itemize}
+
+After installation of OpenFCST, two additional folders will appear:
+\begin{itemize}
+ \item \texttt{Install} contains the binaries of OpenFCST. \textbf{OpenFCST users should only work in this folder};
+ \item \texttt{Build} contains auxiliary files necessary for the compilation of OpenFCST. This folder is therefore of no interest to users of OpenFCST.
+\end{itemize}
+
+The \texttt{Install} folder is the only folder users should be concerned with. Users should think of \texttt{Install} as installation folder, i.e. the folder where all files necessary to execute OpenFCST are installed. Other folders contain either source code for OpenFCST, i.e. \texttt{src} and \texttt{python}, or auxiliary routines that are not critical to OpenFCST. In the remaining of the User Manual, we will assume that users have installed the program and they are working from the \texttt{Install} directory.
+
+%%===============================================================
+\section{Install directory tree}
+%%===============================================================
+The Install directory of OpenFCST contains two scripts and nine subfolders. The subfolders are namely:
+\begin{itemize}
+ \item \texttt{bin} contains binary executable files for OpenFCST. The main three executables are: a)~\texttt{fuel\_cell-2d.bin}, b)~\texttt{fuel\_cell-3d.bin}, and c)~\texttt{fcst\_gui}. The first file is used to run OpenFCST through the terminal for solving 2D problems, the second for running 3D problems, and the last file is the file to execute the graphical user interface. 
+ \item \texttt{examples} contains a set of example problems to learn how to use OpenFCST. In particular, there are examples to simulate a cathode, a membrane electrode assembly (MEA) with macro-homogeneous and agglomerate models, and a non-isothermal MEA. The files in the example folder should not be modified. Instead, copy the appropriate files to \texttt{my\_data} and modify as necessary.
+ \item \texttt{doc} contains all documentation except for the examples. This includes:
+ \begin{itemize}
+  \item a main HTML page, i.e., \texttt{index.html}, that can be used to access all documentation in OpenFCST;
+  \item the User’s Manual in PDF and \TeX format (in \texttt{RefGuide} folder);
+  \item the class documentation in HTML and \TeX, i.e. the documentation for each routine developed in OpenFCST (in \texttt{html} and \texttt{latex} folders).
+ \end{itemize}
+ \item \texttt{contrib} contains the contributing libraries to OpenFCST. These are libraries that have been developed by other people and are used within OpenFCST. They include deal.II and DAKOTA. Note that some of these libraries have been slightly modified by OpenFCST developers (see README file in each subfolder).
+ \item \texttt{databases} contains databases used in the case of numerical agglomerates to speed-up OpenFCST simulations. If you are not using a numerical agglomerate model, you do not need to worry about this folder.
+ \item \texttt{fcst} contains the .h files needed in order to link other libraries to OpenFCST. This folder is not necessary for Users.
+ \item \texttt{test} contains the configuration files used to run the tests to make sure the OpenFCST has been installed correctly. These same files are used with CDash to make sure OpenFCST continues to provide the same results between releases.
+ \item \texttt{python} contains a collection of Python scripts to help with post-processing. This section is in its infancy.
+ \item \texttt{my\_data} does not contain any information. It is created to allow users to store their simulation data.
+\end{itemize}
+
+The two scripts are \texttt{fcst\_env.sh} and \texttt{run\_tests}. The first file should be executed when you start the program. It contains environment variable definitions for OpenFCST. This file can be copied directly to your \texttt{.bash\_profile} so that the variables are always defined. The definition of environment variables is needed for successful passing of all tests. To source the file, type the following:
+\begin{lstlisting}
+. fcst_env.sh
+\end{lstlisting}
+The second file, \texttt{run\_tests}, is a script used to execute all examples in the example folder. The results are compared to pre-computed results in order to make sure OpenFCST is running correctly on your system.
+
+%%===============================================================
+%%===============================================================

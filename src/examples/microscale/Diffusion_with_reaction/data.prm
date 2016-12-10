@@ -1,0 +1,68 @@
+######################################################################
+#   $Id: $
+#
+#  This file is used to simulate a diffusion application
+#  on a 3D Mesh.
+#  Copyright (C) 2015 by Marc Secanell
+#
+######################################################################
+
+######################################################################
+
+include ../template/data.prm
+
+######################################################################
+
+######################################################################
+subsection Discretization
+  set Boundary fluxes = true 
+end
+######################################################################
+
+######################################################################
+subsection Picard
+ set Under-relaxation = true
+ set Alpha  = 6
+ set Gamma min  = 0.3
+ set Max steps = 10000
+ set Absolute tolerance = 1e-7
+ set Relative tolerance = 1e-5
+end
+######################################################################
+
+######################################################################
+
+subsection Equations
+
+ subsection Ficks Transport Equation - oxygen
+
+  subsection Initial data
+   set oxygen_molar_fraction = 0: 0.1	# where 0 indicates the material_id setup in the grid and 100 is the concentration of solute in mol/cm^3
+  end
+
+  subsection Boundary data
+   set species_flux = 0:1
+   set oxygen_molar_fraction = 1: 0.161, 2: 0.161, 3: 0.161, 4: 0.161, 5: 0.161, 6: 0.161	# where 1 - 6 denote the boundary ids and 0.161 is oxygen molar fraction at these boundary ids
+  end
+  
+  subsection Reaction data
+   set Electronic potential,[V] = 0.2
+   set Protonic potential,[V] = 0
+   set Type of kinetics = DoubleTrapKinetics
+   set Reaction name = ORR
+   set Ionomer dissolution constant,[cm/s] = 10
+   set Ionomer film thickness,[cm] = 10e-7
+   set A_Pt,s|g = 20
+  end
+ end
+end
+######################################################################
+
+######################################################################
+subsection Output Variables
+ set Compute boundary responses = true
+ set Output boundary id = 0
+ set num_output_vars = 1
+ set Output_var_0 = oxygen_molar_fraction
+end
+######################################################################

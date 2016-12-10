@@ -1,0 +1,9 @@
+# ====================================================
+# OpenFCST: Fuel cell simulation toolbox 
+# ====================================================
+# Polarization curve data :polarization_curve.dat
+Cell voltage [V]	Cathode current [A/cm2]
+1	0.000335082917 
+0.85	0.03030206223 
+0.7	0.2711632899 
+0.55	0.8672046875 

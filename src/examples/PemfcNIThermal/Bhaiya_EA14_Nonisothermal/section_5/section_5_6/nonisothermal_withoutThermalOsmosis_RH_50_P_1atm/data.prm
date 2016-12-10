@@ -1,0 +1,26 @@
+######################################################################
+#   $Id: $
+#
+#  This file is used to simulate a non-isothermal MEA application
+#  with operating conditions of RH (anode/cathode) = 50%, and 
+#  plate temperature (anode/cathode) of 80 C (353.15 K), and 
+#  cell pressure of 1 atm (101325 Pa).
+#  Sorbed water transport due to thermal osmosis is turned OFF.
+#
+#   Copyright (C) 2013-15 by Madhur Bhaiya
+#
+######################################################################
+
+######################################################################
+
+include ../../../template/nonisothermal/data.prm
+
+######################################################################
+
+subsection Equations 
+ subsection Membrane Water Content Transport Equation
+  subsection Boolean flags for lambda transport modes
+   set Thermo-osmosis                                      = false
+  end
+ end
+end

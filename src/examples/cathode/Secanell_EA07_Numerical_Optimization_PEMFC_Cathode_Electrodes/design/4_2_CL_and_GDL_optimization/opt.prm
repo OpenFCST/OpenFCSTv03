@@ -1,0 +1,77 @@
+######################################################################
+#
+#  This file is used to run optimization the optimization study in section
+#  4.2. (Catalyst layer and gas diffusion layer optimization) in article M. Secanell et al.,
+#  "Numerical Optimization of Proton Exchange Membrane Fuel Cell Cathode Electrodes ", 
+#  Electrochimica Acta, 52(7):2668-2682, February 2007.
+#
+#  See end of file for a list of possible design variables.
+#
+#   Copyright (C) 2013, Marc Secanell
+#
+######################################################################
+
+include ../../template/opt.prm
+
+##########################################################################
+# 
+# The following modifications are needed to add an extra design variable.
+#
+# The same Optimization Program Options are used.
+#
+##########################################################################
+
+subsection Optimization Parameters
+
+    subsection Design Variables
+        set num_design_variables = 4
+        set DV_0_name = Fuel cell data>>Cathode catalyst layer>>ConventionalCL>>Electrolyte loading (%wt):4
+        set DV_1_name = Fuel cell data>>Cathode catalyst layer>>ConventionalCL>>Platinum loading per unit volume (mg/cm3):4
+        set DV_2_name = Fuel cell data>>Cathode catalyst layer>>ConventionalCL>>Platinum loading on support (%wt):4
+        set DV_3_name = Fuel cell data>>Cathode gas diffusion layer>>DesignFibrousGDL>>Porosity
+        
+        ####### Initial Point #######
+        #######---------------#######
+        set DV_0_ip = 0.3
+        set DV_1_ip = 281.6
+        set DV_2_ip = 0.2
+        set DV_3_ip = 0.8
+        
+        #######	 Upper Bound 	#######
+        ####### ub > 1e30 for inf #######
+        #-------------------------------#
+        set DV_0_ub = 0.9
+        set DV_1_ub = 1700
+        set DV_2_ub = 0.9
+        set DV_3_ub = 0.9
+        
+        #######	  Lower Bound 	  #######
+        ####### lb < -1e30 for -inf #######
+        #---------------------------------#
+        set DV_0_lb = 0.1
+        set DV_1_lb = 85
+        set DV_2_lb = 0.1
+        set DV_3_lb = 0.1
+        
+        ####### Scales #######
+        #######--------#######
+        set DV_0_scale_method = auto				# none | auto | value | log
+        set DV_1_scale_method = value				# none | auto | value | log
+        set DV_2_scale_method = auto				# none | auto | value | log
+        set DV_3_scale_method = auto				# none | auto | value | log
+        
+        set DV_0_scale = 1
+        set DV_1_scale = 1000
+        set DV_2_scale = 1
+        set DV_3_scale = 1
+        
+        ####### Step size #######
+        #######-----------#######
+        set DV_0_step = 1e-5
+        set DV_1_step = 1e-5
+        set DV_2_step = 1e-5
+        set DV_3_step = 1e-5
+        
+    end
+    
+end

@@ -1,0 +1,104 @@
+######################################################################
+#
+#   Testing file. Loads default parameters and modifies them to be able
+#   to test if the implementation of graded CLs is done correctly.
+#
+#   Copyright (C) 2015 by Marc Secanell, University of Alberta
+#
+######################################################################
+
+
+######################################################################
+
+include ../template/data_app_pemfc_default.prm
+
+######################################################################
+######################################################################
+
+######################################################################
+subsection Grid generation
+  #############################################
+  subsection Internal mesh generator parameters
+    ####
+    subsection Dimensions
+      set Cathode CL thickness [cm]                     = 0.5e-3, 0.5e-3     #[cm]
+    end
+    ####
+    subsection Material ID
+      set Cathode GDL     = 3
+      set Cathode MPL     = 4
+      set Cathode CL      = 5, 6
+      set Membrane        = 7
+      set Anode CL        = 8
+      set Anode MPL       = 9
+      set Anode GDL       = 10
+    end
+    ####
+  end
+end
+######################################################################
+
+######################################################################
+######################################################################
+subsection Fuel cell data
+  
+  ##############################################################
+  subsection Cathode gas diffusion layer
+    set Material id                                                      = 3
+  end  
+  ##############################################################
+  subsection Cathode microporous layer
+    set Material id                                                      = 4
+  end  
+  ##############################################################
+  subsection Cathode catalyst layer                    
+    set Material id                                                      = 5, 6
+    
+    ####
+    set Catalyst layer type                                              = HomogeneousCL
+    
+    subsection ConventionalCL
+      set Platinum loading on support (%wt)                              = 5:.46, 6:.46
+      set Platinum loading per unit volume (mg/cm3)                      = 5:400, 6:400
+      set Electrolyte loading (%wt)                                      = 5:0.30, 6:0.30
+      set Method to compute active area                                  = given
+      set Active area [cm^2/cm^3]                                        = 5:2.0e5, 6:2.0e5
+
+    end
+    
+  end
+  ##############################################################
+  subsection Membrane layer
+    set Material id                                                      = 7
+  end
+  ##############################################################
+  subsection Anode catalyst layer
+    set Material id                                                      = 8
+    
+    ####
+    set Catalyst layer type                                              = HomogeneousCL
+    
+    subsection ConventionalCL
+      set Platinum loading on support (%wt)                              = 8:.46
+      set Platinum loading per unit volume (mg/cm3)                      = 8:300
+      set Electrolyte loading (%wt)                                      = 8:0.30
+      set Method to compute active area                                  = given
+      set Active area [cm^2/cm^3]                                        = 8:1.2e5
+         
+    end
+    
+  end
+  ##############################################################
+  subsection Anode microporous layer
+       set Material id                                                     = 9 
+  end
+ ##############################################################
+  subsection Anode gas diffusion layer
+    set Material id                                                      = 10
+  end
+  ##############################################################
+  # END Fuel cell data
+end
+######################################################################
+######################################################################
+######################################################################

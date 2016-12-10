@@ -1,0 +1,25 @@
+######################################################################
+#   $Id: $
+#
+#  File used to reproduce the results from the following paper:
+#  M. Secanell, B. Carnes, A. Suleman and N. Djilali, "Numerical optimization of proton exchange membrane fuel cell cathodes", Electrochimica Acta, 52, 2007, 2668-2682
+#
+#  This file is used to simulate an cathode and to obtain
+#  a single point on a polarisation curve. It is based on 
+#  the test case and will be called by the 
+#  main_app_cathode_analysis.prm file. 
+#
+#   Copyright (C) 2011-13 by Marc Secanell
+#
+######################################################################
+
+include ../../template/data.prm
+
+######################################################################
+# Modify file so that the solutio is not outputed at every iteration
+#
+subsection Adaptive refinement
+  set Output intermediate responses = false
+  set Output final solution = false
+end
+######################################################################

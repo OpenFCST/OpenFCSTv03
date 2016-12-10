@@ -1,0 +1,32 @@
+######################################################################
+#   $Id$
+#
+#  This file is used to simulate a cathode model and to obtain
+#  a polarisation curve. It will call the data_app_cathode_test.prm
+#  file which should produce the results saved in test_results.dat. 
+#  Please do not modify this file, it should only be used to run 
+#  the test case.
+#
+#
+#   Copyright (C) 2011 by Marc Secanell
+#
+######################################################################
+
+include ../template/main.prm
+
+#####################################################################
+subsection Simulator
+
+  set Analysis type = PolarizationCurve
+
+  ################################################
+  subsection Polarization Curve
+    set Initial voltage [V] = 0.9
+    set Final voltage [V] = 0.35
+    set Increment [V] = 0.1
+    set Min. Increment [V] = 0.01
+  end  
+  ################################################
+
+end
+#####################################################################

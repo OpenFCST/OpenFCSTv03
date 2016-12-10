@@ -1,0 +1,16 @@
+######################################################################
+#
+# Main file for analysis simulation
+#
+######################################################################
+
+subsection Simulator
+
+  set simulator name = MEA
+  set simulator parameter file name = data_app_pemfc.prm
+  
+  set nonlinear solver name = NewtonLineSearch
+
+  set Analysis type = Analysis
+  
+end

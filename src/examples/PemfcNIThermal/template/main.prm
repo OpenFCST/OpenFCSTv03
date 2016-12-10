@@ -1,0 +1,24 @@
+######################################################################
+#
+#  This file is used to simulate a NonIsothermal MEA model
+#  using a macro-homogeneous catalyst layer structure
+#
+#
+#   Copyright (C) 2013 by Madhur Bhaiya
+#
+######################################################################
+
+#####################################################################
+subsection Simulator
+
+  set simulator name                = meaNIT
+  set simulator parameter file name = data.prm
+  
+  set nonlinear solver name         = Newton3pp
+  set refinement method             = AdaptiveRefinement  
+
+  set Analysis type                 = Analysis
+
+end
+#####################################################################
+

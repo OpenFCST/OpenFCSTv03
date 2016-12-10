@@ -1,0 +1,15 @@
+######################################################################
+#   $Id: sample_main_param_file.prm  2011-02-09 secanell $
+#
+#  This file is used to simulate an cathode and to obtain
+#  a single point on a polarisation curve. Use this file 
+#  if you wish to perform a single analysis simulation. 
+#
+#
+#   Copyright (C) 2011 by Marc Secanell
+#
+######################################################################
+
+include ../4_1_Catalyst_layer_optimization/main.prm
+
+######################################################################

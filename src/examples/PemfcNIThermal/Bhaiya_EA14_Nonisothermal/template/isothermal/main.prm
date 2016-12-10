@@ -1,0 +1,29 @@
+######################################################################
+#
+#  This file is used to simulate an Isothermal MEA model.
+#
+#
+#   Copyright (C) 2013-15 by Madhur Bhaiya
+#
+######################################################################
+
+
+#####################################################################
+subsection Simulator
+
+ set simulator name                      = MEA
+ set simulator parameter file name       = data.prm
+ 
+ set nonlinear solver name               = Newton3pp
+ set refinement method                   = AdaptiveRefinement
+ 
+ set Analysis type                       = Optimization
+ 
+ subsection Optimization
+  set optimization parameter file name   = opt.prm
+  set Dakota direct                      = true
+  set save transfer files                = true
+ end
+ 
+end
+#####################################################################

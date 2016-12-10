@@ -1,0 +1,55 @@
+// ----------------------------------------------------------------------------
+//
+// FCST: Fuel Cell Simulation Toolbox
+//
+// Copyright (C) 2006-2013 by Energy Systems Design Laboratory, University of Alberta
+//
+// This software is distributed under the MIT License
+// For more information, see the README file in /doc/LICENSE
+//
+// - Class: fevectors_test.h
+// - Description: Test for Event class
+// - Developers: Marc Secanell Gallart,    University of Alberta
+// - $Id: fevectors_test.h 2487 2014-07-12 01:44:14Z secanell $
+//
+// ----------------------------------------------------------------------------
+
+
+#ifndef _FUELCELL_UNITTESTS_FEVECTORS_TEST
+#define _FUELCELL_UNITTESTS_FEVECTORS_TEST
+
+#include <cpptest.h>
+#include <application_core/fe_vectors.h>
+
+namespace FuelCell
+{
+    namespace UnitTest
+    {
+        class FEVectorsTest: public Test::Suite
+        {
+        public:
+            FEVectorsTest()
+            {
+                //Add a number of tests that will be called during Test::Suite.run()
+                //Generic cases
+                TEST_ADD(FEVectorsTest::testScalar);
+                TEST_ADD(FEVectorsTest::testVector);
+                TEST_ADD(FEVectorsTest::testMerge);
+                TEST_ADD(FEVectorsTest::testOutput);
+            }
+            
+        protected:
+            virtual void setup() {} // setup resources... called before Test::Suite.run() ..not implemented for this test suite
+            virtual void tear_down() {} // remove resources...called after Test::Suite.run()  ..not implemented for this test suite
+            
+        private:
+            
+            void testScalar();
+            void testVector();
+            void testMerge();
+            void testOutput();
+        };
+    }
+}
+
+#endif

@@ -1,0 +1,43 @@
+%%===============================================================
+%%===============================================================
+\chapter{Getting started}
+%%===============================================================
+%%===============================================================
+% Authors: M. Secanell and M. Sabharwal
+%%===============================================================
+\section{Downloading OpenFCST}
+There are three ways you can obtain OpenFCST,
+\begin{itemize}
+ \item Source code from \htmladdnormallink{GitHub}{https://github.com/OpenFCST/OpenFCSTv03} (using the \texttt{git clone} command)
+ \item Zip file from the \htmladdnormallink{OpenFCST project site}{http://www.openfcst.mece.ualberta.ca/download.html}
+ \item As a VirtualBox virtual machine from the \htmladdnormallink{OpenFCST project site}{http://www.openfcst.mece.ualberta.ca/download.html}
+\end{itemize}
+
+If you have a Linux operating system, you can use the first two methods. If you are using a Windows or a Mac, you need to use the third option to run OpenFCST. 
+
+If you have obtained OpenFCST from any of the first two options,  you will first need to install OpenFCST in your computer. To install OpenFCST please follow the instructions in chapter \ref{Ch:installation}. Once installed, you can run OpenFCST following the steps in chapter \ref{Ch:running_openFCST}.
+
+If you have obtained OpenFCST using the latter option, first install VirtualBox in your computer (you can download it \htmladdnormallink{here}{https://www.virtualbox.org/}. Then, open the virtual box and import the OpenFCST virtual machine (VM). Once imported, you can start the machine (OpenSUSE environment). The VM desktop will already contain icons to the OpenFCST GUI. To run OpenFCST follow the steps in chapter \ref{Ch:running_openFCST}.
+
+%%===============================================================
+\section{Documentation in OpenFCST}
+
+OpenFCST comes with three different documentation forms to aid users and developers to run and customize OpenFCST as per their needs.
+
+\subsection{Tutorial examples}
+
+Tutorial examples provide a good starting point for the users and developers to execute the existing applications developed by the OpenFCST developers.
+The examples describe the problem statement and equations that are solved. Then, a step by step procedure to run the application is provided. Additionally, the examples also describe the  parameters which are important for the problem being solved to facilitate users to setup their own simulations. The examples can be found at \htmladdnormallink{Tutorial examples}{http://www.openfcst.mece.ualberta.ca/examples/v_03/index.html} or alternately they can be built locally in the OpenFCST installation folder under the examples subfolder. To build the examples, go to the examples folder in the OpenFCST Install directory and type the following,
+\begin{lstlisting}
+ make html
+\end{lstlisting}
+This will execute the sphinx compiler to create the examples. OpenFCST uses python 2.7 by default. See chapter \ref{Ch:installation} on how to setup a virtual python environment. To modify an existing example or add a new example see the ``How to create your own tutorial'' page. 
+
+\subsection{Reference guide}
+
+The reference guide which is the current document provides an overview of OpenFCST to the users and developers. The reference guide describes the OpenFCST structure and philosophy. The document provides pre-processing examples for mesh generation using Salome, detailed description of the OpenFCST main and data files are provided which is essential for users and developers who would like to run their own simulations and procedure for setting up and executing a simulation with OpenFCST. The developer's reference guide also provides information for developers who would like to contribute to OpenFCST. Information on setting up an IDE (Kdevelop) and formatting options used for the OpenFCST source code. The document also highlights the coding guidelines and the testing procedure that is implemented to ensure consistency across developers and reliability of the code.
+
+\subsection{Class documentation}
+
+This is the C++ source code documentation generated using Doxygen. The class documentation can be found \htmladdnormallink{here}{http://www.openfcst.mece.ualberta.ca/class_documentation/v_03/index.html}. This provides the documentation for the various classes, hierarchy and inheritance diagrams, and description of member functions and variables. Developers and advanced users looking to understand the working of the OpenFCST framework should use the class documentation.
+

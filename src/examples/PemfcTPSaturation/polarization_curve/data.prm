@@ -1,0 +1,13 @@
+######################################################################
+#
+#  This file is used to simulate a NonIsothermal two phase saturation MEA model
+#  using a macro-homogeneous catalyst layer structure
+#
+#
+#   Copyright (C) 2015 by Jie Zhou
+#
+######################################################################
+
+include ../template/data.prm
+
+######################################################################

@@ -1,0 +1,131 @@
+######################################################################
+#   $Id: $
+#
+#  This file is used to simulate app_diffusion and to obtain
+#  a concentration profile for the species through the domain 
+#  This file will be called by the main.prm file. 
+#
+#   Copyright (C) 2011-13 by Marc Secanell
+#
+######################################################################
+
+###############
+subsection Grid generation
+
+  set Type of mesh = GridExternal  # Cathode | CathodeMPL | GridExternal
+  set File name = test.vtk  
+  set File type = vtk
+  set Initial refinement = 0
+  set Sort Cuthill-McKee = false
+
+end
+
+###############
+subsection Initial Solution
+ set Read in initial solution from file      = false
+ set Output initial solution                 = false
+end
+###############
+
+###############
+subsection Adaptive refinement
+ set Refinement         = global  #global | adaptive
+ set Number of Refinements                   = 3
+ set Output intermediate solutions           = false
+ set Output final solution                   = true
+ set Output intermediate responses           = false
+ set Use nonlinear solver for linear problem = false
+end
+###############
+
+###############
+subsection System management
+
+ set Number of solution variables = 1
+
+ subsection Solution variables
+  set Solution variable 1 = oxygen_molar_fraction
+ end
+
+ subsection Equations
+  set Equation 1 = Ficks Transport Equation - oxygen
+ end
+
+end
+
+###############
+subsection Equations
+
+ subsection Ficks Transport Equation - oxygen
+
+  subsection Initial data
+   set oxygen_molar_fraction = 0: 100	# where 0 indicates the material_id setup in the grid and 100 is the concentration of solute in mol/cm^3
+  end
+
+  subsection Boundary data
+   set oxygen_molar_fraction = 1: 0.4, 2:0.01	# where 1 & 2 denote the boundary ids and 0.4 and 0.01 are the concentrations of solute at the respective boundary
+  end
+ end
+
+
+end
+
+###############
+subsection Discretization
+  set Element = FESystem[FE_Q(1)] #FESystem[FE_Q(3)-FE_Q(1)^2] #FESystem[FE_Q(1)^3] #System of three fe
+  subsection Matrix
+    set Quadrature cell = -1
+    set Quadrature face = -1
+  end
+  subsection Residual
+    set Quadrature cell = -1
+    set Quadrature face = -1
+  end
+end
+
+###############
+subsection Fuel cell data
+  
+  ####
+  subsection Operating conditions
+     set Temperature cell [K] = 353
+     set Cathode pressure [Pa] = 101265 # (1 atm)
+     set Cathode relative humidity = 0.6
+  end
+  ####
+ 
+  ####
+  subsection Cathode gas diffusion layer
+  
+    set Gas diffusion layer type = DummyGDL #[ DesignFibrousGDL | DummyGDL | SGL24BA ]
+    
+    set Material id = 0
+    ####
+    subsection DummyGDL
+        set Oxygen diffusion coefficient, [cm^2/s] = 0.22
+    end
+    ####   
+  end
+  
+  ####
+   
+end
+
+
+###############
+subsection Output
+  subsection Data
+    set Output format  = vtu
+    set Print solution = true
+  end
+  subsection Grid
+    set Format = eps
+  end
+end
+
+
+################################
+################################
+################################
+################################
+

@@ -1,0 +1,44 @@
+######################################################################
+#   $Id: $
+#
+#  File used to reproduce the results from the following paper:
+#  M. Secanell, B. Carnes, A. Suleman and N. Djilali, "Numerical optimization of proton exchange membrane fuel cell cathodes", Electrochimica Acta, 52, 2007, 2668-2682
+#
+#  This file is used to simulate an cathode and to obtain
+#  a single point on a polarisation curve. It is based on 
+#  the test case and will be called by the 
+#  main_app_cathode_analysis.prm file. 
+#
+#   Copyright (C) 2011-13 by Marc Secanell
+#
+######################################################################
+
+include ../template/data.prm
+
+#############################################################
+subsection Adaptive refinement
+  set Number of Refinements = 2
+  set Output final solution = false
+end
+#############################################################
+
+#############################################################
+
+subsection Fuel cell data
+  subsection Cathode gas diffusion layer
+    subsection DesignFibrousGDL
+      ######### Composition: #########
+      set Porosity = 0.5                                ##high=  ,       #mid = 0.78085  #base = 0.5, 
+    end
+  end
+  subsection Cathode catalyst layer
+    subsection ConventionalCL
+        set Platinum loading on support (%wt) = 4:0.28            #high = 0.4669,  #mid = 0.4669     #base = 0.28           # Mass percentage of platinum catalyst on the support carbon black
+        set Platinum loading per unit volume (mg/cm3) = 4:266.67  ##high = ??,     #mid = 357.13333  #base = 266.67           # Catalyst platinum mass loading per unit volume of CL
+        set Electrolyte loading (%wt) = 4:0.5313                  ##high = ??,     #mid = 0.585153,  #base = 0.5313                # Electrode loading is the weight percentage of ionomer per gram of CL     
+    end
+  end
+end
+
+#############################################################
+#############################################################

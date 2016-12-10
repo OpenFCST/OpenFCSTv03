@@ -1,0 +1,221 @@
+=======================================================
+
+What is openFCST?
+
+ The Fuel Cell Simulation Toolbox (FCST) is an open-source mathematical modelling 
+ package for polymer electrolyte fuel cells. FCST builds on top of the open-source 
+ finite element libraries deal.II, therefore many of its requirements in terms 
+ of operating systems and such are the same as for deal.II. FCST is distributed 
+ under the MIT License. FCST has been developed as a modular toolbox from which 
+ you can develop your own applications. It contains a database of physical 
+ phenomena equations, fuel cell layers and materials, and kinetics mathematical 
+ models. In addition, it already contains several applications that allow you 
+ to simulate different fuel cell components. For example, you can simulate a cathode 
+ electrode (using either a macrohomogeneous or an ionomer-filled agglomerate model), 
+ an anode electrode or a complete membrane electrode assembly. The applications 
+ already provided in FCST and they have been validated with respect to experimental data 
+ in the literature as well as numerical results from another model implemented
+ in a commercial package.
+
+ FCST is being developed at the Energy Systems Design Laboratory at the 
+ University of Alberta in collaboration with the Automotive Fuel Cell Cooperation Corp. 
+ that, together with the Natural Science and Engineering Research Council of Canada
+ has provided the majority of the funding required to developer this code. The goal
+ of FCST is that research groups in academia and in industry use the current 
+ toolbox to better understand fuel cells and to develop new physics and material 
+ databases that can then be integrated in the current library.
+
+  
+ Requirements:
+ 
+ openFCST is developed on Linux using the GCC compiler. It uses the configuration script from
+ deal.II (www.dealii.org) to compile the library. It supports at least the following platform:
+    GNU/Linux: GCC version 4.7 or later (4.7.2 recommened) 
+    
+ openFCST comes with all required libraries except:
+    1) The optimization library DAKOTA from Sandia National Labs (version 5.4_r2206)
+    2) The parallel adaptive mesh refinement library p4est (version 3.4.2)
+    3) The partition mesh for parallel computing library Metis (version 5.1)
+    4) The parallel linear algebra solver library PETSc (version 3.4.4)
+ You can either download them yourself and install them yourself, place tar files in the appropriate
+ folder (specified below) following OpenFCST naming convention (specified below) or allow OpenFCST
+ to download them for you if you have an internet connection.
+  
+  
+ Configuring and installing OpenFCST:
+  
+  To help with configuring OpenFCST with CMake we have provide a configure script (openFCST_install_CMake) for
+  installing OpenFCST with CMake. This way you do not have to input the necessary information into CMake directly,
+  instead you can use various flags to allow openFCST_install_CMake to set this information for you.
+  
+  For information about the installation script options type:
+  
+  $./openFCST_install_CMake --help
+  
+  In the fcst folder, for a typicall installation enter the following:
+
+  $./openFCST_install_CMake --cores=<number of cores>
+     
+  If you require p4est, Metis, PETSc, and/or Dakota then you will need to download these packages from their 
+  respective websites. Then either:
+  
+    a) Install them yourself and have CMake find the installation using the following flags:
+    
+         i)   $./openFCST_install_CMake --p4est-dir=...
+         ii)  $./openFCST_install_CMake --metis-dir=...
+         iii) $./openFCST_install_CMake --petsc-dir=...
+         iv)  $./openFCST_install_CMake --deal-dir=...
+         v)   $./openFCST_install_CMake --dakota-dir=...
+         
+    b) Have CMake install them for you. When you download these packages if they have not been tar.gz then please do so
+       and then place them in their respective folder inside openfcst/src/contrib/... Make sure the tar.gz follow a certain
+       naming convention, which is as follows:
+       
+         i)   p4est_vXXX.tar.gz
+         ii)  Metis_vXXX.tar.gz
+         iii) PETSc_vXXX.tar.gz
+         iv)  deal.II_vXXX.tar.gz
+         v)   Dakota_vXXX.tar.gz
+         
+       Then specify the version number (vXXX) for each of these packages with their respective version number as follows:
+       
+         i)   $./openFCST_install_CMake --p4est-ver=vXXX
+         ii)  $./openFCST_install_CMake --metis-ver=vXXX
+         iii) $./openFCST_install_CMake --petsc-ver=vXXX
+         iv)  $./openFCST_install_CMake --deal-ver=vXXX
+         v)   $./openFCST_install_CMake --dakota-ver=vXXX
+         
+       Alternatively the default values that these flags are set to the newest confirmed working version. In this case
+       you would not need to specify the version flag above. The newest confirmed working version are:
+       
+         i)   --p4est-ver=v3.4.2
+         ii)  --metis-ver=v5.1
+         iii) --petsc-ver=v3.4.4
+         iv)  --deal-ver=v8.1.1
+         v)   --dakota-ver=v5.4_stable
+         
+    c) If you want OpenFCST to install your own downloaded version of Metis then you will need to change one line of 
+       to prevent errors. In the Makefile on line 67
+       it says: 
+       
+         make -C $(BUILDDIR) $@ $(MAKEFLAGS); \
+       
+       change it to:
+       
+         make -C $(BUILDDIR) $@; \
+    
+      This issue has been reported to the Metis community and will hopefully be fixed in the future, until then you will need
+      to do this to have the OpenFCST CMake script install Metis for you
+    
+    d) If you get the following error near the end when you install OpenFCST:
+    
+         undefined reference to `PetscObjectQueryFunction'
+         
+       Then check the install log for PETSc (fcst/Build/contrib/PETSc/stamp/PETSc-install-out.log at the end it should have an output
+       like the following:
+       
+         C/C++ example src/snes/examples/tutorials/ex19 run successfully with 1 MPI process
+         C/C++ example src/snes/examples/tutorials/ex19 run successfully with 2 MPI processes
+         Fortran example src/snes/examples/tutorials/ex5f run successfully with 1 MPI process
+         
+       Most likely one of these tests failed and you get an error in its place similar to:
+       
+         symbol lookup error: ./ex5f: undefined symbol
+         
+       In this case check to see if you need to update your OpenMPI compilers, if so then update them and try a clean build. 
+       
+       TIP: Instead of running through the whole thing when to get the error in OpenFCST, when PETSc is done installing check the
+       PETSc-install-out.log file and see if this has worked, if not then stop the installation process.
+       
+       If updating your OpenMPI compilers did not work then please go to: fcst/openFCST/contrib/PETSc/CMakeLists.txt, and change
+       lines 36 and 58 where they state:
+       
+         Line 36: CONFIGURE_COMMAND ./config/configure.py --with-debugging=0 --with-shared-libraries=1 --with-x=0 --with-mpi=1 --download-hypre=1 --download-scalapack=1 --download-mumps=1 --download-ptscotch=1
+         Line 58: CONFIGURE_COMMAND ./config/configure.py --with-debugging=1 --with-shared-libraries=1 --with-x=0 --with-mpi=1 --download-hypre=1 --download-scalapack=1 --download-mumps=1 --download-ptscotch=1
+         
+       to the following:
+       
+         Line 36: CONFIGURE_COMMAND ./config/configure.py --with-debugging=0 --download-openmpi=1 --with-shared-libraries=1 --with-x=0 --with-mpi=1 --download-hypre=1 --download-scalapack=1 --download-mumps=1 --download-ptscotch=1
+         Line 58: CONFIGURE_COMMAND ./config/configure.py --with-debugging=1 --download-openmpi=1 --with-shared-libraries=1 --with-x=0 --with-mpi=1 --download-hypre=1 --download-scalapack=1 --download-mumps=1 --download-ptscotch=1
+         
+       Then do a clean build. This change will tell PETSc to download and install its own OpenMPI compilers to use instead of the ones found on your computer. 
+    
+    e) Dakota's stable release is forever changing, the last known stable release to have confirmed to work is version r2206. 
+       If you really want to use your own version here is where you can download the source code for this for
+       this file:
+       
+       http://dakota.sandia.gov/distributions/dakota/stable/dakota-stable_r2206-public.src.tar.gz
+       
+       Two other things to note are:
+       1) The number of backtracks in the OPT++ algorithm should be increased. Before configuring, go to Dakota/packages/OPTPP/src/Base/TOLS.c and change 
+          "max_backiter = 5" to a minimum of 20. Backtracks will generally not exceed 5-10 but can be greater for optimization in non-linear regions
+       
+       2) As well it is suggested that you go into the CMakeLists.txt file in the src folder and copy the following lines
+          after about line 22:
+  
+            # use, i.e. don't skip the full RPATH for the build tree
+            SET(CMAKE_SKIP_BUILD_RPATH  FALSE)
+
+            # when building, don't use the install RPATH already
+            # (but later on when installing)
+            SET(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE) 
+
+            SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+
+            # add the automatically determined parts of the RPATH
+            # which point to directories outside the build tree to the install RPATH
+            SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+
+
+            # the RPATH to be used when installing, but only if it's not a system directory
+            LIST(FIND CMAKE_PLATFORM_IMPLICIT_LINK_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/lib" isSystemDir)
+            IF("${isSystemDir}" STREQUAL "-1")
+                SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+            ENDIF("${isSystemDir}" STREQUAL "-1")
+  
+      This will help Dakota to be able to find link to its own libraries properly.
+
+ If you wish to use your own installation for deal.II then a flag needs to be changed that OpenFCST uses else you will receive issue when linking to Dakota. 
+ deal.II typically wants to compile with the -Wl,--as-needed LDFLAG, this creates problems when linking to Dakota. So if you require Dakota
+ and wish to do your own build for deal.II then either:
+        
+  a) Before installing deal.II in the deal.II src folder replace the following in lines in certain files:
+          
+       i) File: deal.II_src_folder/cmake/setup_compiler_flags_gnu.cmake
+          Replace Line 56: ENABLE_IF_LINKS(DEAL_II_LINKER_FLAGS "-Wl,--as-needed")
+          With: ENABLE_IF_LINKS(DEAL_II_LINKER_FLAGS "")
+
+       ii) File: deal.II_src_folder/cmake/setup_compiler_flags_intel.cmake
+           Replace Line 47: ENABLE_IF_LINKS(DEAL_II_LINKER_FLAGS "-Wl,--as-needed")
+           With: ENABLE_IF_LINKS(DEAL_II_LINKER_FLAGS "")
+                   
+  b) If you have already installed deal.II and don't wish to recompile it with the above changes then you can go into your deal.II install folder
+     and make the following change:
+        
+       File: deal.II_Install_folder/lib/cmake/deal.II/deal.IIConfig.cmake
+       Replace Line 121: SET(DEAL_II_LINKER_FLAGS "-Wl,--as-needed -rdynamic  -Wl,--export-dynamic")
+       With: SET(DEAL_II_LINKER_FLAGS "-rdynamic  -Wl,--export-dynamic")
+
+Getting started:
+
+  See user guide. To launch a sample cathode simulation, go to data/cathode/analysis and type the following:
+  
+  $../../../lib/fuel_cell-2d.bin main_app_cathode_analysis.prm
+  
+  This will run a cathode simulation with the simulation data parameters specified in data_app_cathode_analysis.prm
+
+License:
+
+  Please see the file doc/LICENSE for details
+  
+Setting the project in KDevelop:
+ 1) Project > New/Import Project > Select the CMakeLists.txt in openFCST
+ 2) Set the build project to ./trunk/Build (where ./ is your current path)
+ 3) Set the flag OPENFCST_SRC_DIR to ./trunk (where ./ is your current path)
+ 4) Go to advance and configure LD_LIBRARY_PATH to add the folder where the MPI compiler is (e.g. $LD_LIBRARY_PATH:/usr/lib64/mpi/gcc/openmpi/lib64)
+
+Further information:
+
+  Visit http://www.openfcst.org
+
+=======================================================

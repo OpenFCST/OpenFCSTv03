@@ -1,0 +1,118 @@
+%%===============================================================
+%%===============================================================
+%% Author: M Secanell
+%%===============================================================
+%%===============================================================
+%%===============================================================
+\documentclass[]{book}
+%
+% Created by Marc Secanell on May 18, 2010.
+%
+%-- For margins
+\usepackage{fullpage}
+\usepackage{simplemargins}
+\setallmargins{1in}
+%---
+\usepackage{soul}
+\usepackage{graphicx}
+\usepackage{graphics}
+\usepackage{placeins} %For Float Barriers
+\usepackage{ulem} % Strike out \sout{}
+\usepackage{listings}
+\usepackage{multicol}
+\usepackage{amsmath, amssymb, amsthm,epsf,subfig}
+\usepackage[colorlinks=true]{hyperref}
+\usepackage{alltt}
+\usepackage{subfig}
+\usepackage{xcolor} % to define new colors with \definecolor
+
+\definecolor{dkgreen}{rgb}{0.0, 0.5, 0.0} % a darker green color for readable comments in the code
+
+\lstset{ %
+language=C++,                % choose the language of the code
+basicstyle=\ttfamily\scriptsize,
+keywordstyle=\color{blue}\ttfamily,
+stringstyle=\color{red}\ttfamily,
+commentstyle=\color{dkgreen}\ttfamily,       % the size of the fonts that are used for the code
+numbers=left,                   % where to put the line-numbers
+numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
+stepnumber=1,                   % the step between two line-numbers. If it is 1 each line will be numbered
+numbersep=5pt,                  % how far the line-numbers are from the code
+backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,         % underline spaces within strings
+showtabs=false,                 % show tabs within strings adding particular underscores
+frame=single,           % adds a frame around the code
+tabsize=2,          % sets default tabsize to 2 spaces
+captionpos=b,           % sets the caption-position to bottom
+breaklines=true,        % sets automatic line breaking
+breakatwhitespace=false,    % sets if automatic breaks should only happen at whitespace
+escapeinside={\%*}{*)}          % if you want to add a comment within your code
+}
+
+\newenvironment{changemargin}[2]{%
+  \begin{list}{}{%
+    \setlength{\topsep}{0pt}%
+    \setlength{\leftmargin}{#1}%
+    \setlength{\rightmargin}{#2}%
+    \setlength{\listparindent}{\parindent}%
+    \setlength{\itemindent}{\parindent}%
+    \setlength{\parsep}{\parskip}%
+  }%
+  \item[]}{\end{list}} 
+
+%opening
+\title{{\Huge Open-source Fuel Cell Simulation Toolbox (OpenFCST)} \\
+       { - \\}
+       {\huge User's and Developer's Reference Guide}}      
+\author{The OpenFCST team development team \\
+                 \\
+        Energy Systems Design Laboratory\\
+        University of Alberta, Canada}
+\date{Created on: June 11, 2012 \\
+      Last updated: \today}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+%%===============================================================
+%%===============================================================
+\input{./LaTeX_files/introduction.tex}
+%%===============================================================
+
+%%===============================================================
+\part{User's Guide}
+\input{./LaTeX_files/getting_started.tex}
+\input{./LaTeX_files/installation.tex}
+\input{./LaTeX_files/OpenFCST_structure.tex}
+\input{./LaTeX_files/pre_processor.tex}
+\input{./LaTeX_files/running_openFCST.tex}
+% \input{./LaTeX_files/optimization.tex}
+\input{./LaTeX_files/post_processor.tex}
+%%===============================================================
+
+%%===============================================================
+\part{Developer's Reference Guide (Under development)}
+\input{./LaTeX_files/setting_up_development.tex}
+%Needs to be re-written: \input{./LaTeX_files/OpenFCST_src_structure_developers.tex}
+\input{./LaTeX_files/coding_guidelines.tex}
+\input{./LaTeX_files/development_process.tex}
+%\input{./LaTeX_files/testing_suite.tex}
+%\input{./LaTeX_files/useful_programming_tips.tex}
+%%===============================================================
+
+%%===============================================================
+\input{./LaTeX_files/bibliography.tex}
+%%===============================================================
+%\clearpage
+%%===============================================================
+%\input{./LaTeX_files/appendix.tex}
+%%===============================================================
+
+\end{document}
+
+%%===============================================================
+%%===============================================================
