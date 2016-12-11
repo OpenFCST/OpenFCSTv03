@@ -37,7 +37,7 @@ OpenFCST can be either downloaded from the OpenFCST website, i.e., http://www.op
 If you are a user, the easiest way to get the code is via the website. Go to Downloads and download a .tar file with the source code. You are 
 then ready to install. 
 
-If you are using Git please follow the step in the BitBucket site for checking out a copy. If you want to modify openFCST, then
+If you are using Git please follow the step in the GitHub site for checking out a copy. If you want to modify openFCST, then
 please follow the steps below:
 
 Creating a new branch
@@ -48,16 +48,16 @@ Every user can create their own branch of openFCST. The recommended convention f
 would like to address. The naming convention is: **username/issue_name**, for example, if secanell wants to create an issue to fix a bug on postprocessing, the class would be 
 named ``secanell/postprocessing``.
  
-To create a branch users can either create it in their own machine and then push it to BitBucket or create the branch directly on BitBucket. If the branch is created in 
-BitBucket, then in order to checkout the branch to the appropriate machine the user needs to issue the following command::
+To create a branch users can either create it in their own machine and then push it to GitHub or create the branch directly on GitHub. If the branch is created in 
+GitHub, then in order to checkout the branch to the appropriate machine the user needs to issue the following command::
 
   git branch branch_name origin/branch_name  
   git checkout branch_name
   
 Both steps can be performed simultaneously with:  ``git checkout -b username/issue_name origin/username/issue_name``
  
-If the branch is created in the local repository first using ``git checkout -b branch_name``, then you can commit it to BitBucket, i.e. remote server using ``git push -u origin branch_name``.
-The *-u* flag means that from now on your branch branch_name will track the branch in BitBucket.
+If the branch is created in the local repository first using ``git checkout -b branch_name``, then you can commit it to GitHub, i.e. remote server using ``git push -u origin branch_name``.
+The *-u* flag means that from now on your branch branch_name will track the branch in GitHub.
 
 Adding, changing, staging, comitting and pusing
 ************************************************
@@ -70,7 +70,7 @@ Once the branch is created users can work on that branch for as long as needed. 
 Please DO NOT use ``git add *`` or ``git add -u`` as you then have little control over what you are staging to be  committed. Using ``git status`` you can see which files have changed so that you can add them
 as appropriate.
  
-To commit to BitBucket, you can use::
+To commit, you can use::
 
   git push origin branch_name
 
@@ -79,10 +79,10 @@ Request for branch to be merged into development
 
 Once you have finished fixing the issue you created the branch for, you need to follow these three steps:
 
-#. Update your origin information using: ``git remote update`` (this will update all your local information regarding the branches on BitBucket)
+#. Update your origin information using: ``git remote update`` (this will update all your local information regarding the branches on GitHub)
 #. Merge your branch with the latest version of development using: ``git merge origin/development``. This is VERY important. The administration will not accept any pull requests that 
    have not been fast-forwarded to the ``origin/development branch``.
-#. Issue a pull request in BitBucket
+#. Issue a pull request in GitHub
  
 There are three main branches  
 * Master branch: Stable version of openFCST (no pull requests will be accepted to this branch)
@@ -94,7 +94,7 @@ Workflow for new development
 
 If you want to develop new code, please follow this steps: 
 
-* Clone the repository using: git clone https://your_username@bitbucket.org/ESDLab/openfcst.git
+* Clone the repository using: git clone https://your_username@GitHub.org/ESDLab/openfcst.git
 * Create a new branch related to the new component/issue you would like to work on using: ``git checkout -b name_branch``.
   Note: The command above will create a branch named name_branch and will checkout that branch so you are ready to work.
 * Once you are done with the development, ask for a pull request to merge your brach to the development branch
