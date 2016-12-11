@@ -1,5 +1,5 @@
 ******************************************************
-OpenFCST - Open Source Fuel Cell Simulation Toolkit
+OpenFCST - Open Source Fuel Cell Simulation Toolbox
 ******************************************************
 
 =================
