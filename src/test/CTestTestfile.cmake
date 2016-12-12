@@ -59,8 +59,6 @@ ADD_TEST(AppOhmic>>Analysis "../examples/ohmic/analysis/regression/run_test.sh" 
 ## -- Parallel tests
 IF(PETSc_FLAG GREATER -1)
     ADD_TEST(AppCathode>>PolarizationCurve>>Parallel "../examples/cathode/parallel/regression/run_test.sh" COMMAND "--cores=${Cores_FLAG}")
-    ADD_TEST(AppDiffusion3D>>Parallel "../examples/diffusion/3D_Parallel/regression/run_test.sh" COMMAND "--cores=1")
-    ADD_TEST(AppDiffusion2D_Transient_Parallel>>Analysis "../examples/diffusion/2D_Transient_Parallel/regression/run_test.sh" COMMAND "--cores=1")
 ENDIF() # PETSc_FLAG
 
 # -- Dakota integration test:
