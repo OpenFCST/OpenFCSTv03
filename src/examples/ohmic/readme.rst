@@ -54,7 +54,7 @@ If you are using the OpenFCST GUI, you will need to load the .xml files. You can
   
 .. code::
 
-    $ openFCST-3d -c main.prm
+    $ fcst3D-c main.prm
     
 openFCST will directly parse the main.prm and the associated data and file (if specified in the main.prm file).
 

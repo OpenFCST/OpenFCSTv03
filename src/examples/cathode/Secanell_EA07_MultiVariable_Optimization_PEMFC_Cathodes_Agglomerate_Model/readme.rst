@@ -33,16 +33,19 @@ Example:
 Results
 ^^^^^^^
 
-Below is the polarization curve obtained from running the template file:
+To generate the polarization curve from the template file type the following command in the Secanell_EA07_MultiVariable_Optimization_PEMFC_Cathodes_Agglomerate_Model/parametric folder,
                                                                                                                                                                                  
 
-.. command-output:: fuel_cell-2d.bin main.prm
-    :cwd: ./parametric
-    
+.. code:: 
+
+    $ fuel_cell-2d.bin main.prm
+
+   
 To plot the polarization curves we use the plotting utility available in **PythonFCST** and compare the simulation results with the reference results.
 
-.. command-output:: fcst_plot_polcurve.py polarization_curve.dat polarization_curve_reference.dat --label Current Reference --output article
-    :cwd: ./parametric
+.. code:: 
+
+    $ fcst_plot_polcurve.py polarization_curve.dat polarization_curve_reference.dat --label Current Reference --output article
     
 .. image:: parametric/article_polcurve.png
     :scale: 50 %
@@ -74,4 +77,4 @@ constraints. Finally, it specifies the type of optimizer to use. In the article 
 
 .. include:: optimization/opt.prm
     :literal:
-
+    

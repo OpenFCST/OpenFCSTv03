@@ -5,12 +5,10 @@
 Introduction
 ============
 
-A non-isothermal, single phase membrane electrode assembly model (MEA) mathematical model accounting for most applicable heat sources, 
-viz., reversible, irreversile, ohmic heating, phase change, and, heat of sorption/desorption. The thermal transport equation is fully coupled with an MEA model, 
-and non-isothermal effects, such as thermal osmosis through the membrane, local relative humidity variations in the catalyst layers, and water sorption into the membrane, 
-are considered in detail. Different catalyst layer models can be evaluated including:
-  a. macro-homogeneous catalyst layer model
-  b. agglomerate catalyst layer model.
+A non-isothermal, single phase membrane electrode assembly model (MEA) mathematical model accounting for most applicable heat sources, viz., reversible, irreversile, ohmic heating, phase change, and, heat of sorption/desorption. The thermal transport equation is fully coupled with an MEA model, and non-isothermal effects, such as thermal osmosis through the membrane, local relative humidity variations in the catalyst layers, and water sorption into the membrane, are considered in detail. Different catalyst layer models can be evaluated including:
+a. macro-homogeneous catalyst layer model
+b. agglomerate catalyst layer model.
+
 
 For more information about the model description, please see BhaiyaEA14_. If using this application, please cite the article BhaiyaEA14_.
 
@@ -53,7 +51,8 @@ The governing equations are
   
 where the unknowns are, the oxygen mole fraction, ``x_{O_2}``; the water mole fraction, ``x_{H_2O}``; the electrolyte (membrane) and electronic potentials, ``\phi_m`` and ``\phi_s`` respectively; the membrane water content, ``\lambda``; and, the temperature, ``T``. The effective transport parameters ``D^{eff}_{O_2}``, ``D^{eff}_{H_2O}``, ``\sigma^{eff}_{m}``, ``\sigma^{eff}_{s}``, ``D^{eff}_{\lambda}``,  ``D^{eff}_T``, and ``k^{eff}`,  are different in the membrane, GDL and CL and depend non-linearly on the design variables. Due to the solution methodology, all equations need to be solved in all the domains, i.e. GDL, CL and membrane. However, some equations are not necessary in some of the cell domains. This is addressed by making the unnecessary transport parameters zero. 
   
-The source terms in the system of equations are given by
+The source terms in the system of equations are given by,
+
 
 .. math::
   S_{O_2} = \left\{
@@ -113,13 +112,14 @@ and
 
 where ``\lambda_{eq}`` is given by the sorption isotherm reported by Hinatsu et al. at the corresponding water vapour activity value in the specific location in the CL.
 
-.. Example 1:
 
-.. include:: polarization_curve/readme.rst
+Additional Examples
+====================
 
-.. Example 2:
+.. toctree::
 
-.. include:: Bhaiya_EA14_Nonisothermal/readme.rst
+    polarization_curve/readme.rst
+    Bhaiya_EA14_Nonisothermal/readme.rst
 
 
 
