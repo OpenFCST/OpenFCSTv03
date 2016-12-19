@@ -802,17 +802,32 @@ endif()
 # # Create Sphinx documentation
 # # 
 # #-----------------------
-# #If Doxygen was found in the beginning now we want to create the documentation
-# if(SPHINX_FOUND)
-# #Create custom phony Make command to produce Doxygen Documentation
-#   add_custom_command(OUTPUT create_sphinx_doc 
-#                       COMMAND . ${CMAKE_INSTALL_PREFIX}/fcst_env.sh 
-#                       COMMAND make html &> ${CMAKE_BINARY_DIR}/3b_Sphinx_report.txt
-#                       WORKING_DIRECTORY ${CMAKE_INSTALL_PREFIX}/examples
-#                       ) 
-#   
-#   add_custom_target(sphinx_doc ALL DEPENDS create_sphinx_doc) # See WARNING below
-# endif()
+# If SPHINX was found in the beginning now we want to create the examples
+if(SPHINX_FOUND)
 
-#-----------------------
-#-----------------------
+    if(NOT DEFINED SPHINX_THEME)
+        set(SPHINX_THEME default)
+    endif()
+ 
+    if(NOT DEFINED SPHINX_THEME_DIR)
+        set(SPHINX_THEME_DIR)
+    endif()
+ 
+    # configured documentation tools and intermediate build results
+    set(BINARY_BUILD_DIR "${CMAKE_INSTALL_PREFIX}/examples/_build")
+    
+    # Sphinx cache with pickled ReST documents
+    set(SPHINX_CACHE_DIR "${CMAKE_INSTALL_PREFIX}/examples/_build/doctrees")
+    
+    # HTML output directory
+    set(SPHINX_HTML_DIR "${CMAKE_INSTALL_PREFIX}/examples/_build/html")
+    
+    add_custom_command(OUTPUT create_examples
+                    COMMAND ${SPHINX_EXECUTABLE} -q -b html -d ${SPHINX_CACHE_DIR} ${CMAKE_INSTALL_PREFIX}/examples ${SPHINX_HTML_DIR} &> ${CMAKE_BINARY_DIR}/4a_examples.txt
+                    WORKING_DIRECTORY ${CMAKE_INSTALL_PREFIX}/examples
+                    )
+                    
+    add_custom_target(examples ALL DEPENDS create_examples)
+
+
+endif()
