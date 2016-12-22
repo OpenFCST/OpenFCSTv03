@@ -88,15 +88,13 @@ Once you have finished fixing the issue you created the branch for, you need to 
 three steps:
 
 #. Update your origin information using: ``git remote update`` (this will update all your local information regarding the branches on Bitbucket).
-#. Merge your branch with the latest version of development using: ``git merge origin/development``. This is VERY important. The administrators will not accept any pull requests that 
-   have not been fast-forwarded to the ``origin/development branch``.
+#. Merge your branch with the latest version of development using: ``git merge origin/development``. This is VERY important. The administrators will not accept any pull requests that have not been fast-forwarded to the ``origin/development`` branch.
 #. Issue a pull request in Bitbucket.
  
 There are three main branches:
 
 * Master branch: Stable version of OpenFCST (no pull requests will be accepted to this branch)
-* Development branch: The most up-to-date version of OpenFCST, personal branches should be
-started from this branch and all pull requests should be submitted to this branch
+* Development branch: The most up-to-date version of OpenFCST, personal branches should be started from this branch and all pull requests should be submitted to this branch
 * Release branch: Branch containing the latest release of openFCST
 
 Workflow for new development
@@ -105,11 +103,8 @@ Workflow for new development
 If you want to develop new code, please follow this steps: 
 
 * Clone the repository using ``git clone https://your_username@bitbucket.org/ESDLab/openfcst.git``
-* Create a new branch related to the new component/issue you would like to work on using
-``git checkout -b name_branch``. Note: The command above will create a branch named "name_branch"
-and will checkout that branch so you are ready to work.
-* Once you are done with the development, create a pull request to merge your branch to the
-development branch. Note: Merges to Master will be rejected without review.
+* Create a new branch related to the new component/issue you would like to work on using ``git checkout -b name_branch``. Note: The command above will create a branch named "name_branch" and will checkout that branch so you are ready to work.
+* Once you are done with the development, create a pull request to merge your branch to the development branch. Note: Merges to Master will be rejected without review.
 
 A reminder: when developing code, please work in Debug mode and test in both Debug and Release
 modes before issuing a pull request.
