@@ -105,8 +105,7 @@ If you want to develop new code, please follow this steps:
 
 * Clone the repository using ``git clone https://your_username@bitbucket.org/ESDLab/openfcst.git``
 * Create a new branch related to the new component/issue you would like to work on using ``git checkout -b name_branch``. Note: The command above will create a branch named "name_branch" and will checkout that branch so you are ready to work.
-* Once you are done with the development, create a pull request to merge your branch to the
-development branch. Note: Merges to Master will be rejected without review.
+* Once you are done with the development, create a pull request to merge your branch to the development branch. Note: Merges to Master will be rejected without review.
 
 A reminder: when developing code, please work in Debug mode and test in both Debug and Release
 modes before issuing a pull request.
