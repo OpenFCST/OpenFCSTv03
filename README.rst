@@ -95,8 +95,7 @@ three steps:
 There are three main branches:
 
 * Master branch: Stable version of OpenFCST (no pull requests will be accepted to this branch)
-* Development branch: The most up-to-date version of OpenFCST, personal branches should be
-started from this branch and all pull requests should be submitted to this branch
+* Development branch: The most up-to-date version of OpenFCST, personal branches should be started from this branch and all pull requests should be submitted to this branch
 * Release branch: Branch containing the latest release of openFCST
 
 Workflow for new development
