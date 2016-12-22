@@ -88,8 +88,7 @@ Once you have finished fixing the issue you created the branch for, you need to 
 three steps:
 
 #. Update your origin information using: ``git remote update`` (this will update all your local information regarding the branches on Bitbucket).
-#. Merge your branch with the latest version of development using: ``git merge origin/development``. This is VERY important. The administrators will not accept any pull requests that 
-   have not been fast-forwarded to the ``origin/development`` branch.
+#. Merge your branch with the latest version of development using: ``git merge origin/development``. This is VERY important. The administrators will not accept any pull requests that have not been fast-forwarded to the ``origin/development`` branch.
 #. Issue a pull request in Bitbucket.
  
 There are three main branches:
