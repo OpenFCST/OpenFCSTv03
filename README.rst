@@ -89,7 +89,7 @@ three steps:
 
 #. Update your origin information using: ``git remote update`` (this will update all your local information regarding the branches on Bitbucket).
 #. Merge your branch with the latest version of development using: ``git merge origin/development``. This is VERY important. The administrators will not accept any pull requests that 
-   have not been fast-forwarded to the ``origin/development branch``.
+   have not been fast-forwarded to the ``origin/development`` branch.
 #. Issue a pull request in Bitbucket.
  
 There are three main branches:
