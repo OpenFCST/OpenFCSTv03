@@ -178,9 +178,9 @@ private slots:
      */
     void createSpinBoxWindow();
     /**
-     * Sets the amount of CPU's for running the simulation
+     * Sets the amount of CPU cores for running the simulation
      */
-    void setCpuAmount();
+    void setCoreNumber();
     /**
      * Calls function to open a project.
      */
@@ -246,31 +246,31 @@ private slots:
      */
     void closeProject();
     /**
-     * Sets the 2D or 3D Demensionen Type
+     * Sets the dimension: 2D or 3D
      */
-    void setDemensionenType(bool isTriggered);
+    void setDimension(bool isTriggered);
     /**
-     * starts a new instance of FCST
+     * Starts a new instance of FCST
      */
     void newInstance();
     /**
-     * This slot calls the convertion function from prm to xml 
+     * This slot calls the conversion function from prm to xml 
      * by pressing the button
      */
     void convert_prm_xml_slot();
-	/**
-     * This slot calls the convertion function from xml to prm
+    /**
+     * This slot calls the conversion function from xml to prm
      * by pressing the button
      */
     void convert_xml_prm_slot();
 
 private:    
     /**
-     * Starts converting user selected file from .prm to .xml
+     * Starts converting user-selected file from .xml to .prm
      */
     void convert_xml_prm(QString FilePath);
     /**
-     * Starts converting user selected file from .prm to .xml
+     * Starts converting user-selected file from .prm to .xml
      */
     void convert_prm_xml(QString FilePath);
     /**
@@ -434,9 +434,9 @@ private:
      * Dynamic sizers for managing the size and position of visual elements.
      */
     QPointer<QHBoxLayout> hBox ;
-	QPointer<QHBoxLayout> buttonBox;
+    QPointer<QHBoxLayout> buttonBox;
     QPointer<QVBoxLayout> vBoxLeft;
-	QPointer<QVBoxLayout> vBoxRight;
+    QPointer<QVBoxLayout> vBoxRight;
     QPointer<QTabWidget> tabWidget;
     /**
      * Enumeration describing states of project creation/simulation execution.
@@ -458,7 +458,7 @@ private:
     QPointer<QFileSystemWatcher> fileWatcher;
     QFont  font;
     QPointer<QLabel>  fileLabel;
-	QPointer<QLabel>FCSToutputLabel;
+    QPointer<QLabel>FCSToutputLabel;
     /**
      * Object for calling FCST.
      */
@@ -477,7 +477,7 @@ private:
     /**
      * Sets the numbers of CPU's used for the simulation
      */
-    QString CpuNumbers;
+    QString NumberOfCores;
     /**
      * Action to set fuel_chell-2d.bin
      * and run OpenFCST in 2D simulation
@@ -527,7 +527,7 @@ private:
     /**
      * SpinBox to set numbers of CPU's 
      */
-    QPointer<QSpinBox> CpuAmound_SpinBox;
+    QPointer<QSpinBox> CoreNumber_SpinBox;
     /**
      * Function for creating QActions, returns QAction
      */

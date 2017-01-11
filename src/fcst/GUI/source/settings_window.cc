@@ -49,10 +49,10 @@ void settingsWindow::createWidgets()
     data_file_edit  = createQLineEdit();
     opt_file_edit  = createQLineEdit();
     
-    cpu_amount_spinbox = new QSpinBox();
-    cpu_amount_spinbox->setRange(1,4);
-    cpu_amount_spinbox->setMaximumSize(200,150);
-    cpu_amount_spinbox->setEnabled(true);
+    core_number_spinbox = new QSpinBox();
+    core_number_spinbox->setRange(1,32);
+    core_number_spinbox->setMaximumSize(200,150);
+    core_number_spinbox->setEnabled(true);
     
     //path settings
     used_binary_box = new QComboBox();
@@ -66,7 +66,7 @@ void settingsWindow::createWidgets()
 //------------------------------------------------------------------------------------------------//
 void settingsWindow::LoadSettings()
 {
-    cpu_amount_spinbox->setValue(gui_setting->value("CpuAmount").toInt());
+    core_number_spinbox->setValue(gui_setting->value("CoreNumber").toInt());
     sim_argument_edit->setText(gui_setting->value("OpenFCSTparamArg").toString());
     main_file_edit->setText(gui_setting->value("mainFileName").toString());
     data_file_edit->setText(gui_setting->value("dataFileName").toString());
@@ -80,14 +80,14 @@ void settingsWindow::LoadSettings()
 //------------------------------------------------------------------------------------------------//
 void settingsWindow::createLayout()
 {
-    QPointer<QLabel> bin2DLabel = new QLabel("2D binary path");
-    QPointer<QLabel> bin3DLabel = new QLabel("3D binary path");
-    QPointer<QLabel> binLabel =new QLabel("Used binary \nduring the simulation");
-    QPointer<QLabel> parallelLabel =new QLabel("Parralel Running \n(Numbers of CPU used during the simulation)");
-    QPointer<QLabel> mainfileLabel =new QLabel("Main File Name");
-    QPointer<QLabel> datafileLabel =new QLabel("Data File Name");
-    QPointer<QLabel> optfileLabel =new QLabel("Opt File Name");
-    QPointer<QLabel> usedparaLabel =new QLabel("Used parameter during the simulation");
+    QPointer<QLabel> bin2DLabel    = new QLabel("2D binary path");
+    QPointer<QLabel> bin3DLabel    = new QLabel("3D binary path");
+    QPointer<QLabel> binLabel      = new QLabel("Binary used during the simulation");
+    QPointer<QLabel> parallelLabel = new QLabel("Number of CPU cores to be used");
+    QPointer<QLabel> mainfileLabel = new QLabel("Main file name");
+    QPointer<QLabel> datafileLabel = new QLabel("Data file name");
+    QPointer<QLabel> optfileLabel  = new QLabel("Opt file name");
+    QPointer<QLabel> usedparaLabel = new QLabel("Arguments used for the binary");
     
     //Gridlayout
     QPointer<QGridLayout> mainlayout = new QGridLayout();
@@ -100,7 +100,7 @@ void settingsWindow::createLayout()
     mainlayout->addWidget(binLabel,2,0 );
     mainlayout->addWidget(used_binary_box,2,1 );
     mainlayout->addWidget(parallelLabel,3,0);
-    mainlayout->addWidget(cpu_amount_spinbox,3,1);
+    mainlayout->addWidget(core_number_spinbox,3,1);
     mainlayout->addWidget(mainfileLabel,4,0);
     mainlayout->addWidget(main_file_edit,4,1);
     mainlayout->addWidget(datafileLabel,5,0);
@@ -126,7 +126,7 @@ void settingsWindow::createLayout()
 QLineEdit* settingsWindow::createQLineEdit()
 {
     QPointer<QLineEdit> LineEd = new QLineEdit();
-    LineEd->setReadOnly(true);
+    LineEd->setReadOnly(false);
     LineEd->setMaximumSize(200,150);
     return LineEd;
 }
@@ -156,9 +156,9 @@ void settingsWindow::closeSettings()
 //--------------------------------------------------------------------------//
 void settingsWindow::saveSettings()
 {
-    int iValue = cpu_amount_spinbox->value();
+    int iValue = core_number_spinbox->value();
     QString sVal = QString::number(iValue);
-    gui_setting->setValue("CpuAmount", sVal);
+    gui_setting->setValue("CoreNumber", sVal);
     gui_setting->setValue("bin2DPath", bin_2D_path_box->currentText());
     gui_setting->setValue("bin3DPath", bin_3D_path_box->currentText());
     settings_dialog->close();

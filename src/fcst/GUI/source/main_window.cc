@@ -80,12 +80,12 @@ void MainWindow::create_settings()
                 "OpenFCST binary not found, please select existing binary.",
                 QMessageBox::Ok);
         //select 2D binary
-        binary_path_2D = QFileDialog::getOpenFileName(this, tr("Select OpenFCST 2D simulation Binary File"),
+        binary_path_2D = QFileDialog::getOpenFileName(this, tr("Select OpenFCST 2D simulation binary file"),
                 QDir::currentPath(),
                 tr("2D Bin File(*2d.bin) (*2d.bin)"));
         
         //select 3D binary
-        binary_path_3D = QFileDialog::getOpenFileName(this, tr("Select OpenFCST 3D simulation Binary File"),
+        binary_path_3D = QFileDialog::getOpenFileName(this, tr("Select OpenFCST 3D simulation binary file"),
                 QDir::currentPath(),
                 tr("3D Bin File(*3d.bin) (*3d.bin)"));
     }
@@ -124,11 +124,11 @@ void MainWindow::create_settings()
         gui_settings->setValue("optFileName", optFileName);
     }
     //sets the amount of the CPU's 
-    CpuNumbers = gui_settings->value("CpuAmount").toString();
-    if(CpuNumbers == ""){
+    NumberOfCores = gui_settings->value("CoreNumber").toString();
+    if(NumberOfCores == ""){
         //Set default
-        CpuNumbers = "1";
-        gui_settings->setValue("CpuAmount", CpuNumbers);
+        NumberOfCores = "1";
+        gui_settings->setValue("CoreNumber", NumberOfCores);
     }
     
     workingDir = gui_settings->value("WorkDir").toString();
@@ -211,7 +211,7 @@ void MainWindow::create_widgets()
     fileLabel->setFont(font);
     outputList = new QListWidget(this);
     outputList->setToolTip(tr("Double click to open file with operating system default. "
-            "To change default program for a given file type use 'Open with' dialogue in standard file browser."));
+            "To change default program for a given file type, use 'Open with' dialogue in standard file browser."));
     //Connect outputList double click event to function
     connect(outputList, SIGNAL(itemDoubleClicked (QListWidgetItem *)), this, SLOT(fileBrowserClicked(QListWidgetItem *)));
 
@@ -248,17 +248,17 @@ void MainWindow::create_actions()
 
     save_log_act = createQAction(tr("&Save Log..."), SLOT(save_log()));    // create actions
     save_log_act->setShortcut(Qt::CTRL + Qt::Key_L);                    // set a short cut
-    save_log_act->setStatusTip(tr("Save the text log."));               // set a status tip
+    save_log_act->setStatusTip(tr("Save the text log"));               // set a status tip
 
     open_act = createQAction(tr("&Open Project..."), SLOT(openProjectSlot()));   // create actions
     open_act->setShortcut(Qt::CTRL + Qt::Key_O);                        // set a short cut
     open_act->setIcon(QIcon(":/images/open_icon.png"));
-    open_act->setStatusTip(tr("Open a XML file"));                      // set a status tip
+    open_act->setStatusTip(tr("Open an XML file"));                      // set a status tip
     
     save_act = createQAction(tr("&Save All..."), SLOT(saveAll()));
     save_act->setShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_S );
     save_act->setIcon(QIcon(":/images/save_icon.png"));
-    save_act->setStatusTip(tr("Save the current XML files."));
+    save_act->setStatusTip(tr("Save the current XML files"));
         
     save_as_act = createQAction(tr("&Save Current Tab As..."), SLOT(save_as()));
     save_as_act->setShortcut(Qt::CTRL + Qt::Key_S );
@@ -284,34 +284,34 @@ void MainWindow::create_actions()
     set3Dsimulation_act->setChecked(false);
     set3Dsimulation_act->setStatusTip(tr("Set the simulation to run in 3D"));    
     set3Dsimulation_act->setIcon(QIcon(":/images/3D_icon.png"));
-    connect(set3Dsimulation_act, SIGNAL(triggered(bool)), this, SLOT(setDemensionenType(bool)));
+    connect(set3Dsimulation_act, SIGNAL(triggered(bool)), this, SLOT(setDimension(bool)));
 
     set2Dsimulation_act = new QAction(tr("&2D Simulation"),this);
     set2Dsimulation_act->setCheckable(true); //set the Action checkable
     set2Dsimulation_act->setChecked(true);
     set2Dsimulation_act->setStatusTip(tr("Set the simulation to run in 2D"));
     set2Dsimulation_act->setIcon(QIcon(":/images/2D_icon.png"));
-    connect(set2Dsimulation_act, SIGNAL(triggered(bool)), this, SLOT(setDemensionenType(bool)));
+    connect(set2Dsimulation_act, SIGNAL(triggered(bool)), this, SLOT(setDimension(bool)));
      
     convert_prm_xml_act = createQAction(tr("Prm to Xml"),SLOT(convert_prm_xml_slot()));
-    convert_prm_xml_act->setStatusTip(tr("Converts selected prm file into xml in same path"));
-	
-	convert_xml_prm_act = createQAction(tr("Xml to Prm"),SLOT(convert_xml_prm_slot()));
-	convert_xml_prm_act->setStatusTip(tr("Converts selected xml file into prm in same path"));
+    convert_prm_xml_act->setStatusTip(tr("Convert selected PRM file into XML in same path"));
+    
+    convert_xml_prm_act = createQAction(tr("Xml to Prm"),SLOT(convert_xml_prm_slot()));
+    convert_xml_prm_act->setStatusTip(tr("Convert selected XML file into PRM in same path"));
     
     parallel_sim_act = createQAction(tr("Parallel Running"),SLOT(createSpinBoxWindow()));
-    parallel_sim_act->setStatusTip(tr("Sets the amount of CPU's which are used for the simulation"));
+    parallel_sim_act->setStatusTip(tr("Set the number of CPU cores to be used for the simulation"));
 
     close_project_act= createQAction(tr("&Close Project"),SLOT(closeProject()));
     close_project_act->setIcon(QIcon(":/images/close_icon.png"));
-    close_project_act->setStatusTip(tr("Close the open project"));
+    close_project_act->setStatusTip(tr("Close the opened project"));
     
     settings_act = createQAction(tr("&Advanced Settings"), SLOT(openSettingsWindow()));
     settings_act->setIcon(QIcon(":/images/settings_icon.png"));
-    settings_act->setStatusTip(tr("Open the advance settings window"));
+    settings_act->setStatusTip(tr("Open the advanced settings window"));
     
-    export_project_as_prm_act = createQAction(tr("&Export to prm"),SLOT(export_project_to_prm()));
-    export_project_as_prm_act->setStatusTip(tr("Export the current open project in PRM files"));
+    export_project_as_prm_act = createQAction(tr("&Export to PRM"),SLOT(export_project_to_prm()));
+    export_project_as_prm_act->setStatusTip(tr("Export the current project into PRM files"));
 }
 //------------------------------------------------------------------------------------------------//
 void MainWindow::create_toolbar()
@@ -452,7 +452,7 @@ void MainWindow::convert_prm_xml(QString FilePath)
         QString binPath;
         //Ask user if converting to 2D or 3D
         QMessageBox msgBox;
-        msgBox.setText(tr("Choose convertion dimension"));
+        msgBox.setText(tr("Choose conversion dimension"));
         QPushButton *convert2D = msgBox.addButton(tr("2D"), QMessageBox::ActionRole);
         QPushButton *convert3D = msgBox.addButton(tr("3D"), QMessageBox::ActionRole);
         msgBox.exec();
@@ -517,7 +517,7 @@ bool MainWindow::callFCST(QStringList arguments, bool pipeMsg, QString WorkDirec
     //Run fcst from WorkDirection
     process->setWorkingDirectory(WorkDirection);
     //get the amount of CPU's
-    QString CpuNum = gui_settings->value("CpuAmount").toString();
+    QString CpuNum = gui_settings->value("CoreNumber").toString();
     
     //     add mpirun argument to run
     //     @caution "-quiet" is called because of an error during the conversion from PRM into XML by calling mpirun
@@ -901,16 +901,16 @@ void MainWindow::createSpinBoxWindow()
 {
     QVBoxLayout * layo = new QVBoxLayout();
     QPushButton * setButton = new QPushButton(tr("Ok"));
-    QLabel * infoLabel = new QLabel(tr("Set amount usage of CPU's \n for running the simulation"));
+    QLabel * infoLabel = new QLabel(tr("Set number of CPU cores \n to be used in the simulation"));
     //connectiopn to set user value into settings.ini file
-    connect(setButton, SIGNAL(pressed()),this, SLOT(setCpuAmount()));
-    CpuAmound_SpinBox = new QSpinBox();
-    //range only between 1-4 cores
-    CpuAmound_SpinBox->setRange(1,4);
-    int value = gui_settings->value("CpuAmount").toInt();
-    CpuAmound_SpinBox->setValue(value);
+    connect(setButton, SIGNAL(pressed()),this, SLOT(setCoreNumber()));
+    CoreNumber_SpinBox = new QSpinBox();
+    //range only between 1-32 cores
+    CoreNumber_SpinBox->setRange(1,32);
+    int value = gui_settings->value("CoreNumber").toInt();
+    CoreNumber_SpinBox->setValue(value);
     layo->addWidget(infoLabel);
-    layo->addWidget(CpuAmound_SpinBox);
+    layo->addWidget(CoreNumber_SpinBox);
     layo->addWidget(setButton);
     
     parallel_running_dialog = new QDialog();
@@ -920,11 +920,11 @@ void MainWindow::createSpinBoxWindow()
 }
 //------------------------------------------------------------------------------------------------//
 
-void MainWindow::setCpuAmount()
+void MainWindow::setCoreNumber()
 {
-    int i_value = CpuAmound_SpinBox->value();
+    int i_value = CoreNumber_SpinBox->value();
     QString s_val = QString::number(i_value);
-    gui_settings->setValue("CpuAmount", s_val);
+    gui_settings->setValue("CoreNumber", s_val);
     parallel_running_dialog->close();
 }
 //------------------------------------------------------------------------------------------------//
@@ -1042,7 +1042,7 @@ void MainWindow::about()
     trAboutparameterGUItext = QMessageBox::tr(
             "<p>The <a href=\"http://openfcst.mece.ualberta.ca\">OpenFCST</a> parameterGUI is a graphical user interface for editing XML parameter files "
             "adapted from the deal.II parameterGUI(<a href=\"http://www.dealii.org/7.0.0/doxygen/deal.II/classParameterHandler.html\">dealii.org/doc</a>). </p>"
-            "<p> Developed by Philip Wardlaw (<a href=\"https://www.linkedin.com/pub/phil-wardlaw/94/133/b09\">View  profile</a>) </p>"
+            "<p> Developed by Philip Wardlaw (<a href=\"https://www.linkedin.com/pub/phil-wardlaw/94/133/b09\">View  profile</a>) and Simon Mattern</p>"
     );
 
     QPointer<QMessageBox> msg_box = new QMessageBox;
@@ -1077,31 +1077,34 @@ void MainWindow::aboutOpenFCST()
 
     QString trAboutparameterGUIcaption;
     trAboutparameterGUIcaption = QMessageBox::tr(
-            "<h3>Authors:</h3>"
-           "<p><a href=\"mailto:secanell@ualberta.ca\">Marc Secanell</a>, Valentin N. Zingan, Andreas Putz,"
-           " Madhur Bhaiya, Michael Moore, Peter Dobson,"
-           " Philip Wardlaw, Chad Balen,"
-           " Jie Zhou, Kailyn Domican, Aslan Kosakian and Mayank Sabharwal.</p>"
+            "<h3>Authors</h3>"
+            "<h4>Current developers</h4>"
+            "<p><a href=\"mailto:secanell@ualberta.ca\">Marc Secanell</a>, Alex Jarauta, Andreas Putz, "
+            "Aslan Kosakian, Jie Zhou, and Mayank Sabharwal</p>"
+            "<h4>Past developers</h4>"
+            "<p>Chad Balen, Madhur Bhaiya, Michael Moore, Peter Dobson, Philip Wardlaw, and Valentin N. Zingan</p>"
+            "<h4>Other contributors</h4>"
+            "<p>Kailyn Domican and Simon Matterns</p>"
     ).arg(QLatin1String(QT_VERSION_STR));
 
 
     QString trAboutparameterGUItext;
     trAboutparameterGUItext = QMessageBox::tr(
-            "<h3>About OpenFCST:</h3>" 
+            "<h3>About OpenFCST</h3>" 
             " <p><a href=\"http://openfcst.mece.ualberta.ca\">OpenFCST</a> (open-source fuel cell simulation toolbox) is an open-"
             " source, finite element method based, multi-dimensional mathematical modeling software for polymer electrolyte fuel cells.<\p>"
             " <p>The aim of the software is to develop a platform for collaborative development of fuel cell mathematical models. Detailed information"
-            " regarding the latest updates on the software can be found at the <a href=\"http://openfcst.mece.ualberta.ca\">OpenFCST</a> website "
+            " regarding the latest updates on the software can be found on the <a href=\"http://openfcst.mece.ualberta.ca\">OpenFCST</a> website "
             " including the User Guide for the software. </p>"
             " <p>OpenFCST currently includes physical models for gas, electron, ion, ionomer-"
             " bound water and heat transport. It also contains effective transport media relations to estimate transport properties for gas diffusion"
             " layers, micro-porous layers and catalyst layers as well as several kinetic"
             " models for the fuel cell electrochemical reactions. OpenFCST has been structured as a toolbox such that it is easier for new users to"
-            " integrate new physical models with existing framework.</p>"
+            " integrate new physical models with the existing framework.</p>"
             ""
-            " <h3>Copyright:</h3>"
+            " <h3>Copyright</h3>"
             " <p> FCST: Fuel Cell Simulation Toolbox is distributed under the MIT License.</p>"
-            " <p> Copyright (C) 2013 Energy Systems Design Laboratory, University of Alberta. </p>"
+            " <p> Copyright (C) 2016 Energy Systems Design Laboratory, University of Alberta. </p>"
             " <p> The MIT License (MIT)</p>"
             " <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software "
             "and associated documentation files (the \"Software\"), to deal in the Software without restriction, "
@@ -1117,10 +1120,16 @@ void MainWindow::aboutOpenFCST()
             "ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.");
 
     QPointer<QMessageBox> msg_box = new QMessageBox;
+    // Change the first argument in the line below to adjust the width of the "About OpenFCST" window
+    // Search tags: size, height, width
+    QSpacerItem* horizontalSpacer = new QSpacerItem(700, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
+    QGridLayout* layout = (QGridLayout*)msg_box->layout();
+    
     msg_box->setAttribute(Qt::WA_DeleteOnClose);
     msg_box->setWindowTitle(title);
     msg_box->setText(trAboutparameterGUIcaption);
     msg_box->setInformativeText(trAboutparameterGUItext);
+    layout->addItem(horizontalSpacer, layout->rowCount(), 0, 1, layout->columnCount());
 
 #ifdef Q_WS_MAC
     old_msg_box = msg_box;
@@ -1155,7 +1164,7 @@ void MainWindow::finishedFCST(int status ,QProcess::ExitStatus qStatus)
     if (qStatus == QProcess::CrashExit and not callQuit){
         log("OpenFCST Binary crashed \n");
         QMessageBox::information(this, "OpenFCST Crashed",
-                       "OpenFCST appears to have crashed. For more information regarding the crash scenario you may wish to run "
+                       "OpenFCST appears to have crashed. For more information regarding the crash scenario, you may wish to run "
                        "OpenFCST in debug mode - see the installation script for options.",
                        QMessageBox::Ok);
     }
@@ -1233,7 +1242,7 @@ void MainWindow::closeProject()
     }    
 }
 //------------------------------------------------------------------------------------------------//
-void MainWindow::setDemensionenType(bool isTriggered)
+void MainWindow::setDimension(bool isTriggered)
 {
     QObject * obj = sender();
     if (obj == set2Dsimulation_act)
@@ -1324,7 +1333,7 @@ void MainWindow::next_click()
     {
         //Process the main
         saveAll();
-        log("Creating other param files.\n");
+        log("Creating other parameter files.\n");
         FCSTBinAddr = gui_settings->value("OpenFCSTbin").toString();
         callFCST(QStringList() << paramArg << mainFileName, false, workingDir, FCSTBinAddr); // ./fuel-cell.bin -p main.xml
 
@@ -1359,7 +1368,7 @@ void MainWindow::next_click()
     break;
     case Ready:
     {
-        log("Getting ready to start simulation.\n");
+        log("Getting ready to start the simulation.\n");
         //We have main + other files, presuming user has edited them we may proceed to Running
         //First save files
         saveAll();
@@ -1383,7 +1392,7 @@ void MainWindow::next_click()
     case Running:
     {
         //Give user the option to kill the running simulation
-        if(QMessageBox::question(this, "Terminate simulation", ""
+        if(QMessageBox::question(this, "Terminate the simulation", ""
                 "Do you really want to end the running simulation?",
                 QMessageBox::Yes|QMessageBox::No) == QMessageBox::Yes)
         {
