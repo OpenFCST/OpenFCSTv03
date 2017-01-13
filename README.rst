@@ -137,7 +137,7 @@ The following software needs to be installed on your computer in order for OpenF
 #. For generating the documentation: DOxygen and Sphinx
 #. Boost; the specific packages are iostreams, serialization, system, thread, filesystem, regex, signals, program_options
 #. FLEX (for Dakota)
-#. Python Packages: SciPy, NumPy, ipython, Sphinx, evtk, vtk, mayavi
+#. Python Packages: SciPy, NumPy, ipython, Sphinx, evtk, vtk, matplotlib, mayavi
 #. libconfig-devel and libconfig++-devel
 #. patch
     
