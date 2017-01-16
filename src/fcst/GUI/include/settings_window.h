@@ -88,7 +88,7 @@ namespace FCSTGUI
         QLineEdit* createQLineEdit();
         
         /**
-         * Hold the revieved data from settings.ini file
+         * Hold the reviewed data from settings.ini file
          */
         QPointer<QSettings> gui_setting;
         /**
@@ -120,9 +120,9 @@ namespace FCSTGUI
          */
         QPointer<QLineEdit> opt_file_edit;
         /**
-         * QSpinBox for setting numbers of CPU's
+         * QSpinBox for setting number of CPU cores
          */
-        QPointer<QSpinBox> cpu_amount_spinbox;
+        QPointer<QSpinBox> core_number_spinbox;
         /**
          * Showing 2D bin path
          */
